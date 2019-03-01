@@ -2271,7 +2271,7 @@
                 <uax:Body>
                     <Identifier xmlns="http://dieei.unict.it/coreAAS/Types.xsd">
                         <id>www.adminshell.io/DataSpecificationTemplates/DataSpecificationIEC61360</id>
-                        <idType>IRDI_0</idType>
+                        <idType>URI_1</idType>
                     </Identifier>
                 </uax:Body>
             </uax:ExtensionObject>

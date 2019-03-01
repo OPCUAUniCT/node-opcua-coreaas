@@ -17,8 +17,10 @@ var server = new opcua.OPCUAServer({
 function post_initialize() {
     console.log("initialized");
     var addressSpace = server.engine.addressSpace;
-    const Identifier = opcua.coreaas.Identifier(addressSpace.getCoreAASNamespace()).Identifier;
+    const Identifier = opcua.coreaas.getIdentifierConstructor(addressSpace.getCoreAASNamespace()).Identifier;
     const IdentifierType = opcua.coreaas.IdentifierType;
+
+    addressSpace.fixSpecificationTypeIdentifications();
 
     addressSpace.addAssetAdministrationShell({
         browseName: "ereoto",
