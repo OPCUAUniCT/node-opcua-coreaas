@@ -1,4 +1,4 @@
-// --------- This code has been automatically generated !!! 2019-03-01T14:40:09.774Z
+// --------- This code has been automatically generated !!! 2019-03-01T14:40:09.791Z
 "use strict";
 /**
  * @module opcua.address_space.types
@@ -20,18 +20,18 @@ const decodeArray = ec.decodeArray;
 const makeExpandedNodeId = require("node-opcua-nodeid/src/expanded_nodeid").makeExpandedNodeId;
 const generate_new_id = require("node-opcua-factory").generate_new_id;
 const _enumerations = require("node-opcua-factory/src/factories_enumerations")._private._enumerations;
-const schema = require("../schemas/Identifier_schema").Identifier_Schema;
+const schema = require("../schemas/Key_schema").Key_Schema;
 const getFactory = require("node-opcua-factory/src/factories_factories").getFactory;
 const BaseUAObject = require("node-opcua-factory/src/factories_baseobject").BaseUAObject;
 
 /**
  * 
- * @class Identifier
+ * @class Key
  * @constructor
  * @extends BaseUAObject
  * @param  options {Object}
  */
-function Identifier(options)
+function Key(options)
 {
     options = options || {};
     /* istanbul ignore next */
@@ -47,43 +47,63 @@ function Identifier(options)
     }
 
     /**
+      * Enumeration identifing the kind of identifier contained in the field value.
+      * @property idType
+      * @type {UInt32}
+      * @default  0
+      */
+    self.idType = initialize_field(schema.fields[0], options.idType);
+
+    /**
+      * The element referred by this key is local to the AAS.
+      * @property local
+      * @type {Boolean}
+      * @default  true
+      */
+    self.local = initialize_field(schema.fields[1], options.local);
+
+    /**
+      * Enumeration identifing entity referred by this key.
+      * @property type
+      * @type {UInt32}
+      * @default  0
+      */
+    self.type = initialize_field(schema.fields[2], options.type);
+
+    /**
       * The identifier of the entity.
-      * @property id
+      * @property value
       * @type {String}
       * @default  No_Identifier
       */
-    self.id = initialize_field(schema.fields[0], options.id);
-
-    /**
-      * Enumeration identifing the type of the field id.
-      * @property idType
-      * @type {UInt32}
-      * @default  1
-      */
-    self.idType = initialize_field(schema.fields[1], options.idType);
+    self.value = initialize_field(schema.fields[3], options.value);
 
    // Object.preventExtensions(self);
 }
-util.inherits(Identifier,BaseUAObject);
+util.inherits(Key,BaseUAObject);
 schema.id = generate_new_id();
-Identifier.prototype.encodingDefaultBinary = makeExpandedNodeId(schema.id);
-Identifier.prototype._schema = schema;
+Key.prototype.encodingDefaultBinary = makeExpandedNodeId(schema.id);
+Key.prototype._schema = schema;
 
-const encode_String = _defaultTypeMap.String.encode;
-const decode_String = _defaultTypeMap.String.decode;
 const encode_UInt32 = _defaultTypeMap.UInt32.encode;
 const decode_UInt32 = _defaultTypeMap.UInt32.decode;
+const encode_Boolean = _defaultTypeMap.Boolean.encode;
+const decode_Boolean = _defaultTypeMap.Boolean.decode;
+const encode_String = _defaultTypeMap.String.encode;
+const decode_String = _defaultTypeMap.String.decode;
 /**
  * encode the object into a binary stream
  * @method encode
  *
  * @param stream {BinaryStream} 
  */
-Identifier.prototype.encode = function(stream,options) {
+Key.prototype.encode = function(stream,options) {
     // call base class implementation first
     BaseUAObject.prototype.encode.call(this,stream,options);
-    encode_String(this.id,stream);
     encode_UInt32(this.idType,stream);
+    encode_Boolean(this.local,stream);
+    encode_UInt32(this.type,stream);
+    encode_String(this.value,stream);
 };
 /**
  * decode the object from a binary stream
@@ -91,18 +111,22 @@ Identifier.prototype.encode = function(stream,options) {
  *
  * @param stream {BinaryStream} 
  */
-Identifier.prototype.decode = function(stream) {
+Key.prototype.decode = function(stream) {
     // call base class implementation first
     BaseUAObject.prototype.decode.call(this,stream);
-    this.id = decode_String(stream);
     this.idType = decode_UInt32(stream);
+    this.local = decode_Boolean(stream);
+    this.type = decode_UInt32(stream);
+    this.value = decode_String(stream);
 };
-Identifier.possibleFields = [
-  "id",
-         "idType"
+Key.possibleFields = [
+  "idType",
+         "local",
+         "type",
+         "value"
 ];
 
 
-exports.Identifier = Identifier;
+exports.Key = Key;
 const register_class_definition = require("node-opcua-factory/src/factories_factories").register_class_definition;
-register_class_definition("Identifier",Identifier);
+register_class_definition("Key",Key);

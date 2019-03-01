@@ -19,16 +19,25 @@ function post_initialize() {
     var addressSpace = server.engine.addressSpace;
     const Identifier = opcua.coreaas.getIdentifierConstructor(addressSpace.getCoreAASNamespace()).Identifier;
     const IdentifierType = opcua.coreaas.IdentifierType;
+    const Key = opcua.coreaas.getKeyConstructor(addressSpace.getCoreAASNamespace()).Key;
+    const KeyElements = opcua.coreaas.KeyElements;
+    const KeyType = opcua.coreaas.KeyType;
 
     addressSpace.fixSpecificationTypeIdentifications();
 
     addressSpace.addAssetAdministrationShell({
-        browseName: "ereoto",
-        description: "viva la figa",
+        browseName: "SampleAAS",
+        description: "Festo Controller",
         identification: new Identifier({
-            id: "http://dieei.unict.it/aas/CPU_1",
+            id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
-        })
+        }),
+        derivedFrom: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.AssetAdministrationShell,
+            value: "AAA#1234-454#123456789"
+        }) ]
     });
 
     server.start(function() {
