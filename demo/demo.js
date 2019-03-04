@@ -26,10 +26,14 @@ function post_initialize() {
     // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
 
+    //Create AdministrativeInformation for AAS
+    const admin_1 = addressSpace.addAdministrativeInformation();
+
     // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
         description: "Festo Controller",
+        administration: admin_1,
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
@@ -44,8 +48,8 @@ function post_initialize() {
 
     // Create a DataSpecificationIEC61360TypeInstance
     const dataSpec_1 = addressSpace.addDataSpecificationIEC61360({
-        preferredName: "Ereoto",
-        shortName: "Arreo",
+        preferredName: "Property_1",
+        shortName: "Prop1",
         valueFormat: "a-a-a",
         unitId: [ new Key({
             idType: KeyType.URI,
