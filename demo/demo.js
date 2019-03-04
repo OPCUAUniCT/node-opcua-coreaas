@@ -23,9 +23,11 @@ function post_initialize() {
     const KeyElements = opcua.coreaas.KeyElements;
     const KeyType = opcua.coreaas.KeyType;
 
+    // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
 
-    addressSpace.addAssetAdministrationShell({
+    // Create an AAS
+    const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
         description: "Festo Controller",
         identification: new Identifier({
@@ -38,6 +40,32 @@ function post_initialize() {
             type: KeyElements.AssetAdministrationShell,
             value: "AAA#1234-454#123456789"
         }) ]
+    });
+
+    // Create a DataSpecificationIEC61360TypeInstance
+    const dataSpec_1 = addressSpace.addDataSpecificationIEC61360({
+        preferredName: "Ereoto",
+        shortName: "Arreo",
+        valueFormat: "a-a-a",
+        unitId: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "aas/engine/rotationSpeed/meter_per_second"
+        }) ]
+    });
+
+    //Add an EmbeddedDataSpecification to the AAS
+    addressSpace.addEmbeddedDataSpecification({
+        browseName: "data specification 1",
+        embeddedDataSpecificationOf: aas_1,
+        hasDataSpecification: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "BBB#5555-666666"
+        }) ],
+        dataSpecificationContent: dataSpec_1
     });
 
     server.start(function() {
