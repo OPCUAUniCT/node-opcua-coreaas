@@ -22,12 +22,16 @@ function post_initialize() {
     const Key = opcua.coreaas.getKeyConstructor(addressSpace.getCoreAASNamespace()).Key;
     const KeyElements = opcua.coreaas.KeyElements;
     const KeyType = opcua.coreaas.KeyType;
+    const Kind = opcua.coreaas.Kind;
 
     // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
 
     //Create AdministrativeInformation for AAS
-    const admin_1 = addressSpace.addAdministrativeInformation();
+    const admin_1 = addressSpace.addAdministrativeInformation({
+        version: "1.0.0",
+        revision: "22"
+    });
 
     // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
@@ -43,7 +47,8 @@ function post_initialize() {
             local: false,
             type: KeyElements.AssetAdministrationShell,
             value: "AAA#1234-454#123456789"
-        }) ]
+        }) ],
+        kind: 0
     });
 
     // Create a DataSpecificationIEC61360TypeInstance
