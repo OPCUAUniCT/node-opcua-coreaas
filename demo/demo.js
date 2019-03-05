@@ -51,6 +51,27 @@ function post_initialize() {
         kind: 0
     });
 
+    /**
+     * Add a Asset
+     */
+    addressSpace.addAsset({
+        browseName: "3S7PLFDRS35",
+        idShort: "3S7PLFDRS35",
+        identification: new Identifier({
+            id: "http://pk.festo.com/3S7PLFDRS35",
+            idType: IdentifierType.URI
+        }),
+        kind: Kind.Instance,
+        description: "Festo Controller",
+        assetOf: aas_1,
+        assetIdentificationModel: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.SubmodelElement,
+            value: "//submodels/identification_3S7PLFDRS35"
+        }) ]
+    });
+
     // Create a DataSpecificationIEC61360TypeInstance
     const dataSpec_1 = addressSpace.addDataSpecificationIEC61360({
         preferredName: "Property_1",
@@ -75,6 +96,26 @@ function post_initialize() {
             value: "BBB#5555-666666"
         }) ],
         dataSpecificationContent: dataSpec_1
+    });
+
+    /**
+     * Add Submodel
+     */
+    addressSpace.addSubmodel({
+        browseName: "12345679",
+        kind: Kind.Instance,
+        idShort: "12345679",
+        identification: new Identifier({
+            id: "http://www.zvei.de/demo/submodel/12345679",
+            idType: IdentifierType.URI
+        }),
+        hasSemantic: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
+        }) ],
+        submodelOf: aas_1
     });
 
     server.start(function() {
