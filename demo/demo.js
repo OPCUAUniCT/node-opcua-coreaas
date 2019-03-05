@@ -77,31 +77,6 @@ function post_initialize() {
         dataSpecificationContent: dataSpec_1
     });
 
-    /* Create an Asset for AAS_1 */
-    const admin_asset = addressSpace.addAdministrativeInformation({
-        version: "1.1.3",
-        revision: "54"
-    });
-
-    addressSpace.addAsset({
-        browseName: "3S7PLFDRS35",
-        idShort: "3S7PLFDRS35",
-        description: "Festo Controller",
-        kind: Kind.Instance,
-        assetOf: aas_1,
-        identification: new Identifier({
-            id: "http://pk.festo.com/3S7PLFDRS35",
-            idType: IdentifierType.URI
-        }),
-        administration: admin_asset,
-        assetIdentificationModel: [ new Key({
-            idType: KeyType.URI,
-            local: true,
-            type: KeyElements.GlobalReference,
-            value: "//submodels/identification_asset_3S7PLFDRS35"
-        }) ]
-    });
-
     server.start(function() {
         console.log("Server is now listening ... ( press CTRL+C to stop)");
         console.log("port ", server.endpoints[0].port);
