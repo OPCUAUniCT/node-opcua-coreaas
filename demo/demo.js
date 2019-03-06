@@ -167,6 +167,16 @@ function post_initialize() {
         }
     });
 
+    /**
+     * Add Dictionary to the AAS
+     */
+    addressSpace.addConceptDictionary({
+        browseName: "ConceptDict_1",
+        idShort: "Ereoto",
+        conceptDictionaryOf: aas_1,
+        description: "A dictionary of concept for Festo Controller"
+    });
+
     server.start(function() {
         console.log("Server is now listening ... ( press CTRL+C to stop)");
         console.log("port ", server.endpoints[0].port);
