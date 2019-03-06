@@ -23,6 +23,8 @@ function post_initialize() {
     const KeyElements = opcua.coreaas.KeyElements;
     const KeyType = opcua.coreaas.KeyType;
     const Kind = opcua.coreaas.Kind;
+    const PropertyCategory = opcua.coreaas.PropertyCategory;
+    const PropertyValueType = opcua.coreaas.PropertyValueType;
 
     // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
@@ -101,7 +103,7 @@ function post_initialize() {
     /**
      * Add Submodel
      */
-    addressSpace.addSubmodel({
+    const submodel_1 = addressSpace.addSubmodel({
         browseName: "12345679",
         kind: Kind.Instance,
         idShort: "12345679",
@@ -116,6 +118,53 @@ function post_initialize() {
             value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
         }) ],
         submodelOf: aas_1
+    });
+
+    /**
+     * Add Properties to the submodel
+     */
+    addressSpace.addSubmodelProperty({
+        browseName: "rotationSpeed",
+        idShort: "rotationSpeed",
+        submodelElementOf: submodel_1,
+        hasSemantic: [ new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.ConceptDescription,
+            value: "www.festo.com/dic/08111234"
+        }) ],
+        category: PropertyCategory.VARIABLE,
+        valueType: PropertyValueType.Double,
+        value: {
+            dataType: "Double",
+            value: {
+                get: () => {
+                    return new opcua.Variant({ dataType: opcua.DataType.Double, value: 1120});
+                }
+            }
+        }
+    });
+
+    addressSpace.addSubmodelProperty({
+        browseName: "NMAX",
+        idShort: "NMAX",
+        submodelElementOf: submodel_1,
+        hasSemantic: [ new Key({
+            idType: KeyType.IRDI,
+            local: true,
+            type: KeyElements.ConceptDescription,
+            value: "0173-1#02-BAA120#007"
+        }) ],
+        category: PropertyCategory.PARAMETER,
+        valueType: PropertyValueType.Double,
+        value: {
+            dataType: "Double",
+            value: {
+                get: () => {
+                    return new opcua.Variant({ dataType: opcua.DataType.Double, value: 2000});
+                }
+            }
+        }
     });
 
     server.start(function() {
