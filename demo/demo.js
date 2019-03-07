@@ -29,17 +29,10 @@ function post_initialize() {
     // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
 
-    //Create AdministrativeInformation for AAS
-    const admin_1 = addressSpace.addAdministrativeInformation({
-        version: "1.0.0",
-        revision: "22"
-    });
-
     // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
         description: "Festo Controller",
-        administration: admin_1,
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
@@ -74,32 +67,6 @@ function post_initialize() {
         }) ]
     });
 
-    // Create a DataSpecificationIEC61360TypeInstance
-    const dataSpec_1 = addressSpace.addDataSpecificationIEC61360({
-        preferredName: "Property_1",
-        shortName: "Prop1",
-        valueFormat: "a-a-a",
-        unitId: [ new Key({
-            idType: KeyType.URI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "aas/engine/rotationSpeed/meter_per_second"
-        }) ]
-    });
-
-    //Add an EmbeddedDataSpecification to the AAS
-    addressSpace.addEmbeddedDataSpecification({
-        browseName: "data specification 1",
-        embeddedDataSpecificationOf: aas_1,
-        hasDataSpecification: [ new Key({
-            idType: KeyType.IRDI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "BBB#5555-666666"
-        }) ],
-        dataSpecificationContent: dataSpec_1
-    });
-
     /**
      * Add Submodel
      */
@@ -123,7 +90,7 @@ function post_initialize() {
     /**
      * Add Properties to the submodel
      */
-    addressSpace.addSubmodelProperty({
+    const rotationSpeed = addressSpace.addSubmodelProperty({
         browseName: "rotationSpeed",
         idShort: "rotationSpeed",
         submodelElementOf: submodel_1,
@@ -145,7 +112,7 @@ function post_initialize() {
         }
     });
 
-    addressSpace.addSubmodelProperty({
+    const nmax = addressSpace.addSubmodelProperty({
         browseName: "NMAX",
         idShort: "NMAX",
         submodelElementOf: submodel_1,
@@ -170,12 +137,84 @@ function post_initialize() {
     /**
      * Add Dictionary to the AAS
      */
-    addressSpace.addConceptDictionary({
+    const conceptDictionary = addressSpace.addConceptDictionary({
         browseName: "ConceptDict_1",
         idShort: "Ereoto",
         conceptDictionaryOf: aas_1,
         description: "A dictionary of concept for Festo Controller"
     });
+
+    /**
+     * Add ConceptDescriptions to the Dictionary
+     */
+
+    //Add an EmbeddedDataSpecification to the AAS for Rotation Speed
+    const embedded_1 = addressSpace.addEmbeddedDataSpecification({
+        browseName: "EmbeddedDS_1",
+        hasDataSpecification: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
+        }) ],
+    }).addDataSpecificationIEC61360({
+        preferredName: "Rotation Speed",
+        shortName: "N",
+        valueFormat: "NR1..5",
+        unitId: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "0173-1#05-AAA650#002"
+        }) ]
+    });
+
+    addressSpace.addConceptDescription({
+        browseName: "N",
+        identification: new Identifier({
+            id: "www.festo.com/dic/08111234",
+            idType: IdentifierType.URI
+        }),
+        hasEmbeddedDataSpecification: embedded_1,
+        conceptDescriptionOf: conceptDictionary,
+        localSemanticOf: rotationSpeed
+    });
+
+    //Add an EmbeddedDataSpecification to the AAS for Max Rotation Speed
+    const embedded_2 = addressSpace.addEmbeddedDataSpecification({
+        browseName: "EmbeddedDS_1",
+        hasDataSpecification: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
+        }) ],
+    }).addDataSpecificationIEC61360({
+        preferredName: "Max Rotation Speed",
+        shortName: "NMAX",
+        valueFormat: "NR1..5",
+        unitId: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "0173-1#05-AAA650#002"
+        }) ]
+    });
+
+    addressSpace.addConceptDescription({
+        browseName: "NMax",
+        identification: new Identifier({
+            id: "0173-1#02-BAA120#007",
+            idType: IdentifierType.IRDI
+        }),
+        hasEmbeddedDataSpecification: embedded_2,
+        conceptDescriptionOf: conceptDictionary,
+        localSemanticOf: nmax
+    });
+
+    /**
+     * Start The OPC UA Server
+     */
 
     server.start(function() {
         console.log("Server is now listening ... ( press CTRL+C to stop)");
