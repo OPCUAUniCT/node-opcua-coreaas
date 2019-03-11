@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\demo\\demo.js"
+            "program": "${workspaceFolder}\\demo\\pc_demo\\pc_aas.js"
         }
     ]
 }

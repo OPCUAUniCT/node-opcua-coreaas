@@ -16,7 +16,7 @@ var server = new opcua.OPCUAServer({
 
 function post_initialize() {
     console.log("initialized");
-    var addressSpace = server.engine.addressSpace;
+    const addressSpace = server.engine.addressSpace;
     const Identifier = opcua.coreaas.getIdentifierConstructor(addressSpace.getCoreAASNamespace()).Identifier;
     const IdentifierType = opcua.coreaas.IdentifierType;
     const Key = opcua.coreaas.getKeyConstructor(addressSpace.getCoreAASNamespace()).Key;
@@ -42,8 +42,7 @@ function post_initialize() {
             local: false,
             type: KeyElements.AssetAdministrationShell,
             value: "AAA#1234-454#123456789"
-        }) ],
-        kind: 0
+        }) ]
     });
 
     /**
@@ -139,7 +138,7 @@ function post_initialize() {
      */
     const conceptDictionary = addressSpace.addConceptDictionary({
         browseName: "ConceptDict_1",
-        idShort: "Ereoto",
+        idShort: "ConceptDictionary_1",
         conceptDictionaryOf: aas_1,
         description: "A dictionary of concept for Festo Controller"
     });
@@ -215,7 +214,6 @@ function post_initialize() {
     /**
      * Start The OPC UA Server
      */
-
     server.start(function() {
         console.log("Server is now listening ... ( press CTRL+C to stop)");
         console.log("port ", server.endpoints[0].port);
