@@ -72,6 +72,7 @@ module.exports = function add_communication_submodel(options) {
             idType: IdentifierType.IRDI
         }),
         hasEmbeddedDataSpecification: embedded_1,
+        conceptDescriptionOf: options.dictionary,
         localSemanticOf: networking
     });
 

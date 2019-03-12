@@ -64,16 +64,16 @@ function post_initialize() {
     /**
      * Add Dictionary to the AAS
      */
-    pc_aas.dict = addressSpace.addConceptDictionary({
+    const dictionary = addressSpace.addConceptDictionary({
         browseName: "ConceptDict_1",
         idShort: "ConceptDictionary_1",
         conceptDictionaryOf: pc_aas,
         description: "A dictionary of concept for Marco PC"
     });
 
-    const identificationSubmodel = add_identification_submodel({ opcua, addressSpace });
-    const communicationSubmodel = add_communication_submodel({ opcua, addressSpace });
-    const configurationSubmodel = add_configuration_submodel({ opcua, addressSpace });
+    const identificationSubmodel = add_identification_submodel({ opcua, addressSpace, dictionary });
+    const communicationSubmodel = add_communication_submodel({ opcua, addressSpace, dictionary });
+    const configurationSubmodel = add_configuration_submodel({ opcua, addressSpace, dictionary });
     pc_aas.addSubmodel(identificationSubmodel);
     pc_aas.addSubmodel(communicationSubmodel);
     pc_aas.addSubmodel(configurationSubmodel);
