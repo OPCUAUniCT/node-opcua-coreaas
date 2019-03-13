@@ -18,8 +18,8 @@
   "author": "Marco Salafia",
   "license": "ISC",
   "devDependencies": {
-    "node-opcua": "^0.5.8",
-    "node-opcua-generator": "^0.5.6"
+    "node-opcua": "^0.6.0",
+    "node-opcua-generator": "^0.6.0"
   },
   "dependencies": {
     "path": "^0.12.7",
