@@ -2,7 +2,7 @@ var opcua = require("node-opcua");
 var path = require("path");
 
 // add server CoreAAS extension to node-opcua
-require("../../index")(opcua);
+require("node-opcua-coreaas")(opcua);
 
 /* just importing an xml information model generated with UA Modeler  
  it works for most of the things but not for Structured DataType Values.
