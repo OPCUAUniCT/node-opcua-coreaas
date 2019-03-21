@@ -22,6 +22,8 @@
     "node-opcua-generator": "^0.6.0"
   },
   "dependencies": {
+    "node-opcua": "^0.6.0",
+    "lodash": "^4.17.0",
     "path": "^0.12.7",
     "semver": "^5.6.0"
   }
