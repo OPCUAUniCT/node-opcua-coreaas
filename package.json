@@ -16,7 +16,7 @@
     "industry4.0"
   ],
   "author": "Marco Salafia",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "node-opcua": "^0.6.0",
     "node-opcua-generator": "^0.6.0"
