@@ -32,7 +32,8 @@ function post_initialize() {
     // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
-        description: "Festo Controller",
+        description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
+                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"})],
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
