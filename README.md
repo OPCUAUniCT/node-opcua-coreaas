@@ -156,28 +156,35 @@ Create a new instance of AASType representing an Asset Administration Shell.
     -   `options.identification` **[Identifier][47]** The unique identifier for the AAS. The DataType is Identifier.
     -   `options.nodeId` **[string][45]?** The string representation of the NodeId for the AAS Object.
     -   `options.browseName` **[string][45]?** The BrowseName for the AAS Object.
-    -   `options.hasAsset` **([object][44] \| [array][48])?** An Asset instance or an array of Asset instances represented by this AAS.
-    -   `options.derivedFrom` **([array][48] \| [object][44])?** An array of Key object composing an AAS reference to the derivation AAS or the AASReference instance itself.
+    -   `options.assetRef` **([object][44] \| [array][48])?** An array of Key object composing an AAS reference to an AssetType instance or the AASReference instance itself.
+    -   `options.derivedFromFrom` **([array][48] \| [object][44])?** An array of Key object composing an AAS reference to the derivation AAS or the AASReference instance itself.
     -   `options.administration` **[object][44]?** An AdministrativeInformationType instance containing administration info forS AAS.
     -   `options.description` **[string][45]?** A description for the AAS.
 
 ### Examples
 
 ```javascript
-addressSpace.addAssetAdministrationShell({
-     browseName: "SampleAAS",
-     description: "Festo Controller",
-     identification: new Identifier({
-         id: "www.admin-shell.io/aas-sample/1.0",
-         idType: IdentifierType.URI
-     }),
-     derivedFrom: [ new Key({
-         idType: KeyType.IRDI,
-         local: false,
-         type: KeyElements.AssetAdministrationShell,
-         value: "AAA#1234-454#123456789"
-     }) ]
-});
+const aas_1 = addressSpace.addAssetAdministrationShell({
+        browseName: "SampleAAS",
+        description: [  new opcua.LocalizedText({locale: "en", text: "Temperature Sensor AA23"}),
+                        new opcua.LocalizedText({locale: "de", text: "Temperatursensor AA23"}) ],
+        identification: new Identifier({
+            id: "www.admin-shell.io/aas-sample/1.0",
+            idType: IdentifierType.URI
+        }),
+        assetRef: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Asset,
+            value: "http://pk.festo.com/3S7PLFDRS35"
+        })],
+        derivedFromRef: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.AssetAdministrationShell,
+            value: "AAA#1234-454#123456789"
+        }) ]
+    });
 ```
 
 Returns **[object][44]** The Object Node representing the Asset Administration Shell
@@ -473,21 +480,53 @@ addressSpace.addConceptDescription({
 Returns **[object][51]** The Object Node representing the ConceptDescription.
 
 ## **AASType Object convenience methods**
-## addNewSubmodel
+## addSubmodelRef
 
-Create a new instance of SubmodelType in the context of the AAS.
+Add an existent AASReferenceType instance referring to a Submodel or create a new one. It uses Organizes Reference.
 
 ### Parameters
 
--   `options` **[object][51]** 
-    -   `options.identification` **[Identifier][54]** The unique identifier for the AAS. The DataType is Identifier.
-    -   `options.idShort` **[string][52]** The short identifier for the new Submodel.
-    -   `options.browseName` **[string][52]?** The BrowseName for the Submodel Object.
-    -   `options.hasSemantic` **[object][51]?** an Array of Key referencing to the Semantic element for the Submodel.
-    -   `options.hasSubmodelSemantic` **[object][51]?** An SubmodelType instance with kind = Type defining semantic for the new Submodel.
-    -   `options.administration` **[object][51]?** An AdministrativeInformationType instance containing administration info for the Submodel.
-    -   `options.description` **[string][52]?** A description for the Submodel.
-    -   `options.kind` **([object][51] \| [number][56])?** A Kind value specifying if the Submodel is Instance or Type.
+-   `submodel` **([object][44] \| [array][48])?** An array of Key object composing an AAS reference to a SubmodelType instance or the AASReference instance itself. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## hasSubmodel
+
+Add an existent SubmodelType instance to the AAS by means of HasAsset Reference.
+
+### Parameters
+
+-   `submodel` **[object][51]** An existent SubmodelType instance. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## addViews
+
+Add an Array of existent ViewType instances to the AAS.
+
+### Parameters
+
+-   `views` **[array][55]** An array of ViewType instances to be added under Views Folder of the AAS by means of Organizes References. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## isDerivedFrom
+
+Add an existent AASType instance to the AAS by means of IsDerivedFrom Reference.
+
+### Parameters
+
+-   `der_aas` **[object][51]** An existent AASType instance. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## addConceptDictionary
+
+Add an existent ConceptDictionaryType instance to the AAS.
+
+### Parameters
+
+-   `dict` **[object][51]** An existent ConceptDictionaryType instance. 
 
 Returns **[object][51]** The Object Node representing the Asset Administration Shell
 

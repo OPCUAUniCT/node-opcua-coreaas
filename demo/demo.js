@@ -33,7 +33,7 @@ function post_initialize() {
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
         description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
-                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"})],
+                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ],
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
@@ -68,13 +68,52 @@ function post_initialize() {
         assetIdentificationModel: [ new Key({
             idType: KeyType.URI,
             local: false,
-            type: KeyElements.SubmodelElement,
+            type: KeyElements.Submodel,
             value: "//submodels/identification_3S7PLFDRS35"
         }) ]
     });
 
-    asset.coreAASType = "AssetType";
-    aas_1.hasAsset(asset);
+    aas_1.hasAsset(asset)
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: false,
+        type: KeyElements.Submodel,
+        value: "//submodels/identification_3S7PLFDRS35"
+    })])
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })]);
+
+    const submodel_1 = addressSpace.addSubmodel({
+        browseName: "12345679",
+        kind: Kind.Instance,
+        idShort: "12345679",
+        identification: new Identifier({
+            id: "http://www.zvei.de/demo/submodel/12345679",
+            idType: IdentifierType.URI
+        }),
+        //submodelOf: aas_1,
+        hasSemantic: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
+        }) ]
+    });
+
+    aas_1.hasSubmodel(submodel_1);
+
+    const conceptDictionary = addressSpace.addConceptDictionary({
+        browseName: "ConceptDict_1",
+        idShort: "ConceptDictionary_1",
+        //conceptDictionaryOf: aas_1,
+        description: "A dictionary of concept for Festo Controller"
+    });
+
+    aas_1.addConceptDictionary(conceptDictionary);
 
     // /**
     //  * Add Submodel
