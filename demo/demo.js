@@ -1,7 +1,7 @@
 var opcua = require("node-opcua");
 
 // add server CoreAAS extension to node-opcua
-require("node-opcua-coreaas")(opcua);
+require("../index")(opcua);
 
 
 var xmlFiles = [
@@ -37,7 +37,13 @@ function post_initialize() {
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
         }),
-        derivedFrom: [ new Key({
+        assetRef: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Asset,
+            value: "http://pk.festo.com/3S7PLFDRS35"
+        })],
+        derivedFromRef: [ new Key({
             idType: KeyType.IRDI,
             local: false,
             type: KeyElements.AssetAdministrationShell,
@@ -48,7 +54,7 @@ function post_initialize() {
     /**
      * Add a Asset
      */
-    addressSpace.addAsset({
+    let asset = addressSpace.addAsset({
         browseName: "3S7PLFDRS35",
         idShort: "3S7PLFDRS35",
         identification: new Identifier({
@@ -57,7 +63,7 @@ function post_initialize() {
         }),
         kind: Kind.Instance,
         description: "Festo Controller",
-        assetOf: aas_1,
+        //assetOf: aas_1,
         assetIdentificationModel: [ new Key({
             idType: KeyType.URI,
             local: false,
@@ -66,150 +72,153 @@ function post_initialize() {
         }) ]
     });
 
-    /**
-     * Add Submodel
-     */
-    const submodel_1 = addressSpace.addSubmodel({
-        browseName: "12345679",
-        kind: Kind.Instance,
-        idShort: "12345679",
-        identification: new Identifier({
-            id: "http://www.zvei.de/demo/submodel/12345679",
-            idType: IdentifierType.URI
-        }),
-        hasSemantic: [ new Key({
-            idType: KeyType.URI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
-        }) ],
-        submodelOf: aas_1
-    });
+    asset.coreAASType = "AssetType";
+    aas_1.hasAsset(asset);
 
-    /**
-     * Add Properties to the submodel
-     */
-    const rotationSpeed = addressSpace.addSubmodelProperty({
-        browseName: "rotationSpeed",
-        idShort: "rotationSpeed",
-        submodelElementOf: submodel_1,
-        hasSemantic: [ new Key({
-            idType: KeyType.URI,
-            local: true,
-            type: KeyElements.ConceptDescription,
-            value: "www.festo.com/dic/08111234"
-        }) ],
-        category: PropertyCategory.VARIABLE,
-        valueType: PropertyValueType.Double,
-        value: {
-            dataType: "Double",
-            value: {
-                get: () => {
-                    return new opcua.Variant({ dataType: opcua.DataType.Double, value: 1120});
-                }
-            }
-        }
-    });
+    // /**
+    //  * Add Submodel
+    //  */
+    // const submodel_1 = addressSpace.addSubmodel({
+    //     browseName: "12345679",
+    //     kind: Kind.Instance,
+    //     idShort: "12345679",
+    //     identification: new Identifier({
+    //         id: "http://www.zvei.de/demo/submodel/12345679",
+    //         idType: IdentifierType.URI
+    //     }),
+    //     hasSemantic: [ new Key({
+    //         idType: KeyType.URI,
+    //         local: false,
+    //         type: KeyElements.GlobalReference,
+    //         value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
+    //     }) ],
+    //     submodelOf: aas_1
+    // });
 
-    const nmax = addressSpace.addSubmodelProperty({
-        browseName: "NMAX",
-        idShort: "NMAX",
-        submodelElementOf: submodel_1,
-        hasSemantic: [ new Key({
-            idType: KeyType.IRDI,
-            local: true,
-            type: KeyElements.ConceptDescription,
-            value: "0173-1#02-BAA120#007"
-        }) ],
-        category: PropertyCategory.PARAMETER,
-        valueType: PropertyValueType.Double,
-        value: {
-            dataType: "Double",
-            value: {
-                get: () => {
-                    return new opcua.Variant({ dataType: opcua.DataType.Double, value: 2000});
-                }
-            }
-        }
-    });
+    // /**
+    //  * Add Properties to the submodel
+    //  */
+    // const rotationSpeed = addressSpace.addSubmodelProperty({
+    //     browseName: "rotationSpeed",
+    //     idShort: "rotationSpeed",
+    //     submodelElementOf: submodel_1,
+    //     hasSemantic: [ new Key({
+    //         idType: KeyType.URI,
+    //         local: true,
+    //         type: KeyElements.ConceptDescription,
+    //         value: "www.festo.com/dic/08111234"
+    //     }) ],
+    //     category: PropertyCategory.VARIABLE,
+    //     valueType: PropertyValueType.Double,
+    //     value: {
+    //         dataType: "Double",
+    //         value: {
+    //             get: () => {
+    //                 return new opcua.Variant({ dataType: opcua.DataType.Double, value: 1120});
+    //             }
+    //         }
+    //     }
+    // });
 
-    /**
-     * Add Dictionary to the AAS
-     */
-    const conceptDictionary = addressSpace.addConceptDictionary({
-        browseName: "ConceptDict_1",
-        idShort: "ConceptDictionary_1",
-        conceptDictionaryOf: aas_1,
-        description: "A dictionary of concept for Festo Controller"
-    });
+    // const nmax = addressSpace.addSubmodelProperty({
+    //     browseName: "NMAX",
+    //     idShort: "NMAX",
+    //     submodelElementOf: submodel_1,
+    //     hasSemantic: [ new Key({
+    //         idType: KeyType.IRDI,
+    //         local: true,
+    //         type: KeyElements.ConceptDescription,
+    //         value: "0173-1#02-BAA120#007"
+    //     }) ],
+    //     category: PropertyCategory.PARAMETER,
+    //     valueType: PropertyValueType.Double,
+    //     value: {
+    //         dataType: "Double",
+    //         value: {
+    //             get: () => {
+    //                 return new opcua.Variant({ dataType: opcua.DataType.Double, value: 2000});
+    //             }
+    //         }
+    //     }
+    // });
 
-    /**
-     * Add ConceptDescriptions to the Dictionary
-     */
+    // /**
+    //  * Add Dictionary to the AAS
+    //  */
+    // const conceptDictionary = addressSpace.addConceptDictionary({
+    //     browseName: "ConceptDict_1",
+    //     idShort: "ConceptDictionary_1",
+    //     conceptDictionaryOf: aas_1,
+    //     description: "A dictionary of concept for Festo Controller"
+    // });
 
-    //Add an EmbeddedDataSpecification to the AAS for Rotation Speed
-    const embedded_1 = addressSpace.addEmbeddedDataSpecification({
-        browseName: "EmbeddedDS_1",
-        hasDataSpecification: [ new Key({
-            idType: KeyType.URI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
-        }) ],
-    }).addDataSpecificationIEC61360({
-        preferredName: "Rotation Speed",
-        shortName: "N",
-        valueFormat: "NR1..5",
-        unitId: [ new Key({
-            idType: KeyType.IRDI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "0173-1#05-AAA650#002"
-        }) ]
-    });
+    // /**
+    //  * Add ConceptDescriptions to the Dictionary
+    //  */
 
-    addressSpace.addConceptDescription({
-        browseName: "N",
-        identification: new Identifier({
-            id: "www.festo.com/dic/08111234",
-            idType: IdentifierType.URI
-        }),
-        hasEmbeddedDataSpecification: embedded_1,
-        conceptDescriptionOf: conceptDictionary,
-        localSemanticOf: rotationSpeed
-    });
+    // //Add an EmbeddedDataSpecification to the AAS for Rotation Speed
+    // const embedded_1 = addressSpace.addEmbeddedDataSpecification({
+    //     browseName: "EmbeddedDS_1",
+    //     hasDataSpecification: [ new Key({
+    //         idType: KeyType.URI,
+    //         local: false,
+    //         type: KeyElements.GlobalReference,
+    //         value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
+    //     }) ],
+    // }).addDataSpecificationIEC61360({
+    //     preferredName: "Rotation Speed",
+    //     shortName: "N",
+    //     valueFormat: "NR1..5",
+    //     unitId: [ new Key({
+    //         idType: KeyType.IRDI,
+    //         local: false,
+    //         type: KeyElements.GlobalReference,
+    //         value: "0173-1#05-AAA650#002"
+    //     }) ]
+    // });
 
-    //Add an EmbeddedDataSpecification to the AAS for Max Rotation Speed
-    const embedded_2 = addressSpace.addEmbeddedDataSpecification({
-        browseName: "EmbeddedDS_1",
-        hasDataSpecification: [ new Key({
-            idType: KeyType.URI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
-        }) ],
-    }).addDataSpecificationIEC61360({
-        preferredName: "Max Rotation Speed",
-        shortName: "NMAX",
-        valueFormat: "NR1..5",
-        unitId: [ new Key({
-            idType: KeyType.IRDI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "0173-1#05-AAA650#002"
-        }) ]
-    });
+    // addressSpace.addConceptDescription({
+    //     browseName: "N",
+    //     identification: new Identifier({
+    //         id: "www.festo.com/dic/08111234",
+    //         idType: IdentifierType.URI
+    //     }),
+    //     hasEmbeddedDataSpecification: embedded_1,
+    //     conceptDescriptionOf: conceptDictionary,
+    //     localSemanticOf: rotationSpeed
+    // });
 
-    addressSpace.addConceptDescription({
-        browseName: "NMax",
-        identification: new Identifier({
-            id: "0173-1#02-BAA120#007",
-            idType: IdentifierType.IRDI
-        }),
-        hasEmbeddedDataSpecification: embedded_2,
-        conceptDescriptionOf: conceptDictionary,
-        localSemanticOf: nmax
-    });
+    // //Add an EmbeddedDataSpecification to the AAS for Max Rotation Speed
+    // const embedded_2 = addressSpace.addEmbeddedDataSpecification({
+    //     browseName: "EmbeddedDS_1",
+    //     hasDataSpecification: [ new Key({
+    //         idType: KeyType.URI,
+    //         local: false,
+    //         type: KeyElements.GlobalReference,
+    //         value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
+    //     }) ],
+    // }).addDataSpecificationIEC61360({
+    //     preferredName: "Max Rotation Speed",
+    //     shortName: "NMAX",
+    //     valueFormat: "NR1..5",
+    //     unitId: [ new Key({
+    //         idType: KeyType.IRDI,
+    //         local: false,
+    //         type: KeyElements.GlobalReference,
+    //         value: "0173-1#05-AAA650#002"
+    //     }) ]
+    // });
+
+    // addressSpace.addConceptDescription({
+    //     browseName: "NMax",
+    //     identification: new Identifier({
+    //         id: "0173-1#02-BAA120#007",
+    //         idType: IdentifierType.IRDI
+    //     }),
+    //     hasEmbeddedDataSpecification: embedded_2,
+    //     conceptDescriptionOf: conceptDictionary,
+    //     localSemanticOf: nmax
+    // });
 
     /**
      * Start The OPC UA Server
