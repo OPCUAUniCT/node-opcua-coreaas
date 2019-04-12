@@ -63,9 +63,9 @@ function post_initialize() {
             idType: IdentifierType.URI
         }),
         kind: Kind.Instance,
-        description: "Festo Controller",
+        description: "Festo Controller Asset",
         //assetOf: aas_1,
-        assetIdentificationModel: [ new Key({
+        assetIdentificationModelRef: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.Submodel,

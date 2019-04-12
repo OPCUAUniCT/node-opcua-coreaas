@@ -203,9 +203,9 @@ Create a new instance of AssetType representing an Asset (both Type and Instance
     -   `options.browseName` **[string][46]?** The BrowseName for the Asset Object.
     -   `options.assetOf` **[object][45]?** The parent AASType containing the asset by means of HasAsset reference.
     -   `options.administration` **[object][45]?** An AdministrativeInformationType instance containing administration info for the Asset.
-    -   `options.description` **[string][46]?** A description for the Asset.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the Asset.
     -   `options.kind` **([object][45] \| [number][50])?** A Kind value specifying if the Asset is Instance or Type.
-    -   `options.assetIdentificationModel` **[array][49]?** An Array of Key referencing the Submodel for the identification of the Asset.
+    -   `options.assetIdentificationModelRef` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing the Submodel for the identification of the Asset.
 
 ### Examples
 
@@ -220,7 +220,7 @@ addressSpace.addAsset({
        kind: Kind.Instance,
        description: "Festo Controller",
        assetOf: aas_1,
-       assetIdentificationModel: [new Key({
+       assetIdentificationModelRef: [new Key({
            idType: KeyType.URI,
            local: false,
            type: KeyElements.SubmodelElement,
@@ -529,6 +529,18 @@ Add an existent ConceptDictionaryType instance to the AAS.
 -   `dict` **[object][51]** An existent ConceptDictionaryType instance. 
 
 Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## **AssetType Object convenience methods**
+
+## addAssetIdentificationModelRef
+
+Add an AASReferenceType instance referencing a Submodel for the identification of the asset.
+
+### Parameters
+
+-   `assetIdentificationModelRef` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing the Submodel for the identification  
+
+Returns **[object][51]** The Object Node representing the Asset
 
 ## **ConceptDescriptionType Object convenience methods**
 ## IsCaseOf
