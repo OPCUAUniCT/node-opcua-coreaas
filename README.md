@@ -530,6 +530,26 @@ Add an existent ConceptDictionaryType instance to the AAS.
 
 Returns **[object][51]** The Object Node representing the Asset Administration Shell
 
+## addAssetRef
+
+Add an AASReferenceType instance referencing an AssetType Object.
+
+### Parameters
+
+-   `ref` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing an AssetType Object. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## addDerivedFromref
+
+Add an AASReferenceType instance referencing an AASType Object.
+
+### Parameters
+
+-   `ref` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing an AASType Object. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
 ## **AssetType Object convenience methods**
 
 ## addAssetIdentificationModelRef
