@@ -240,8 +240,7 @@ Create a new instance of AASReferenceType representing a Reference of the AAS me
     -   `options.browseName` **[string][52]** The BrowseName for the AASReference Object.
     -   `options.description` **[string][52]?** A description for the AASReference Object.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the AASreference Object.
-    -   `options.derivationFor` **[object][51]?** The parent node containing the AASReference by means of an IsDerivedFrom Reference.
-    -   `options.semanticFor` **[object][51]?** The parent node containing the AASReference by means of an HasSemantic Reference.
+    -   `options.organizedBy` **[object][51]?** The parent node containing the AASReference by means of an Organizes Reference.
     -   `options.componentOf` **[object][51]?** The parent node containing the AASReference by means of an HasComponent Reference.
     -   `options.isCaseOf` **[object][51]?** The parent node containing the AASReference by means of an IsCaseOf Reference.
     -   `options.keys` **[object][51]** An array of Key constituting the AASReference.
@@ -250,9 +249,9 @@ Create a new instance of AASReferenceType representing a Reference of the AAS me
 
 ```javascript
 addressSpace.addAASReference({
-       derivationFor: aas,
+       componentOf: aas,
        browseName: "derivedFrom",
-       keys: options.derivedFrom
+       keys: options.keys
    });
 ```
 
