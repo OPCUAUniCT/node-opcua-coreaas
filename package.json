@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "demo": "node demo/demo.js"
+    "demo": "node demo/demo.js",
+    "demo2": "node demo/demo2.js"
   },
   "keywords": [
     "opcua",

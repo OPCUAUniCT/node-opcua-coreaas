@@ -29,22 +29,14 @@ function post_initialize() {
     // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
 
-    // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
-        description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
-                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ],
+        description: "Festo Controller",
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
         }),
-        assetRef: [new Key({
-            idType: KeyType.URI,
-            local: true,
-            type: KeyElements.Asset,
-            value: "http://pk.festo.com/3S7PLFDRS35"
-        })],
-        derivedFromRef: [ new Key({
+        derivedFrom: [ new Key({
             idType: KeyType.IRDI,
             local: false,
             type: KeyElements.AssetAdministrationShell,
@@ -55,7 +47,7 @@ function post_initialize() {
     /**
      * Add a Asset
      */
-    let asset = addressSpace.addAsset({
+    addressSpace.addAsset({
         browseName: "3S7PLFDRS35",
         idShort: "3S7PLFDRS35",
         identification: new Identifier({
@@ -64,56 +56,14 @@ function post_initialize() {
         }),
         kind: Kind.Instance,
         description: "Festo Controller",
-        //assetOf: aas_1,
+        assetOf: aas_1,
         assetIdentificationModel: [ new Key({
             idType: KeyType.URI,
             local: false,
-            type: KeyElements.Submodel,
+            type: KeyElements.SubmodelElement,
             value: "//submodels/identification_3S7PLFDRS35"
         }) ]
     });
-
-    aas_1.hasAsset(asset)
-    .addSubmodelRef([new Key({
-        idType: KeyType.URI,
-        local: false,
-        type: KeyElements.Submodel,
-        value: "//submodels/identification_3S7PLFDRS35"
-    })])
-    .addSubmodelRef([new Key({
-        idType: KeyType.URI,
-        local: true,
-        type: KeyElements.Submodel,
-        value: "http://www.zvei.de/demo/submodel/12345679"
-    })]);
-
-    const submodel_1 = addressSpace.addSubmodel({
-        browseName: "12345679",
-        kind: Kind.Instance,
-        idShort: "12345679",
-        identification: new Identifier({
-            id: "http://www.zvei.de/demo/submodel/12345679",
-            idType: IdentifierType.URI
-        }),
-        //submodelOf: aas_1,
-        hasSemantic: [ new Key({
-            idType: KeyType.URI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
-        }) ]
-    });
-
-    aas_1.hasSubmodel(submodel_1);
-
-    const conceptDictionary = addressSpace.addConceptDictionary({
-        browseName: "ConceptDict_1",
-        idShort: "ConceptDictionary_1",
-        //conceptDictionaryOf: aas_1,
-        description: "A dictionary of concept for Festo Controller"
-    });
-
-    aas_1.addConceptDictionary(conceptDictionary);
 
     // /**
     //  * Add Submodel
