@@ -87,6 +87,16 @@ function post_initialize() {
         value: "http://www.zvei.de/demo/submodel/12345679"
     })]);
 
+    const submodel_type = addressSpace.addSubmodel({
+        browseName: "AAAAA",
+        kind: Kind.Type,
+        idShort: "AAAA",
+        identification: new Identifier({
+            id: "http://www.zvei.de/demo/submodel/AAAA",
+            idType: IdentifierType.URI
+        })
+    })
+
     const submodel_1 = addressSpace.addSubmodel({
         browseName: "12345679",
         kind: Kind.Instance,
@@ -94,17 +104,18 @@ function post_initialize() {
         identification: new Identifier({
             id: "http://www.zvei.de/demo/submodel/12345679",
             idType: IdentifierType.URI
-        }),
-        //submodelOf: aas_1,
-        hasSemantic: [ new Key({
-            idType: KeyType.URI,
-            local: false,
-            type: KeyElements.GlobalReference,
-            value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
-        }) ]
-    });
+        })
+    })
+    .submodelOf(aas_1)
+    .addSemanticId([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/semantic_for_submodel"
+    })])
+    .hasSubmodelSemantic(submodel_type);
 
-    aas_1.hasSubmodel(submodel_1);
+    //aas_1.hasSubmodel(submodel_1);
 
     const conceptDictionary = addressSpace.addConceptDictionary({
         browseName: "ConceptDict_1",

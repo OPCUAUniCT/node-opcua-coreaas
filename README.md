@@ -160,7 +160,7 @@ Create a new instance of AASType representing an Asset Administration Shell.
     -   `options.assetRef` **([object][44] \| [array][48])?** An array of Key object composing an AAS reference to an AssetType instance or the AASReference instance itself.
     -   `options.derivedFromFrom` **([array][48] \| [object][44])?** An array of Key object composing an AAS reference to the derivation AAS or the AASReference instance itself.
     -   `options.administration` **[object][44]?** An AdministrativeInformationType instance containing administration info forS AAS.
-    -   `options.description` **[string][45]?** A description for the AAS.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the AAS.
 
 ### Examples
 
@@ -317,11 +317,9 @@ Create a new instance of SubmodelType representing a Submodel (both Type and Ins
     -   `options.idShort` **[string][52]** The unique identifier for the AAS. The DataType is Identifier.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the Submodel Object.
     -   `options.browseName` **[string][52]?** The BrowseName for the Submodel Object.
-    -   `options.submodelOf` **[object][51]?** The parent AASType containing the Submodel.
-    -   `options.hasSemantic` **[object][51]?** an Array of Key referencing to the Semantic element for the Submodel.
-    -   `options.hasSubmodelSemantic` **[object][51]?** A SubmodelType instance with kind = Type defining the semantic for this Submodel.
+    -   `options.semanticId` **([object][44] \| [array][48])?** An array of Key object composing an AAS reference or the AASReference instance itself referring a semantic element for the Submodel.
     -   `options.administration` **[object][51]?** An AdministrativeInformationType instance containing administration info for the Submodel.
-    -   `options.description` **[string][52]?** A description for the Submodel.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the Submodel.
     -   `options.kind` **([object][51] \| [number][56])?** A Kind value specifying if the Submodel is Instance or Type.
 
 ### Examples
@@ -456,11 +454,10 @@ Create a new instance of ConceptDescriptionType.
     -   `options.identification` **[object][51]** The unique identifier for the AAS. The DataType is Identifier.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the ConceptDescription Object.
     -   `options.browseName` **[string][52]?** The BrowsName of the ConceptDescription Object.
-    -   `options.conceptDescriptionOf` **[object][51]?** The parent ConceptDictionary containing the ConceptDescription by means of HasConceptDescription Reference.
-    -   `options.localSemanticOf` **[object][51]?** The SubmodelElement this ConceptDescription defines semantic for.
+    -   `options.conceptDescriptionOf` **[object][51]?** A ConceptDictionary Object referencing this object by means of a HasConceptDescription Reference.
     -   `options.hasEmbeddedDataSpecification` **([array][55] \| [object][51])?** An EmbeddedDataSpecification or an Array of EmbeddedDataSpecification.
     -   `options.administration` **[object][51]?** An AdministrativeInformationType instance containing administration info for the ConceptDescription.
-    -   `options.description` **[string][52]?** A description for the ConceptDescription.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the ConceptDescription.
 
 ### Examples
 
@@ -563,17 +560,46 @@ Add an AASReferenceType instance referencing a Submodel for the identification o
 Returns **[object][51]** The Object Node representing the Asset
 
 ## **ConceptDescriptionType Object convenience methods**
-## IsCaseOf
+## isCaseOf
 
-Add a new IsCaseOf.
+Add a new AASReferenceObject by means of an IsCaseOf Reference.
 
 ### Parameters
 
--   `options` **[object][51]** 
-    -   `options.browseName` **[string][52]** 
-    -   `options.keys` **[array][55]** An array of Key or an array of array of Key referencing an external entity.
+-   `cases` **([object][51] \| [array][55])** An array of Key or an an AASReferenceType Object referencing an external entity.
 
 Returns **[object][51]** The Object Node representing the ConceptDescription.
+
+## hasEmbeddedDataSpecifications
+
+Add one or more EmbeddedDataSpecificationType Object by means of an IsCaseOf Reference.
+
+### Parameters
+
+-   `embedds` **([object][51] \| [array][55])** An Object or an Array of Object of EmbeddedDataSpecificationType.
+
+Returns **[object][51]** The Object Node representing the ConceptDescription.
+
+## conceptDescriptionOf
+
+Connect the current ConceptDescription by means of a HasConceptDescription Reference to the provided ConceptDictionary.
+
+### Parameters
+
+-   `dict` **[object][51]** A ConceptDataDictionary Object.
+
+Returns **[object][51]** The Object Node representing the ConceptDescription.
+
+## **SubmodelType Object convenience methods**
+
+## hasSubmodelSemantic 
+...
+
+## addSemanticId
+...
+
+## submodelOf
+...
 
 ## **New Structured DataType**
 ## Identifier
