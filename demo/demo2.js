@@ -115,6 +115,37 @@ function post_initialize() {
 
     aas_1.addConceptDictionary(conceptDictionary);
 
+    const embedded_1 = addressSpace.addEmbeddedDataSpecification({
+        browseName: "EmbeddedDS_1",
+        hasDataSpecification: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
+        }) ],
+    })
+    .addDataSpecificationIEC61360({
+        preferredName: "Rotation Speed",
+        shortName: "N",
+        valueFormat: "NR1..5",
+        unitId: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "0173-1#05-AAA650#002"
+        }) ]
+    });
+
+    addressSpace.addConceptDescription({
+        browseName: "N",
+        identification: new Identifier({
+            id: "www.festo.com/dic/08111234",
+            idType: IdentifierType.URI
+        }),
+        conceptDescriptionOf: conceptDictionary
+    })
+    .hasEmbeddedDataSpecifications(embedded_1);
+
     // /**
     //  * Add Submodel
     //  */
