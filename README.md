@@ -584,6 +584,9 @@ Returns **[object][51]** The Object Node representing the ConceptDescription.
 
 Connect the current ConceptDescription by means of a HasConceptDescription Reference to the provided ConceptDictionary.
 
+## semanticOf
+...
+
 ### Parameters
 
 -   `dict` **[object][51]** A ConceptDataDictionary Object.
@@ -595,11 +598,30 @@ Returns **[object][51]** The Object Node representing the ConceptDescription.
 ## hasSubmodelSemantic 
 ...
 
+## hasSemantic 
+...
+
 ## addSemanticId
 ...
 
 ## submodelOf
 ...
+
+## **SubmodelPropertyType Object convenience methods**
+
+## addSemanticId
+...
+
+## hasSemantic
+...
+
+## addParent
+...
+
+## addValueId
+...
+
+
 
 ## **New Structured DataType**
 ## Identifier

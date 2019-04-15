@@ -98,13 +98,7 @@ function post_initialize() {
         identification: new Identifier({
             id: "http://www.zvei.de/demo/submodel/12345679",
             idType: IdentifierType.URI
-        }),
-        semanticId: [new Key({
-            idType: KeyType.URI,
-            local: true,
-            type: KeyElements.Submodel,
-            value: "http://www.zvei.de/demo/FIGA"
-        })]
+        })
     })
     .submodelOf(aas_1)
     /* .addSemanticId([new Key({
@@ -119,6 +113,46 @@ function post_initialize() {
         local: true,
         type: KeyElements.AssetAdministrationShell,
         value: "www.admin-shell.io/aas-sample/1.0"
+    })]);
+
+    const rotationSpeed = addressSpace.addSubmodelProperty({
+        browseName: "rotationSpeed",
+        idShort: "rotationSpeed",
+        submodelElementOf: submodel_1,
+        // semanticId: [ new Key({
+        //     idType: KeyType.URI,
+        //     local: true,
+        //     type: KeyElements.ConceptDescription,
+        //     value: "www.festo.com/dic/08111234"
+        // }) ],
+        category: PropertyCategory.VARIABLE,
+        valueType: PropertyValueType.Double,
+        value: {
+            dataType: "Double",
+            value: {
+                get: () => {
+                    return new opcua.Variant({ dataType: opcua.DataType.Double, value: 1120});
+                }
+            }
+        }
+    })
+    .addSemanticId([ new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.ConceptDescription,
+        value: "www.festo.com/dic/08111234"
+    }) ])
+    .addParent([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })])
+    .addValueId([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.GlobalReference,
+        value: "//value/of/rotationSpeed"
     })]);
 
     //aas_1.hasSubmodel(submodel_1);
@@ -161,7 +195,8 @@ function post_initialize() {
         }),
         conceptDescriptionOf: conceptDictionary
     })
-    .hasEmbeddedDataSpecifications(embedded_1);
+    .hasEmbeddedDataSpecifications(embedded_1)
+    .semanticOf(rotationSpeed);
 
     // /**
     //  * Add Submodel
