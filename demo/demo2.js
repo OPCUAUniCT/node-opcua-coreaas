@@ -76,12 +76,6 @@ function post_initialize() {
     aas_1.hasAsset(asset)
     .addSubmodelRef([new Key({
         idType: KeyType.URI,
-        local: false,
-        type: KeyElements.Submodel,
-        value: "//submodels/identification_3S7PLFDRS35"
-    })])
-    .addSubmodelRef([new Key({
-        idType: KeyType.URI,
         local: true,
         type: KeyElements.Submodel,
         value: "http://www.zvei.de/demo/submodel/12345679"
@@ -104,16 +98,28 @@ function post_initialize() {
         identification: new Identifier({
             id: "http://www.zvei.de/demo/submodel/12345679",
             idType: IdentifierType.URI
-        })
+        }),
+        semanticId: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/FIGA"
+        })]
     })
     .submodelOf(aas_1)
-    .addSemanticId([new Key({
+    /* .addSemanticId([new Key({
         idType: KeyType.URI,
         local: true,
         type: KeyElements.Submodel,
         value: "http://www.zvei.de/demo/semantic_for_submodel"
-    })])
-    .hasSubmodelSemantic(submodel_type);
+    })]) */
+    .hasSubmodelSemantic(submodel_type)
+    .addParent([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.AssetAdministrationShell,
+        value: "www.admin-shell.io/aas-sample/1.0"
+    })]);
 
     //aas_1.hasSubmodel(submodel_1);
 
