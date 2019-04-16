@@ -29,6 +29,11 @@ function post_initialize() {
     // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
 
+    let admin = addressSpace.addAdministrativeInformation({
+        version: "555",
+        revision: "1825"
+    });
+
     // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
@@ -49,7 +54,8 @@ function post_initialize() {
             local: false,
             type: KeyElements.AssetAdministrationShell,
             value: "AAA#1234-454#123456789"
-        }) ]
+        }) ],
+        administration: admin
     });
 
     /**
@@ -80,6 +86,10 @@ function post_initialize() {
         type: KeyElements.Submodel,
         value: "http://www.zvei.de/demo/submodel/12345679"
     })]);
+
+    /**
+     * Add Submodel
+     */
 
     const submodel_type = addressSpace.addSubmodel({
         browseName: "AAAAA",
@@ -115,16 +125,16 @@ function post_initialize() {
         value: "www.admin-shell.io/aas-sample/1.0"
     })]);
 
+    //aas_1.hasSubmodel(submodel_1);
+
+    /**
+     * Add SubmodelProperty
+     */
+
     const rotationSpeed = addressSpace.addSubmodelProperty({
         browseName: "rotationSpeed",
         idShort: "rotationSpeed",
         submodelElementOf: submodel_1,
-        // semanticId: [ new Key({
-        //     idType: KeyType.URI,
-        //     local: true,
-        //     type: KeyElements.ConceptDescription,
-        //     value: "www.festo.com/dic/08111234"
-        // }) ],
         category: PropertyCategory.VARIABLE,
         valueType: PropertyValueType.Double,
         value: {
@@ -155,7 +165,31 @@ function post_initialize() {
         value: "//value/of/rotationSpeed"
     })]);
 
-    //aas_1.hasSubmodel(submodel_1);
+    const nmax = addressSpace.addSubmodelProperty({
+        browseName: "NMAX",
+        idShort: "NMAX",
+        submodelElementOf: submodel_1,
+        semanticId: [ new Key({
+            idType: KeyType.IRDI,
+            local: true,
+            type: KeyElements.ConceptDescription,
+            value: "0173-1#02-BAA120#007"
+        }) ],
+        category: PropertyCategory.PARAMETER,
+        valueType: PropertyValueType.Double,
+        value: {
+            dataType: "Double",
+            value: {
+                get: () => {
+                    return new opcua.Variant({ dataType: opcua.DataType.Double, value: 2000});
+                }
+            }
+        }
+    });
+
+    /**
+     * Add Concept Dictionary
+     */
 
     const conceptDictionary = addressSpace.addConceptDictionary({
         browseName: "ConceptDict_1",
@@ -165,6 +199,10 @@ function post_initialize() {
     });
 
     aas_1.addConceptDictionary(conceptDictionary);
+
+    /**
+     * Add ConceptDescription with EmbeddedDataSpecification
+     */
 
     const embedded_1 = addressSpace.addEmbeddedDataSpecification({
         browseName: "EmbeddedDS_1",
@@ -176,15 +214,19 @@ function post_initialize() {
         }) ],
     })
     .addDataSpecificationIEC61360({
+        identifier: "rtzspd#123",
         preferredName: "Rotation Speed",
-        shortName: "N",
-        valueFormat: "NR1..5",
+        definition: "The Rotation Speed of something",
+        dataType: "double",
+        unit: "1/m",
         unitId: [ new Key({
             idType: KeyType.IRDI,
             local: false,
             type: KeyElements.GlobalReference,
             value: "0173-1#05-AAA650#002"
-        }) ]
+        }) ],
+        shortName: "N",
+        valueFormat: "NR1..5"
     });
 
     addressSpace.addConceptDescription({
@@ -197,6 +239,38 @@ function post_initialize() {
     })
     .hasEmbeddedDataSpecifications(embedded_1)
     .semanticOf(rotationSpeed);
+
+    //Add an EmbeddedDataSpecification to the AAS for Max Rotation Speed
+    const embedded_2 = addressSpace.addEmbeddedDataSpecification({
+        browseName: "EmbeddedDS_1",
+        hasDataSpecification: [ new Key({
+            idType: KeyType.URI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
+        }) ],
+    }).addDataSpecificationIEC61360(addressSpace.addDataSpecificationIEC61360({ //notice that you can pass the DataSpecificationIEC61360Type Object as parameter
+        preferredName: "Max Rotation Speed",
+        shortName: "NMAX",
+        valueFormat: "NR1..5",
+        unitId: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.GlobalReference,
+            value: "0173-1#05-AAA650#002"
+        }) ]
+    }));
+
+    addressSpace.addConceptDescription({
+        browseName: "NMax",
+        identification: new Identifier({
+            id: "0173-1#02-BAA120#007",
+            idType: IdentifierType.IRDI
+        }),
+        hasEmbeddedDataSpecifications: embedded_2,
+        conceptDescriptionOf: conceptDictionary
+    })
+    .semanticOf(nmax);
 
     // /**
     //  * Add Submodel

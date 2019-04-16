@@ -295,12 +295,20 @@ Create a new instance of DataSpecificationIEC61360Type representing a Reference 
 ### Parameters
 
 -   `options` **[object][51]** 
-    -   `options.preferredName` **[string][52]** 
-    -   `options.shortName` **[string][52]** 
-    -   `options.valueFormat` **[string][52]** 
+    -   `options.identifier` **[string][52]?** 
+    -   `options.preferredName` **[string][52]?** 
     -   `options.definition` **[string][52]?** 
+    -   `options.dataType` **[string][52]?** 
+    -   `options.unit` **[string][52]?** 
+    -   `options.unitId` **([object][45] \| [array][49])?** An array of Key object composing an AAS reference to an AssetType instance or the AASReference instance itself.
+    -   `options.iecCategory` **[string][52]?** 
+    -   `options.iecLanguageCode` **[string][52]?** 
+    -   `options.note` **[string][52]?** 
+    -   `options.shortName` **[string][52]?** 
+    -   `options.valueFormat` **[string][52]?** 
+    -   `options.version` **[string][52]?** 
+    -   `options.revision` **[string][52]?** 
     -   `options.browseName` **[string][52]?** The BrowseName for the DataSpecificationIEC61360 Object.
-    -   `options.unitId` **[array][55]?** An array of Key referencing a Unit definition
     -   `options.description` **[string][52]?** The descrption of the DataSpecificationIEC61360 Object.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the DataSpecificationIEC61360 Object.
 
