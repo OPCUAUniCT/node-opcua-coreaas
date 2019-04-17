@@ -284,8 +284,11 @@ function post_initialize() {
         }) ],
         description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
                         new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ],
-        viewOf: aas_1
-    });
+        //viewOf: aas_1
+    })
+    .addElements([nmax, rotationSpeed]);
+
+    aas_1.addViews([view_1]);
 
     /**
      * Start The OPC UA Server
