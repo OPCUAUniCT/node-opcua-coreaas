@@ -141,7 +141,7 @@ function post_initialize() {
         local: true,
         type: KeyElements.Submodel,
         value: "http://www.zvei.de/demo/submodel/12345679"
-    })]);;
+    })]);
 
     /**
      * Add SubmodelProperty
@@ -210,6 +210,25 @@ function post_initialize() {
     });
 
     collection.addElements([nmax, rotationSpeed]);
+
+    /**
+     * Add File
+     */
+    addressSpace.addAASFile({
+        idShort: "3S7PLFDRS35_Documentation",
+        kind: Kind.Instance,
+        description: [  new opcua.LocalizedText({locale: "en", text: "Documentation for the Festo Controller."}),
+                        new opcua.LocalizedText({locale: "it", text: "Documentazione per il Controller Festo"}) ],
+        submodelElementOf: submodel_1,
+        value: "./aas/files/3S7PLFDRS35/documentation",
+        mimeType: "application/pdf"
+    })
+    .addParent([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })]);
 
     /**
      * Add Concept Dictionary
