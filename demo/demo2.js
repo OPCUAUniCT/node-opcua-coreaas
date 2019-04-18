@@ -128,13 +128,29 @@ function post_initialize() {
     //aas_1.hasSubmodel(submodel_1);
 
     /**
+     * Add SubmodelElementCollection
+     */
+    let collection = addressSpace.addSubmodelElementCollection({
+        idShort: "Measurement",
+        submodelElementOf: submodel_1,
+        ordered: true,
+        kind: Kind.Instance
+    })
+    .addParent([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })]);;
+
+    /**
      * Add SubmodelProperty
      */
 
     const rotationSpeed = addressSpace.addSubmodelProperty({
         browseName: "rotationSpeed",
         idShort: "rotationSpeed",
-        submodelElementOf: submodel_1,
+        //submodelElementOf: submodel_1,
         category: PropertyCategory.VARIABLE,
         valueType: PropertyValueType.Double,
         value: {
@@ -157,6 +173,12 @@ function post_initialize() {
         local: true,
         type: KeyElements.Submodel,
         value: "http://www.zvei.de/demo/submodel/12345679"
+    }), 
+    new Key({
+        idType: KeyType.idShort,
+        local: true,
+        type: KeyElements.SubmodelElementCollection,
+        value: "Measurement"
     })])
     .addValueId([new Key({
         idType: KeyType.URI,
@@ -168,7 +190,7 @@ function post_initialize() {
     const nmax = addressSpace.addSubmodelProperty({
         browseName: "NMAX",
         idShort: "NMAX",
-        submodelElementOf: submodel_1,
+        //submodelElementOf: submodel_1,
         semanticId: [ new Key({
             idType: KeyType.IRDI,
             local: true,
@@ -186,6 +208,8 @@ function post_initialize() {
             }
         }
     });
+
+    collection.addElements([nmax, rotationSpeed]);
 
     /**
      * Add Concept Dictionary
