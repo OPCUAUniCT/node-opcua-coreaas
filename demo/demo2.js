@@ -157,12 +157,44 @@ function post_initialize() {
 
     //aas_1.hasSubmodel(submodel_1);
 
+    const aasreftype =  addressSpace.addAASReference({
+                        browseName: "tryFrom",
+                        keys: [new Key({
+                            idType: KeyType.URI,
+                            local: true,
+                            type: KeyElements.AssetAdministrationShell,
+                            value: "tryFrom"
+                        })]
+           });
+
     const conceptDictionary = addressSpace.addConceptDictionary({
         browseName: "ConceptDict_1",
         idShort: "ConceptDictionary_1",
+        parent: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.AssetAdministrationShell,
+            value: "TryParent"
+        })],
         //conceptDictionaryOf: aas_1,
-        description: "A dictionary of concept for Festo Controller"
-    });
+        description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
+                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ]
+    })
+    .addConceptDescriptionRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.AssetAdministrationShell,
+        value: "conceptDescr"
+    })])
+    .addConceptDescriptionRef(aasreftype);
+
+    //scatena l'assert ha già un parent! 
+    /*conceptDictionary.addParent([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.AssetAdministrationShell,
+        value: "TryParent"
+    })]);*/
 
     aas_1.addConceptDictionary(conceptDictionary);
 
