@@ -231,6 +231,27 @@ function post_initialize() {
     })]);
 
     /**
+     * Add Reference Element
+     */
+    addressSpace.addReferenceElement({
+        idShort: "Halbert",
+        kind: Kind.Instance,
+        submodelElementOf: submodel_1,
+        value: [ new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/Halbert"
+        })]
+    })
+    .addParent([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })]);
+
+    /**
      * Add Concept Dictionary
      */
 
