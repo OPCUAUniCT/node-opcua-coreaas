@@ -136,7 +136,7 @@ addressSpace.fixSpecificationTypeIdentifications();
 In the **demo** folder there are three different samples about using node-opcua-coreaas in order to create yout own Asset Administration Shell using node-opcua and the CoreAAS Information Model.
 
 - "demo.js" is a single-file sample showing an AAS based on the example shown in [this](https://www.plattform-i40.de/I40/Redaktion/EN/Downloads/Publikation/2018-details-of-the-asset-administration-shell.html) document.
-- "demo2.js" is the same as demo.js but shows how to do the same things using convenience methods.
+- "demo2.js" is the same as demo.js but with more elements and shows how to do the same things using convenience methods.
 - "pc_demo" is just a simple AAS showing the feature of a Workstation. The main aim of this sample is showing how is possible structuring a project in order to implement different Submodels for an AAS. Of course, the patterns and the techniques adopted to do so are up to developer.
 - "pc_using_modeler" has been included in order to show how is possible import a custom xml Information Model (based on CoreAAS). Furthermore, this sample shows the limitation of node-opcua about using Custom DataType inside Information Model xml files. In fact, Structured values or Enumeration cannot be imported with such approach. That's why it is strongly raccomanded to add values of Structured or Enumeration DataType (coming from CoreAAS) via code for Variables or Attributes.
 
