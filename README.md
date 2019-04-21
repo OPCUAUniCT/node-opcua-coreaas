@@ -430,13 +430,13 @@ Create a new instance of ConceptDictionaryType representing a ConceptDescription
 ### Parameters
 
 -   `options` **[object][51]** 
-    -   `options.browseName` **[string][52]** The BrowseName for the ConceptDictionary Object.
+    -   `options.idShort` **[string][52]** The short identifier for the ConceptDictionary.
+    -   `options.browseName` **[string][52]?** The BrowseName for the ConceptDictionary Object.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the ConceptDictionary Object.
-    -   `options.idShort` **[string][52]?** The short identifier for the ConceptDictionary.
     -   `options.conceptDictionaryOf` **[object][51]?** The parent AASType instance containing the ConceptDictionary.
     -   `options.hasConceptDescription` **([array][55] \| [object][51])?** An UAObject or an Array of UA Object representing the ConceptDescription of the ConceptDictionary.
     -   `options.parent` **[array][55]?** an Array of Key referencing to parent element for the ConceptDictionary.
-    -   `options.description` **[string][52]?** A description for the ConceptDictionary.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the ConceptDictionary.
     -   `options.kind` **([object][51] \| [number][56])?** A Kind value specifying if the ConceptDictionary is Instance or Type.
 
 ### Examples
@@ -566,6 +566,17 @@ Add an AASReferenceType instance referencing a Submodel for the identification o
 -   `assetIdentificationModelRef` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing the Submodel for the identification  
 
 Returns **[object][51]** The Object Node representing the Asset
+
+## **ConceptDictionaryType Object convenience methods**
+## hasConceptDescriptions
+...
+
+## addParent
+...
+
+## addConceptDescriptionRef
+...
+
 
 ## **ConceptDescriptionType Object convenience methods**
 ## isCaseOf

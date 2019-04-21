@@ -258,11 +258,28 @@ function post_initialize() {
     const conceptDictionary = addressSpace.addConceptDictionary({
         browseName: "ConceptDict_1",
         idShort: "ConceptDictionary_1",
-        //conceptDictionaryOf: aas_1,
-        description: "A dictionary of concept for Festo Controller"
-    });
+        conceptDictionaryOf: aas_1,
+        description: [  new opcua.LocalizedText({locale: "en", text: "Dicitonary for the Festo Controller."}),
+                        new opcua.LocalizedText({locale: "it", text: "Dizionario per il Controller Festo"}) ]
+    })
+    .addConceptDescriptionRef([
+        new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.ConceptDescription,
+            value: "www.festo.com/dic/08111234"
+        })
+    ])
+    .addConceptDescriptionRef([
+        new Key({
+            idType: KeyType.IRDI,
+            local: true,
+            type: KeyElements.ConceptDescription,
+            value: "0173-1#02-BAA120#007"
+        })
+    ]);
 
-    aas_1.addConceptDictionary(conceptDictionary);
+    //aas_1.addConceptDictionary(conceptDictionary);
 
     /**
      * Add ConceptDescription with EmbeddedDataSpecification
