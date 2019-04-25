@@ -37,8 +37,32 @@ function post_initialize() {
         identification: new Identifier({
             id: "//tu_dresden/apb/aas/123456789",
             idType: IdentifierType.URI
-        })
-    });
+        }),
+        assetRef: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Asset,
+            value: "//tu_dresden/apb/pcs/A6677218-33E7-4965-9A0D-C494F427ACC1"
+        })]
+    })
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "//aas/submodel/555444333"
+    })])
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "//aas/submodel/98989898"
+    })])
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "//aas/submodel/12345679"
+    })]);
 
     /**
      * Add a Asset
@@ -53,7 +77,7 @@ function post_initialize() {
         kind: Kind.Instance,
         description: "Marco Personal Computer",
         assetOf: pc_aas,
-        assetIdentificationModel: [ new Key({
+        assetIdentificationModelRef: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.SubmodelElement,
@@ -74,9 +98,9 @@ function post_initialize() {
     const identificationSubmodel = add_identification_submodel({ opcua, addressSpace, dictionary });
     const communicationSubmodel = add_communication_submodel({ opcua, addressSpace, dictionary });
     const configurationSubmodel = add_configuration_submodel({ opcua, addressSpace, dictionary });
-    pc_aas.addSubmodel(identificationSubmodel);
-    pc_aas.addSubmodel(communicationSubmodel);
-    pc_aas.addSubmodel(configurationSubmodel);
+    pc_aas.hasSubmodel(identificationSubmodel);
+    pc_aas.hasSubmodel(communicationSubmodel);
+    pc_aas.hasSubmodel(configurationSubmodel);
 
     /* Start The OPC UA Server */
     server.start(function() {

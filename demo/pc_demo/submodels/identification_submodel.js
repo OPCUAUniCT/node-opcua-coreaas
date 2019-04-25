@@ -17,7 +17,7 @@ module.exports = function add_identification_submodel(options) {
             id: "//aas/submodel/12345679",
             idType: IdentifierType.URI
         }),
-        hasSemantic: [ new Key({
+        semanticId: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.GlobalReference,
@@ -32,7 +32,7 @@ module.exports = function add_identification_submodel(options) {
         browseName: "serial number",
         idShort: "serialNumber",
         submodelElementOf: identificationSubmodel,
-        hasSemantic: [ new Key({
+        semanticId: [ new Key({
             idType: KeyType.IRDI,
             local: true,
             type: KeyElements.ConceptDescription,
@@ -72,9 +72,9 @@ module.exports = function add_identification_submodel(options) {
             idType: IdentifierType.IRDI
         }),
         hasEmbeddedDataSpecification: embedded_1,
-        conceptDescriptionOf: options.dictionary,
-        localSemanticOf: serialNumber
-    });
+        conceptDescriptionOf: options.dictionary
+    })
+    .semanticOf(serialNumber);
 
     return identificationSubmodel;
 }

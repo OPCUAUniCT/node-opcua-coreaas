@@ -1,10 +1,12 @@
 {
   "name": "node-opcua-coreaas",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "An extension for node-opcua implementing coreAAS Information Model",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "demo": "node demo/demo.js",
+    "demo2": "node demo/demo2.js"
   },
   "keywords": [
     "opcua",
@@ -16,8 +18,8 @@
   "author": "Marco Salafia",
   "license": "Apache-2.0",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/OPCUAUniCT/node-opcua-coreaas"
+    "type": "git",
+    "url": "https://github.com/OPCUAUniCT/node-opcua-coreaas"
   },
   "devDependencies": {
     "node-opcua-generator": "^0.6.0"

@@ -29,21 +29,38 @@ function post_initialize() {
     // Workaround  needed to give an Identifier to the DataSpecificationIEC61360Type
     addressSpace.fixSpecificationTypeIdentifications();
 
-    // Create an AAS
+    let admin = addressSpace.addAdministrativeInformation({
+        version: "555",
+        revision: "1825"
+    });
+
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
-        description: "Festo Controller",
+        description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
+                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ],
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
         }),
-        derivedFrom: [ new Key({
+        derivedFromRef: [ new Key({
             idType: KeyType.IRDI,
             local: false,
             type: KeyElements.AssetAdministrationShell,
             value: "AAA#1234-454#123456789"
-        }) ]
-    });
+        }) ],
+        assetRef: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Asset,
+            value: "http://pk.festo.com/3S7PLFDRS35"
+        })]
+    })
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })]);
 
     /**
      * Add a Asset
@@ -56,9 +73,9 @@ function post_initialize() {
             idType: IdentifierType.URI
         }),
         kind: Kind.Instance,
-        description: "Festo Controller",
+        description:  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
         assetOf: aas_1,
-        assetIdentificationModel: [ new Key({
+        assetIdentificationModelRef: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.SubmodelElement,
@@ -77,14 +94,14 @@ function post_initialize() {
             id: "http://www.zvei.de/demo/submodel/12345679",
             idType: IdentifierType.URI
         }),
-        hasSemantic: [ new Key({
+        semanticId: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.GlobalReference,
             value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
-        }) ],
-        submodelOf: aas_1
-    });
+        }) ]
+    })
+    .submodelOf(aas_1);
 
     /**
      * Add Properties to the submodel
@@ -93,7 +110,7 @@ function post_initialize() {
         browseName: "rotationSpeed",
         idShort: "rotationSpeed",
         submodelElementOf: submodel_1,
-        hasSemantic: [ new Key({
+        semanticId: [ new Key({
             idType: KeyType.URI,
             local: true,
             type: KeyElements.ConceptDescription,
@@ -115,7 +132,7 @@ function post_initialize() {
         browseName: "NMAX",
         idShort: "NMAX",
         submodelElementOf: submodel_1,
-        hasSemantic: [ new Key({
+        semanticId: [ new Key({
             idType: KeyType.IRDI,
             local: true,
             type: KeyElements.ConceptDescription,
@@ -140,8 +157,25 @@ function post_initialize() {
         browseName: "ConceptDict_1",
         idShort: "ConceptDictionary_1",
         conceptDictionaryOf: aas_1,
-        description: "A dictionary of concept for Festo Controller"
-    });
+        description: [  new opcua.LocalizedText({locale: "en", text: "Dicitonary for the Festo Controller."}),
+                        new opcua.LocalizedText({locale: "it", text: "Dizionario per il Controller Festo"}) ]
+    })
+    .addConceptDescriptionRef([
+        new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.ConceptDescription,
+            value: "www.festo.com/dic/08111234"
+        })
+    ])
+    .addConceptDescriptionRef([
+        new Key({
+            idType: KeyType.IRDI,
+            local: true,
+            type: KeyElements.ConceptDescription,
+            value: "0173-1#02-BAA120#007"
+        })
+    ]);
 
     /**
      * Add ConceptDescriptions to the Dictionary
@@ -156,16 +190,21 @@ function post_initialize() {
             type: KeyElements.GlobalReference,
             value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
         }) ],
-    }).addDataSpecificationIEC61360({
+    })
+    .addDataSpecificationIEC61360({
+        identifier: "rtzspd#123",
         preferredName: "Rotation Speed",
-        shortName: "N",
-        valueFormat: "NR1..5",
+        definition: "The Rotation Speed of something",
+        dataType: "double",
+        unit: "1/m",
         unitId: [ new Key({
             idType: KeyType.IRDI,
             local: false,
             type: KeyElements.GlobalReference,
             value: "0173-1#05-AAA650#002"
-        }) ]
+        }) ],
+        shortName: "N",
+        valueFormat: "NR1..5"
     });
 
     addressSpace.addConceptDescription({
@@ -174,10 +213,10 @@ function post_initialize() {
             id: "www.festo.com/dic/08111234",
             idType: IdentifierType.URI
         }),
-        hasEmbeddedDataSpecification: embedded_1,
+        hasEmbeddedDataSpecifications: embedded_1,
         conceptDescriptionOf: conceptDictionary,
-        localSemanticOf: rotationSpeed
-    });
+    })
+    .semanticOf(rotationSpeed);
 
     //Add an EmbeddedDataSpecification to the AAS for Max Rotation Speed
     const embedded_2 = addressSpace.addEmbeddedDataSpecification({
@@ -188,7 +227,8 @@ function post_initialize() {
             type: KeyElements.GlobalReference,
             value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
         }) ],
-    }).addDataSpecificationIEC61360({
+    })
+    .addDataSpecificationIEC61360({
         preferredName: "Max Rotation Speed",
         shortName: "NMAX",
         valueFormat: "NR1..5",
@@ -207,9 +247,9 @@ function post_initialize() {
             idType: IdentifierType.IRDI
         }),
         hasEmbeddedDataSpecification: embedded_2,
-        conceptDescriptionOf: conceptDictionary,
-        localSemanticOf: nmax
-    });
+        conceptDescriptionOf: conceptDictionary
+    })
+    .semanticOf(nmax);
 
     /**
      * Start The OPC UA Server

@@ -67,18 +67,31 @@ function post_initialize() {
     // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
-        description: "Festo Controller",
+        description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
+                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ],
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
         }),
-        derivedFrom: [ new Key({
+        derivedFromRef: [ new Key({
             idType: KeyType.IRDI,
             local: false,
             type: KeyElements.AssetAdministrationShell,
             value: "AAA#1234-454#123456789"
-        }) ]
-    });
+        }) ],
+        assetRef: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Asset,
+            value: "http://pk.festo.com/3S7PLFDRS35"
+        })]
+    })
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })]);
 
     /**
      * Add a Asset
@@ -91,9 +104,9 @@ function post_initialize() {
             idType: IdentifierType.URI
         }),
         kind: Kind.Instance,
-        description: "Festo Controller",
+        description:  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
         assetOf: aas_1,
-        assetIdentificationModel: [ new Key({
+        assetIdentificationModelRef: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.SubmodelElement,
@@ -136,6 +149,7 @@ addressSpace.fixSpecificationTypeIdentifications();
 In the **demo** folder there are three different samples about using node-opcua-coreaas in order to create yout own Asset Administration Shell using node-opcua and the CoreAAS Information Model.
 
 - "demo.js" is a single-file sample showing an AAS based on the example shown in [this](https://www.plattform-i40.de/I40/Redaktion/EN/Downloads/Publikation/2018-details-of-the-asset-administration-shell.html) document.
+- "demo2.js" is the same as demo.js but with more elements and shows how to do the same things using convenience methods.
 - "pc_demo" is just a simple AAS showing the feature of a Workstation. The main aim of this sample is showing how is possible structuring a project in order to implement different Submodels for an AAS. Of course, the patterns and the techniques adopted to do so are up to developer.
 - "pc_using_modeler" has been included in order to show how is possible import a custom xml Information Model (based on CoreAAS). Furthermore, this sample shows the limitation of node-opcua about using Custom DataType inside Information Model xml files. In fact, Structured values or Enumeration cannot be imported with such approach. That's why it is strongly raccomanded to add values of Structured or Enumeration DataType (coming from CoreAAS) via code for Variables or Attributes.
 
@@ -156,28 +170,35 @@ Create a new instance of AASType representing an Asset Administration Shell.
     -   `options.identification` **[Identifier][47]** The unique identifier for the AAS. The DataType is Identifier.
     -   `options.nodeId` **[string][45]?** The string representation of the NodeId for the AAS Object.
     -   `options.browseName` **[string][45]?** The BrowseName for the AAS Object.
-    -   `options.hasAsset` **([object][44] \| [array][48])?** An Asset instance or an array of Asset instances represented by this AAS.
-    -   `options.derivedFrom` **([array][48] \| [object][44])?** An array of Key object composing an AAS reference to the derivation AAS or the AASReference instance itself.
+    -   `options.assetRef` **([object][44] \| [array][48])?** An array of Key object composing an AAS reference to an AssetType instance or the AASReference instance itself.
+    -   `options.derivedFromFrom` **([array][48] \| [object][44])?** An array of Key object composing an AAS reference to the derivation AAS or the AASReference instance itself.
     -   `options.administration` **[object][44]?** An AdministrativeInformationType instance containing administration info forS AAS.
-    -   `options.description` **[string][45]?** A description for the AAS.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the AAS.
 
 ### Examples
 
 ```javascript
-addressSpace.addAssetAdministrationShell({
-     browseName: "SampleAAS",
-     description: "Festo Controller",
-     identification: new Identifier({
-         id: "www.admin-shell.io/aas-sample/1.0",
-         idType: IdentifierType.URI
-     }),
-     derivedFrom: [ new Key({
-         idType: KeyType.IRDI,
-         local: false,
-         type: KeyElements.AssetAdministrationShell,
-         value: "AAA#1234-454#123456789"
-     }) ]
-});
+const aas_1 = addressSpace.addAssetAdministrationShell({
+        browseName: "SampleAAS",
+        description: [  new opcua.LocalizedText({locale: "en", text: "Temperature Sensor AA23"}),
+                        new opcua.LocalizedText({locale: "de", text: "Temperatursensor AA23"}) ],
+        identification: new Identifier({
+            id: "www.admin-shell.io/aas-sample/1.0",
+            idType: IdentifierType.URI
+        }),
+        assetRef: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Asset,
+            value: "http://pk.festo.com/3S7PLFDRS35"
+        })],
+        derivedFromRef: [ new Key({
+            idType: KeyType.IRDI,
+            local: false,
+            type: KeyElements.AssetAdministrationShell,
+            value: "AAA#1234-454#123456789"
+        }) ]
+    });
 ```
 
 Returns **[object][44]** The Object Node representing the Asset Administration Shell
@@ -195,9 +216,9 @@ Create a new instance of AssetType representing an Asset (both Type and Instance
     -   `options.browseName` **[string][46]?** The BrowseName for the Asset Object.
     -   `options.assetOf` **[object][45]?** The parent AASType containing the asset by means of HasAsset reference.
     -   `options.administration` **[object][45]?** An AdministrativeInformationType instance containing administration info for the Asset.
-    -   `options.description` **[string][46]?** A description for the Asset.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the Asset.
     -   `options.kind` **([object][45] \| [number][50])?** A Kind value specifying if the Asset is Instance or Type.
-    -   `options.assetIdentificationModel` **[array][49]?** An Array of Key referencing the Submodel for the identification of the Asset.
+    -   `options.assetIdentificationModelRef` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing the Submodel for the identification of the Asset.
 
 ### Examples
 
@@ -212,7 +233,7 @@ addressSpace.addAsset({
        kind: Kind.Instance,
        description: "Festo Controller",
        assetOf: aas_1,
-       assetIdentificationModel: [new Key({
+       assetIdentificationModelRef: [new Key({
            idType: KeyType.URI,
            local: false,
            type: KeyElements.SubmodelElement,
@@ -222,6 +243,32 @@ addressSpace.addAsset({
 ```
 
 Returns **[object][45]** The Object Node representing the Asset Administration Shell
+
+## addAASView
+
+Create a new instance of AASReferenceType representing a Reference of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this View.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the View.
+    -   `options.browseName` **[string][46]?** The BrowseName for the View.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the View Object.
+    -   `options.viewOf` **[object][45]?** The parent node containing the View by means of an Organizes Reference.
+
+### Examples
+
+```javascript
+addressSpace.addAASView({
+       viewOf: aas,
+       browseName: "Maintenence"
+   });
+```
+
+Returns **[object][45]** The Object Node representing the AAS View.
 
 ## addAASReference
 
@@ -233,8 +280,7 @@ Create a new instance of AASReferenceType representing a Reference of the AAS me
     -   `options.browseName` **[string][52]** The BrowseName for the AASReference Object.
     -   `options.description` **[string][52]?** A description for the AASReference Object.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the AASreference Object.
-    -   `options.derivationFor` **[object][51]?** The parent node containing the AASReference by means of an IsDerivedFrom Reference.
-    -   `options.semanticFor` **[object][51]?** The parent node containing the AASReference by means of an HasSemantic Reference.
+    -   `options.organizedBy` **[object][51]?** The parent node containing the AASReference by means of an Organizes Reference.
     -   `options.componentOf` **[object][51]?** The parent node containing the AASReference by means of an HasComponent Reference.
     -   `options.isCaseOf` **[object][51]?** The parent node containing the AASReference by means of an IsCaseOf Reference.
     -   `options.keys` **[object][51]** An array of Key constituting the AASReference.
@@ -243,9 +289,9 @@ Create a new instance of AASReferenceType representing a Reference of the AAS me
 
 ```javascript
 addressSpace.addAASReference({
-       derivationFor: aas,
+       componentOf: aas,
        browseName: "derivedFrom",
-       keys: options.derivedFrom
+       keys: options.keys
    });
 ```
 
@@ -288,12 +334,20 @@ Create a new instance of DataSpecificationIEC61360Type representing a Reference 
 ### Parameters
 
 -   `options` **[object][51]** 
-    -   `options.preferredName` **[string][52]** 
-    -   `options.shortName` **[string][52]** 
-    -   `options.valueFormat` **[string][52]** 
+    -   `options.identifier` **[string][52]?** 
+    -   `options.preferredName` **[string][52]?** 
     -   `options.definition` **[string][52]?** 
+    -   `options.dataType` **[string][52]?** 
+    -   `options.unit` **[string][52]?** 
+    -   `options.unitId` **([object][45] \| [array][49])?** An array of Key object composing an AAS reference to an AssetType instance or the AASReference instance itself.
+    -   `options.iecCategory` **[string][52]?** 
+    -   `options.iecLanguageCode` **[string][52]?** 
+    -   `options.note` **[string][52]?** 
+    -   `options.shortName` **[string][52]?** 
+    -   `options.valueFormat` **[string][52]?** 
+    -   `options.version` **[string][52]?** 
+    -   `options.revision` **[string][52]?** 
     -   `options.browseName` **[string][52]?** The BrowseName for the DataSpecificationIEC61360 Object.
-    -   `options.unitId` **[array][55]?** An array of Key referencing a Unit definition
     -   `options.description` **[string][52]?** The descrption of the DataSpecificationIEC61360 Object.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the DataSpecificationIEC61360 Object.
 
@@ -310,11 +364,9 @@ Create a new instance of SubmodelType representing a Submodel (both Type and Ins
     -   `options.idShort` **[string][52]** The unique identifier for the AAS. The DataType is Identifier.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the Submodel Object.
     -   `options.browseName` **[string][52]?** The BrowseName for the Submodel Object.
-    -   `options.submodelOf` **[object][51]?** The parent AASType containing the Submodel.
-    -   `options.hasSemantic` **[object][51]?** an Array of Key referencing to the Semantic element for the Submodel.
-    -   `options.hasSubmodelSemantic` **[object][51]?** A SubmodelType instance with kind = Type defining the semantic for this Submodel.
+    -   `options.semanticId` **([object][44] \| [array][48])?** An array of Key object composing an AAS reference or the AASReference instance itself referring a semantic element for the Submodel.
     -   `options.administration` **[object][51]?** An AdministrativeInformationType instance containing administration info for the Submodel.
-    -   `options.description` **[string][52]?** A description for the Submodel.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the Submodel.
     -   `options.kind` **([object][51] \| [number][56])?** A Kind value specifying if the Submodel is Instance or Type.
 
 ### Examples
@@ -394,6 +446,65 @@ addressSpace.addSubmodelProperty({
 
 Returns **[object][51]** The Object Node representing Submodel Property.
 
+## addAASFile
+
+Create a new instance of AASReferenceType representing a Reference of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this File.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.kind` **([object][45] \| [number][56])?** A Kind value specifying if the SubmodelElementCollection is Instance or Type.
+    -   `options.submodelElementOf` **[object][45]?** The parent SubmodelType instance containing the File.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the File.
+    -   `options.value` **[string][46]?** Path and name of the referenced file (without file extension).
+    -   `options.mimeType` **[string][46]?** Mime type of the content of the File..
+    -   `options.browseName` **[string][46]?** The BrowseName for the File.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the File Object.
+
+Returns **[object][45]** The Object Node representing the File.
+
+## addReferenceElement
+
+Create a new instance of RefereneElementType representing a Referenced element of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this ReferenceElement.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.kind` **([object][45] \| [number][56])?** A Kind value specifying if the SubmodelElementCollection is Instance or Type.
+    -   `options.submodelElementOf` **[object][45]?** The parent SubmodelType instance containing the ReferenceElement.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the ReferenceElement.
+    -   `options.value` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself.
+    -   `options.browseName` **[string][46]?** The BrowseName for the ReferenceElement.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the ReferenceElementType Object.
+
+Returns **[object][45]** The Object Node representing the ReferenceElement.
+
+## addSubmodelElementCollection
+
+Create a new instance of SubmodelElementCollectionType representing a Reference of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this SubmodelElementCollection.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.kind` **([object][45] \| [number][56])?** A Kind value specifying if the SubmodelElementCollection is Instance or Type.
+    -   `options.submodelElementOf` **[object][45]?** The parent SubmodelType instance containing the SubmodelElementCollection.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the SubmodelElementCollection.
+    -   `options.ordered` **[boolean][53]** A flag saying if the collection is ordered or not. (optional, default `false`)
+    -   `options.allowDuplicates` **[boolean][53]** A flag saying if the collection allows duplicates or not. (optional, default `false`)
+    -   `options.browseName` **[string][46]?** The BrowseName for the SubmodelElementCollection.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the SubmodelElementCollection.
+
+Returns **[object][45]** The Object Node representing the SubmodelElementCollection.
+
 ## addAdministrativeInformation
 
 Create a new instance of AdministrativeInformationType representing a Reference of the AAS metamodel.
@@ -417,13 +528,13 @@ Create a new instance of ConceptDictionaryType representing a ConceptDescription
 ### Parameters
 
 -   `options` **[object][51]** 
-    -   `options.browseName` **[string][52]** The BrowseName for the ConceptDictionary Object.
+    -   `options.idShort` **[string][52]** The short identifier for the ConceptDictionary.
+    -   `options.browseName` **[string][52]?** The BrowseName for the ConceptDictionary Object.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the ConceptDictionary Object.
-    -   `options.idShort` **[string][52]?** The short identifier for the ConceptDictionary.
     -   `options.conceptDictionaryOf` **[object][51]?** The parent AASType instance containing the ConceptDictionary.
     -   `options.hasConceptDescription` **([array][55] \| [object][51])?** An UAObject or an Array of UA Object representing the ConceptDescription of the ConceptDictionary.
     -   `options.parent` **[array][55]?** an Array of Key referencing to parent element for the ConceptDictionary.
-    -   `options.description` **[string][52]?** A description for the ConceptDictionary.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the ConceptDictionary.
     -   `options.kind` **([object][51] \| [number][56])?** A Kind value specifying if the ConceptDictionary is Instance or Type.
 
 ### Examples
@@ -449,11 +560,10 @@ Create a new instance of ConceptDescriptionType.
     -   `options.identification` **[object][51]** The unique identifier for the AAS. The DataType is Identifier.
     -   `options.nodeId` **[object][51]?** The string representation of the NodeId for the ConceptDescription Object.
     -   `options.browseName` **[string][52]?** The BrowsName of the ConceptDescription Object.
-    -   `options.conceptDescriptionOf` **[object][51]?** The parent ConceptDictionary containing the ConceptDescription by means of HasConceptDescription Reference.
-    -   `options.localSemanticOf` **[object][51]?** The SubmodelElement this ConceptDescription defines semantic for.
+    -   `options.conceptDescriptionOf` **[object][51]?** A ConceptDictionary Object referencing this object by means of a HasConceptDescription Reference.
     -   `options.hasEmbeddedDataSpecification` **([array][55] \| [object][51])?** An EmbeddedDataSpecification or an Array of EmbeddedDataSpecification.
     -   `options.administration` **[object][51]?** An AdministrativeInformationType instance containing administration info for the ConceptDescription.
-    -   `options.description` **[string][52]?** A description for the ConceptDescription.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the ConceptDescription.
 
 ### Examples
 
@@ -473,36 +583,162 @@ addressSpace.addConceptDescription({
 Returns **[object][51]** The Object Node representing the ConceptDescription.
 
 ## **AASType Object convenience methods**
-## addNewSubmodel
+## addSubmodelRef
 
-Create a new instance of SubmodelType in the context of the AAS.
+Add an existent AASReferenceType instance referring to a Submodel or create a new one. It uses Organizes Reference.
 
 ### Parameters
 
--   `options` **[object][51]** 
-    -   `options.identification` **[Identifier][54]** The unique identifier for the AAS. The DataType is Identifier.
-    -   `options.idShort` **[string][52]** The short identifier for the new Submodel.
-    -   `options.browseName` **[string][52]?** The BrowseName for the Submodel Object.
-    -   `options.hasSemantic` **[object][51]?** an Array of Key referencing to the Semantic element for the Submodel.
-    -   `options.hasSubmodelSemantic` **[object][51]?** An SubmodelType instance with kind = Type defining semantic for the new Submodel.
-    -   `options.administration` **[object][51]?** An AdministrativeInformationType instance containing administration info for the Submodel.
-    -   `options.description` **[string][52]?** A description for the Submodel.
-    -   `options.kind` **([object][51] \| [number][56])?** A Kind value specifying if the Submodel is Instance or Type.
+-   `submodel` **([object][44] \| [array][48])?** An array of Key object composing an AAS reference to a SubmodelType instance or the AASReference instance itself. 
 
 Returns **[object][51]** The Object Node representing the Asset Administration Shell
 
-## **ConceptDescriptionType Object convenience methods**
-## IsCaseOf
+## hasSubmodel
 
-Add a new IsCaseOf.
+Add an existent SubmodelType instance to the AAS by means of HasAsset Reference.
 
 ### Parameters
 
--   `options` **[object][51]** 
-    -   `options.browseName` **[string][52]** 
-    -   `options.keys` **[array][55]** An array of Key or an array of array of Key referencing an external entity.
+-   `submodel` **[object][51]** An existent SubmodelType instance. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## addViews
+
+Add an Array of existent ViewType instances to the AAS.
+
+### Parameters
+
+-   `views` **[array][55]** An array of ViewType instances to be added under Views Folder of the AAS by means of Organizes References. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## isDerivedFrom
+
+Add an existent AASType instance to the AAS by means of IsDerivedFrom Reference.
+
+### Parameters
+
+-   `der_aas` **[object][51]** An existent AASType instance. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## addConceptDictionary
+
+Add an existent ConceptDictionaryType instance to the AAS.
+
+### Parameters
+
+-   `dict` **[object][51]** An existent ConceptDictionaryType instance. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## addAssetRef
+
+Add an AASReferenceType instance referencing an AssetType Object.
+
+### Parameters
+
+-   `ref` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing an AssetType Object. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## addDerivedFromref
+
+Add an AASReferenceType instance referencing an AASType Object.
+
+### Parameters
+
+-   `ref` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing an AASType Object. 
+
+Returns **[object][51]** The Object Node representing the Asset Administration Shell
+
+## **AssetType Object convenience methods**
+
+## addAssetIdentificationModelRef
+
+Add an AASReferenceType instance referencing a Submodel for the identification of the asset.
+
+### Parameters
+
+-   `assetIdentificationModelRef` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing the Submodel for the identification  
+
+Returns **[object][51]** The Object Node representing the Asset
+
+## **ConceptDictionaryType Object convenience methods**
+## hasConceptDescriptions
+...
+
+## addParent
+...
+
+## addConceptDescriptionRef
+...
+
+
+## **ConceptDescriptionType Object convenience methods**
+## isCaseOf
+
+Add a new AASReferenceObject by means of an IsCaseOf Reference.
+
+### Parameters
+
+-   `cases` **([object][51] \| [array][55])** An array of Key or an an AASReferenceType Object referencing an external entity.
 
 Returns **[object][51]** The Object Node representing the ConceptDescription.
+
+## hasEmbeddedDataSpecifications
+
+Add one or more EmbeddedDataSpecificationType Object by means of an IsCaseOf Reference.
+
+### Parameters
+
+-   `embedds` **([object][51] \| [array][55])** An Object or an Array of Object of EmbeddedDataSpecificationType.
+
+Returns **[object][51]** The Object Node representing the ConceptDescription.
+
+## conceptDescriptionOf
+
+Connect the current ConceptDescription by means of a HasConceptDescription Reference to the provided ConceptDictionary.
+
+## semanticOf
+...
+
+### Parameters
+
+-   `dict` **[object][51]** A ConceptDataDictionary Object.
+
+Returns **[object][51]** The Object Node representing the ConceptDescription.
+
+## **SubmodelType Object convenience methods**
+
+## hasSubmodelSemantic 
+...
+
+## hasSemantic 
+...
+
+## addSemanticId
+...
+
+## submodelOf
+...
+
+## **SubmodelPropertyType Object convenience methods**
+
+## addSemanticId
+...
+
+## hasSemantic
+...
+
+## addParent
+...
+
+## addValueId
+...
+
+
 
 ## **New Structured DataType**
 ## Identifier

@@ -18,7 +18,7 @@ module.exports = function add_configuration_submodel(options) {
             id: "//aas/submodel/98989898",
             idType: IdentifierType.URI
         }),
-        hasSemantic: [ new Key({
+        semanticId: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.GlobalReference,
@@ -33,7 +33,7 @@ module.exports = function add_configuration_submodel(options) {
         browseName: "Type of processor",
         idShort: "typeOfProcessor",
         submodelElementOf: configurationSubmodel,
-        hasSemantic: [ new Key({
+        semanticId: [ new Key({
             idType: KeyType.IRDI,
             local: true,
             type: KeyElements.ConceptDescription,
@@ -73,9 +73,9 @@ module.exports = function add_configuration_submodel(options) {
             idType: IdentifierType.IRDI
         }),
         hasEmbeddedDataSpecification: embedded_1,
-        conceptDescriptionOf: options.dictionary,
-        localSemanticOf: cpuArch
-    });
+        conceptDescriptionOf: options.dictionary
+    })
+    .semanticOf(cpuArch);
 
     return configurationSubmodel;
 }
