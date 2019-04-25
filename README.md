@@ -67,18 +67,31 @@ function post_initialize() {
     // Create an AAS
     const aas_1 = addressSpace.addAssetAdministrationShell({
         browseName: "SampleAAS",
-        description: "Festo Controller",
+        description: [  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
+                        new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ],
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: IdentifierType.URI
         }),
-        derivedFrom: [ new Key({
+        derivedFromRef: [ new Key({
             idType: KeyType.IRDI,
             local: false,
             type: KeyElements.AssetAdministrationShell,
             value: "AAA#1234-454#123456789"
-        }) ]
-    });
+        }) ],
+        assetRef: [new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Asset,
+            value: "http://pk.festo.com/3S7PLFDRS35"
+        })]
+    })
+    .addSubmodelRef([new Key({
+        idType: KeyType.URI,
+        local: true,
+        type: KeyElements.Submodel,
+        value: "http://www.zvei.de/demo/submodel/12345679"
+    })]);
 
     /**
      * Add a Asset
@@ -91,9 +104,9 @@ function post_initialize() {
             idType: IdentifierType.URI
         }),
         kind: Kind.Instance,
-        description: "Festo Controller",
+        description:  new opcua.LocalizedText({locale: "en", text: "Festo Controller"}),
         assetOf: aas_1,
-        assetIdentificationModel: [ new Key({
+        assetIdentificationModelRef: [ new Key({
             idType: KeyType.URI,
             local: false,
             type: KeyElements.SubmodelElement,
@@ -230,6 +243,32 @@ addressSpace.addAsset({
 ```
 
 Returns **[object][45]** The Object Node representing the Asset Administration Shell
+
+## addAASView
+
+Create a new instance of AASReferenceType representing a Reference of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this View.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the View.
+    -   `options.browseName` **[string][46]?** The BrowseName for the View.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the View Object.
+    -   `options.viewOf` **[object][45]?** The parent node containing the View by means of an Organizes Reference.
+
+### Examples
+
+```javascript
+addressSpace.addAASView({
+       viewOf: aas,
+       browseName: "Maintenence"
+   });
+```
+
+Returns **[object][45]** The Object Node representing the AAS View.
 
 ## addAASReference
 
@@ -406,6 +445,65 @@ addressSpace.addSubmodelProperty({
 ```
 
 Returns **[object][51]** The Object Node representing Submodel Property.
+
+## addAASFile
+
+Create a new instance of AASReferenceType representing a Reference of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this File.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.kind` **([object][45] \| [number][56])?** A Kind value specifying if the SubmodelElementCollection is Instance or Type.
+    -   `options.submodelElementOf` **[object][45]?** The parent SubmodelType instance containing the File.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the File.
+    -   `options.value` **[string][46]?** Path and name of the referenced file (without file extension).
+    -   `options.mimeType` **[string][46]?** Mime type of the content of the File..
+    -   `options.browseName` **[string][46]?** The BrowseName for the File.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the File Object.
+
+Returns **[object][45]** The Object Node representing the File.
+
+## addReferenceElement
+
+Create a new instance of RefereneElementType representing a Referenced element of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this ReferenceElement.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.kind` **([object][45] \| [number][56])?** A Kind value specifying if the SubmodelElementCollection is Instance or Type.
+    -   `options.submodelElementOf` **[object][45]?** The parent SubmodelType instance containing the ReferenceElement.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the ReferenceElement.
+    -   `options.value` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself.
+    -   `options.browseName` **[string][46]?** The BrowseName for the ReferenceElement.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the ReferenceElementType Object.
+
+Returns **[object][45]** The Object Node representing the ReferenceElement.
+
+## addSubmodelElementCollection
+
+Create a new instance of SubmodelElementCollectionType representing a Reference of the AAS metamodel.
+
+### Parameters
+
+-   `options` **[object][45]** 
+    -   `options.idShort` **[string][46]** The unique identifier for the AAS. The DataType is Identifier.
+    -   `options.semanticId` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the Object defining semantic fot this SubmodelElementCollection.
+    -   `options.parent` **([array][48] \| [object][45])?** An array of Key object composing an AAS reference or the AASReference instance itself to the parent Object.
+    -   `options.kind` **([object][45] \| [number][56])?** A Kind value specifying if the SubmodelElementCollection is Instance or Type.
+    -   `options.submodelElementOf` **[object][45]?** The parent SubmodelType instance containing the SubmodelElementCollection.
+    -   `options.description` **([string][46] \| [object][45] \| [array][48])?** A string, a LocalizedText or an Array of LocalizedText describing the SubmodelElementCollection.
+    -   `options.ordered` **[boolean][53]** A flag saying if the collection is ordered or not. (optional, default `false`)
+    -   `options.allowDuplicates` **[boolean][53]** A flag saying if the collection allows duplicates or not. (optional, default `false`)
+    -   `options.browseName` **[string][46]?** The BrowseName for the SubmodelElementCollection.
+    -   `options.nodeId` **[object][45]?** The string representation of the NodeId for the SubmodelElementCollection.
+
+Returns **[object][45]** The Object Node representing the SubmodelElementCollection.
 
 ## addAdministrativeInformation
 
