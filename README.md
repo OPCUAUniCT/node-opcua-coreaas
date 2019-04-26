@@ -724,6 +724,9 @@ Returns **[object][51]** The Object Node representing the ConceptDescription.
 ## submodelOf
 ...
 
+## addElements
+...
+
 ## **SubmodelPropertyType Object convenience methods**
 
 ## addSemanticId
@@ -737,8 +740,6 @@ Returns **[object][51]** The Object Node representing the ConceptDescription.
 
 ## addValueId
 ...
-
-
 
 ## **New Structured DataType**
 ## Identifier
