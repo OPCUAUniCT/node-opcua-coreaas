@@ -582,6 +582,8 @@ addressSpace.addConceptDescription({
 
 Returns **[object][51]** The Object Node representing the ConceptDescription.
 
+---
+
 ## **AASType Object convenience methods**
 ## addSubmodelRef
 
@@ -664,6 +666,19 @@ Add an AASReferenceType instance referencing a Submodel for the identification o
 -   `assetIdentificationModelRef` **([object][45] \| [array][49])?** An Array of Key or an AASReferenceType Object referencing the Submodel for the identification  
 
 Returns **[object][51]** The Object Node representing the Asset
+
+## **ViewType Object convenience methods**
+## addSemanticId
+...
+
+## addParent
+...
+
+## addContainedElementRef
+...
+
+## containsElements
+...
 
 ## **ConceptDictionaryType Object convenience methods**
 ## hasConceptDescriptions

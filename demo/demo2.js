@@ -1,7 +1,7 @@
 var opcua = require("node-opcua");
 
 // add server CoreAAS extension to node-opcua
-require("node-opcua-aas")(opcua);
+require("node-opcua-coreaas")(opcua);
 
 
 var xmlFiles = [
@@ -367,7 +367,35 @@ function post_initialize() {
                         new opcua.LocalizedText({locale: "de", text: "Festo Controller"}) ],
         //viewOf: aas_1
     })
-    .addElements([nmax, rotationSpeed]);
+    .addContainedElementRef([ 
+        new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        }),
+        new Key({
+            idType: KeyType.idShort,
+            local: true,
+            type: KeyElements.Property,
+            value: "NMAX"
+        }) 
+    ])
+    .addContainedElementRef([ 
+        new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        }),
+        new Key({
+            idType: KeyType.idShort,
+            local: true,
+            type: KeyElements.Property,
+            value: "rotationSpeed"
+        }) 
+    ])
+    .containsElements([nmax, rotationSpeed]);
 
     aas_1.addViews([view_1]);
 
