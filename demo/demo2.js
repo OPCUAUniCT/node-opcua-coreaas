@@ -1,7 +1,7 @@
 var opcua = require("node-opcua");
 
 // add server CoreAAS extension to node-opcua
-require("node-opcua-coreaas")(opcua);
+require("../index")(opcua);
 
 
 var xmlFiles = [
