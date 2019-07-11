@@ -407,6 +407,43 @@ function post_initialize() {
         console.log("port ", server.endpoints[0].port);
         var endpointUrl = server.endpoints[0].endpointDescriptions()[0].endpointUrl;
         console.log(" the primary server endpoint url is ", endpointUrl );
+
+        //TODO: delete following
+        let ref = addressSpace.addAASReference({
+            organizedBy: aas_1,
+            browseName: "ereoto",
+            keys: [ 
+                new Key({
+                    idType: KeyType.URI,
+                    local: true,
+                    type: KeyElements.Submodel,
+                    value: "http://www.zvei.de/demo/submodel/12345679"
+                }),
+                new Key({
+                    idType: KeyType.idShort,
+                    local: true,
+                    type: KeyElements.SubmodelElementCollection,
+                    value: "Measurement"
+                }),
+                new Key({
+                    idType: KeyType.idShort,
+                    local: true,
+                    type: KeyElements.Property,
+                    value: "rotationSpeed"
+                }) 
+            ]
+        });
+
+        opcua.coreaas.fetchAASReference(ref, function(err, obj) {
+            if (err) {
+                console.log(err);
+            }
+
+            console.log(obj);
+        });
+
+        let result = opcua.coreaas.fetchAASReference(ref);
+        console.log(result);
     });
 }
 
