@@ -5,7 +5,7 @@ require("../index.js")(opcua);
 
 
 var xmlFiles = [
-    opcua.standard_nodeset_file,
+    opcua.nodesets.standard_nodeset_file,
     opcua.coreaas.nodeset_file
 ];
 

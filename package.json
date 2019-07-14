@@ -22,10 +22,10 @@
     "url": "https://github.com/OPCUAUniCT/node-opcua-coreaas"
   },
   "devDependencies": {
-    "node-opcua-generator": "^0.6.0"
+    "node-opcua-generator": "^2.0.0"
   },
   "dependencies": {
-    "node-opcua": "^0.6.0",
+    "node-opcua": "^2.0.0",
     "lodash": "^4.17.0",
     "path": "^0.12.7",
     "semver": "^5.6.0"
