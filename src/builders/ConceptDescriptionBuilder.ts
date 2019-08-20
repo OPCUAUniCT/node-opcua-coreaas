@@ -1,11 +1,11 @@
 import { Builder } from "./builder";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { BaseUAObject } from "node-opcua-factory";
-import { NodeIdLike, Variant, DataType } from "node-opcua";
+import { Variant, DataType } from "node-opcua";
 import { UAObject } from "node-opcua-address-space/dist/src/ua_object";
-import { AdministrativeInformationObject, Description, EDSObject, isIdentifier, CoreAASObjectsFolder, Identifier, ConceptDescriptionObject, RefArgument, isKey, Key, AASReferenceObject, ConceptDictionaryObject } from "../types";
+import { EDSObject, isIdentifier, CoreAASObjectsFolder, Identifier, ConceptDescriptionObject, RefArgument, isKey, Key, AASReferenceObject, ConceptDictionaryObject } from "../types";
 import assert = require("assert");
 import { get_description_creator } from "./builder_utilities";
+import { ConceptDescriptionOptions } from "../options_types";
 
 export class ConceptDescriptionBuilder extends Builder {
 
@@ -138,14 +138,4 @@ export class ConceptDescriptionBuilder extends Builder {
             return conceptDescription;
         }
     }
-}
-
-export interface ConceptDescriptionOptions {
-    identification: BaseUAObject;
-    nodeId?: NodeIdLike;
-    browseName?: string;
-    conceptDescriptionOf?: ConceptDictionaryObject;
-    hasEmbeddedDataSpecifications?: EDSObject | EDSObject[];
-    administration?: AdministrativeInformationObject;
-    description?: Description;
 }

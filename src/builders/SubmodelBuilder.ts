@@ -1,11 +1,11 @@
 import { CoreAASExtension } from "../CoreAASExtension";
 import { Builder } from "./builder";
-import { BaseUAObject } from "node-opcua-factory";
-import { Description, RefArgument, SubmodelObject, CoreAASObjectsFolder, Identifier, isIdentifier, AASObject, SubmodelElementObject } from "../types";
-import { NodeIdLike, UAObject, Variant, DataType } from "node-opcua";
+import { SubmodelObject, CoreAASObjectsFolder, Identifier, isIdentifier, AASObject, SubmodelElementObject } from "../types";
+import { UAObject } from "node-opcua";
 import { Kind } from "../CoreAAS_enums";
 import assert = require("assert");
-import { get_identification_creator, get_idShort_creator, get_description_creator, get_kind_creator, get_semanticId_creator, get_parent_creator } from "./builder_utilities";
+import { get_description_creator, get_kind_creator, get_semanticId_creator, get_parent_creator, get_identification_creator, get_idShort_creator } from "./builder_utilities";
+import { SubmodelOptions } from "../options_types";
 
 export class SubmodelBuilder extends Builder {
 
@@ -19,7 +19,6 @@ export class SubmodelBuilder extends Builder {
         assert(isIdentifier(options.identification), "options.identification is not an Identifier.");
 
         const submodelType = this.coreaas.findCoreAASObjectType("SubmodelType")!;
-        const coreAASNamespaceIndex = this.coreaas.namespaceIndex;
         const submodelsFolder = (<CoreAASObjectsFolder>this._addressSpace.rootFolder.objects).submodels;
 
         const submodel = this._namespace.addObject({
@@ -121,16 +120,4 @@ export class SubmodelBuilder extends Builder {
 
         return submodel;
     }
-}
-
-export interface SubmodelOptions {
-    identification: BaseUAObject;
-    idShort: string;
-    description?: Description,
-    nodeId?: NodeIdLike,
-    browseName?: string,
-    administration?: UAObject;
-    semanticId?: RefArgument;
-    parent?: RefArgument;
-    kind?: Kind 
 }

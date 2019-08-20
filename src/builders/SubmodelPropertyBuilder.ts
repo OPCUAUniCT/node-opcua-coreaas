@@ -1,10 +1,10 @@
-import { AddressSpace, Namespace, NodeIdLike, BindVariableOptions, UADataType, UAObject, Variant, DataType } from "node-opcua";
+import { UAObject, Variant, DataType } from "node-opcua";
 import { CoreAASExtension } from "../CoreAASExtension";
 import { Builder } from "./builder";
-import { RefArgument, Description, SubmodelPropertyObject, isKey, SubmodelObject } from "../types";
-import { PropertyCategory, Kind, PropertyValueType } from "../CoreAAS_enums";
+import { RefArgument, SubmodelPropertyObject, isKey, SubmodelObject } from "../types";
 import assert = require("assert");
 import { get_description_creator, get_kind_creator, get_category_creator, get_semanticId_creator, get_parent_creator } from "./builder_utilities";
+import { SubmodelPropertyOptions } from "../options_types";
 
 export class SubmodelPropertyBuilder extends Builder  {
 
@@ -147,25 +147,4 @@ export class SubmodelPropertyBuilder extends Builder  {
             return obj;
         }
     }
-}
-
-export interface SubmodelPropertyOptions {
-    idShort: string;
-    nodeId?: NodeIdLike;
-    browseName?: string;
-    submodelElementOf?: SubmodelObject
-    semanticId?: RefArgument;
-    parent?: RefArgument;
-    description?: Description;
-    category?: PropertyCategory;
-    kind?: Kind;
-    valueId?: RefArgument;
-    value?: SPValue;
-    valueType?: PropertyValueType;
-}
-
-export type SPValue = {
-    dataType?: string | NodeIdLike | UADataType;
-    value?: BindVariableOptions;
-    valueType?: PropertyValueType;
 }

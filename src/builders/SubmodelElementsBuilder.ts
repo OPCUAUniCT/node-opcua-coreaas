@@ -1,11 +1,11 @@
 import { Builder } from "./builder";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { SubmodelObject, RefArgument, Description, ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject } from "../types";
-import { Kind } from "../CoreAAS_enums";
-import { NodeIdLike, Variant, DataType, UAObject } from "node-opcua";
+import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject } from "../types";
+import { Variant, DataType, UAObject } from "node-opcua";
 import assert = require("assert");
 import { get_description_creator, get_kind_creator, get_semanticId_creator, get_parent_creator, get_idShort_creator } from "./builder_utilities";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
+import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions } from "../options_types";
 
 export class SubmodelElementsBuilder extends Builder {
 
@@ -257,14 +257,6 @@ export class SubmodelElementsBuilder extends Builder {
                     referenceType = "HasOrderedComponent";
 
                     let currentIndex = collection._indexCounter;
-                    let index = this._namespace.addVariable({
-                        browseName: "index",
-                        propertyOf: el,
-                        dataType: "UInt32",
-                        value: {
-                            get: () => new Variant({ dataType: DataType.UInt32,  value: currentIndex })
-                        }
-                    });
 
                     collection._indexCounter++;
                 }
@@ -281,42 +273,4 @@ export class SubmodelElementsBuilder extends Builder {
 
         return collection;
     }
-}
-
-export interface ReferenceElementOptions {
-    idShort: string;
-    semanticId?: RefArgument;
-    parent?: RefArgument;
-    kind?: Kind;
-    submodelElementOf?: SubmodelObject;
-    value?: RefArgument;
-    description?: Description;
-    browseName?: string;
-    nodeId?: NodeIdLike;
-}
-
-export interface FileOptions {
-    idShort: string;
-    semanticId?: RefArgument;
-    parent?: RefArgument;
-    kind?: Kind;
-    submodelElementOf?: SubmodelObject;
-    description?: Description;
-    value?: string;
-    mimeType?: string;
-    browseName?: string;
-    nodeId?: NodeIdLike;
-}
-
-export interface SubmodelElementCollectionOptions {
-    idShort: string;
-    semanticId?: RefArgument;
-    parent?: RefArgument;
-    kind?: Kind;
-    submodelElementOf?: SubmodelObject;
-    description?: Description;
-    ordered?: boolean;
-    allowDuplicates?: boolean;
-    browseName?: string;
-    nodeId?: NodeIdLike;
 }

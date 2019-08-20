@@ -204,14 +204,6 @@ class SubmodelElementsBuilder extends builder_1.Builder {
                 if (collection.ordered._dataValue.value.value) {
                     referenceType = "HasOrderedComponent";
                     let currentIndex = collection._indexCounter;
-                    let index = this._namespace.addVariable({
-                        browseName: "index",
-                        propertyOf: el,
-                        dataType: "UInt32",
-                        value: {
-                            get: () => new node_opcua_1.Variant({ dataType: node_opcua_1.DataType.UInt32, value: currentIndex })
-                        }
-                    });
                     collection._indexCounter++;
                 }
                 collection.values.addReference({ referenceType: referenceType, nodeId: el });

@@ -2,9 +2,10 @@ import { AddressSpace, DataType, Namespace, NodeIdLike, UAObject, UAObjectType, 
 import { BaseUAObject } from "node-opcua-factory";
 import { get_description_creator, get_identification_creator } from "./builder_utilities";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { CoreAASObjectsFolder, Description, isIdentifier, RefArgument, AASObject, isKey, AssetObject, Identifier, SubmodelObject, ConceptDictionaryObject, ViewObject } from "../types";
+import { CoreAASObjectsFolder, isIdentifier, RefArgument, AASObject, isKey, AssetObject, Identifier, SubmodelObject, ConceptDictionaryObject, ViewObject } from "../types";
 import assert = require("assert");
 import { Builder } from "./builder";
+import { AASOptions } from "../options_types";
 
 export class AASBuilder extends Builder {
 
@@ -196,14 +197,4 @@ export class AASBuilder extends Builder {
             return aas;
         }
     }
-}
-
-export interface AASOptions {
-    identification: BaseUAObject;
-    description?: Description,
-    nodeId?: NodeIdLike,
-    browseName?: string,
-    assetRef?: RefArgument,
-    derivedFromRef?: RefArgument,
-    administration?: UAObject
 }

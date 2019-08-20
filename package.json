@@ -8,6 +8,7 @@
     "start": "npx tsc & node dist/index.js",
     "demo": "npx tsc & node dist/demo.js",
     "demo2": "npx tsc & node dist/demo2.js",
+    "doc": "npx typedoc --excludeExternals --excludeNotExported --excludePrivate src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -24,6 +25,7 @@
     "url": "https://github.com/OPCUAUniCT/node-opcua-coreaas"
   },
   "devDependencies": {
+    "typedoc": "^0.15.0",
     "typescript": "^3.5.3"
   },
   "dependencies": {

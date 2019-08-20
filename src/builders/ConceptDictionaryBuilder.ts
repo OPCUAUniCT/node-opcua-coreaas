@@ -1,9 +1,10 @@
 import { Builder } from "./builder";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { ConceptDictionaryObject, AASObject, RefArgument, Description, isKey, ConceptDescriptionObject, Key } from "../types";
-import { NodeIdLike, Variant, DataType } from "node-opcua";
+import { ConceptDictionaryObject, RefArgument, isKey, ConceptDescriptionObject, Key } from "../types";
+import { Variant, DataType } from "node-opcua";
 import assert = require("assert");
 import { get_parent_creator, get_description_creator } from "./builder_utilities";
+import { ConceptDictionaryOptions } from "../options_types";
 
 export class ConceptDictionaryBuilder extends Builder {
 
@@ -108,13 +109,4 @@ export class ConceptDictionaryBuilder extends Builder {
 
         return conceptDictionary;
     }
-}
-
-export interface ConceptDictionaryOptions {
-    browseName: string;
-    idShort: string;
-    nodeId?: NodeIdLike;
-    conceptDictionaryOf?: AASObject;
-    parent?: RefArgument;
-    description?: Description;
 }

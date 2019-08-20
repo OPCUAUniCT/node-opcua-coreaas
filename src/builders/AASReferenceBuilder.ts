@@ -1,9 +1,8 @@
-import { AddressSpace, Namespace, UAObject, NodeIdLike, LocalizedText, Variant, DataType, VariantArrayType } from "node-opcua";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { BaseUAObject } from "node-opcua-factory";
 import assert = require("assert");
 import { isKey, AASReferenceObject } from "../types";
 import { Builder } from "./builder";
+import { AASReferenceOptions } from "../options_types";
 
 export class AASReferenceBuilder extends Builder {
 
@@ -25,21 +24,6 @@ export class AASReferenceBuilder extends Builder {
             componentOf: options.componentOf
         }) as AASReferenceObject;
 
-        const key = this._namespace.addVariable({
-            propertyOf: aasReference,
-            browseName: "keys",
-            dataType: this.coreaas.findCoreAASDataType("Key")!,
-            value: {
-                get: function() {
-                    return new Variant({
-                        dataType: DataType.ExtensionObject,
-                        arrayType: VariantArrayType.Array, 
-                        value: options.keys
-                    });
-                }
-            },
-            valueRank: 1
-        });
 
         if (options.organizedBy != null) {
             const organizingParent = options.organizedBy;
@@ -62,14 +46,4 @@ export class AASReferenceBuilder extends Builder {
 
         return aasReference;
     }
-}
-
-export interface AASReferenceOptions {
-    browseName: string,
-    keys: BaseUAObject[],
-    description?: string | LocalizedText,
-    nodeId?: NodeIdLike,
-    componentOf?: UAObject,
-    organizedBy?: UAObject,
-    isCaseOf?: UAObject
 }

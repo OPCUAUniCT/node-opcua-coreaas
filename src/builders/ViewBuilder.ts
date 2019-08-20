@@ -1,11 +1,11 @@
 import { UAObject } from "node-opcua-address-space/dist/src/ua_object";
-import { RefArgument, Description, ViewObject, AASObject, isKey, Key } from "../types";
-import { NodeIdLike } from "node-opcua";
+import { RefArgument, ViewObject, isKey, Key } from "../types";
 import { CoreAASExtension } from "../CoreAASExtension";
 import { Builder } from "./builder";
 import assert = require("assert");
 import { get_idShort_creator, get_semanticId_creator, get_parent_creator, get_description_creator } from "./builder_utilities";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
+import { ViewOptions } from "../options_types";
 
 export class ViewBuilder extends Builder {
 
@@ -103,14 +103,4 @@ export class ViewBuilder extends Builder {
 
         return view;
     }
-}
-
-export interface ViewOptions {
-    idShort: string;
-    semanticId?: RefArgument;
-    parent?: RefArgument;
-    description?: Description;
-    viewOf?: AASObject;
-    browseName?: string;
-    nodeId?: NodeIdLike;
 }

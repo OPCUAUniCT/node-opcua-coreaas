@@ -9,12 +9,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
 const builder_1 = require("./builders/builder");
+/**
+ * This class represents the extension part of the OPC UA Server relevant to the CoreAAS Information Model.\
+ * An instance of **CoreAASExtension** provides all the methods to populate the AddressSpace with instances of the ObjectTypes coming from CoreAAS.\
+ * Furthermore it provides the Constructors for the Structured DataType defined in CoreAAS and lot of utilities methods to find Nodes in the Namespace of CoreAAS.
+ */
 class CoreAASExtension {
+    /**
+     * @param addressSpace The Address Space instance of the current OPC UA Server.
+     */
     constructor(addressSpace) {
         this.addressSpace = addressSpace;
+        /** The complete URI of CoreAAS. */
         this.namespaceUri = "http://dieei.unict.it/coreAAS/";
+        /** The absolute path to the CoreAAS xml file. */
         this.coreaasXmlFile = path.join(__dirname, "../nodesets/coreaas.xml");
-        /* A Map containing all the Identifiables' id as key and the relevant NodeId of the Object */
+        /**
+         * A Map containing all the Identifiables' ids as key and the relevant UAObject as value.
+         * This attribute can be useful to implement function to resolve AAS References into Objects
+         * in the AddressSpace. */
         this.identifiableMap = new Map();
         this._aasBuilder = new builder_1.AASBuilder(this);
         this._administrativeBuilder = new builder_1.AdministrativeInformationBuilder(this);
@@ -30,25 +43,33 @@ class CoreAASExtension {
         this._viewBuilder = new builder_1.ViewBuilder(this);
     }
     /* Getters */
+    /** The Namespace instance of the CoreAAS Information Model. */
     get coreAASNamespace() {
         return this.addressSpace.getNamespace(this.namespaceUri);
     }
+    /** The Namespace instance of the current Namespace. */
     get namespace() {
         return this.addressSpace.getOwnNamespace();
     }
+    /** The namespace index of the CoreAAS Information Model */
     get namespaceIndex() {
         return this.addressSpace.getNamespaceIndex(this.namespaceUri);
     }
     /* CoreAAS OPCUA Types */
+    /** The Constructor of the Identifier Structured DataType. */
     get Identifier() {
         const identifierDataType = this.coreAASNamespace.findDataType("Identifier");
         return this.addressSpace.getExtensionObjectConstructor(identifierDataType);
     }
+    /** The Constructor of the Key Structured DataType. */
     get Key() {
         const keyDataType = this.coreAASNamespace.findDataType("Key");
         return this.addressSpace.getExtensionObjectConstructor(keyDataType);
     }
     /* AddressSpace Builder methods */
+    /**
+     * Create and returns an instance of AASType ObjectType in the AddressSpace.
+     */
     addAssetAdministrationShell(options) {
         return this._aasBuilder.addAssetAdministrationShell(options);
     }

@@ -1,11 +1,11 @@
-import { AddressSpace, DataType, Namespace, NodeIdLike, UAObject, Variant } from "node-opcua";
+import { UAObject } from "node-opcua";
 import { BaseUAObject } from "node-opcua-factory";
 import { get_description_creator, get_idShort_creator, get_identification_creator, get_kind_creator } from "./builder_utilities";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { Kind } from "../CoreAAS_enums";
-import { AssetObject, CoreAASObjectsFolder, Description, isKey, RefArgument, Identifier, isIdentifier } from "../types";
+import { AssetObject, CoreAASObjectsFolder, isKey, Identifier, isIdentifier } from "../types";
 import assert = require("assert");
 import { Builder } from "./builder";
+import { AssetOptions } from "../options_types";
 
 export class AssetBuilder extends Builder {
 
@@ -31,11 +31,7 @@ export class AssetBuilder extends Builder {
         asset.referableChildrenMap = new Map();
         this.coreaas.identifiableMap.set((<Identifier>options.identification).id, asset);
 
-        //Add identification
-        const identification = get_identification_creator(this.coreaas, asset)(options.identification);
 
-        //Add idShort
-        const idShort = get_idShort_creator(this.coreaas, asset)(options.idShort);
 
         //Add description
         if (options.description != null) {
@@ -99,16 +95,4 @@ export class AssetBuilder extends Builder {
         }
     }
 
-}
-
-export interface AssetOptions {
-    identification: BaseUAObject;
-    idShort: string,
-    description?: Description,
-    nodeId?: NodeIdLike,
-    browseName?: string,
-    assetOf?: UAObject,
-    administration?: UAObject,
-    kind?: Kind,
-    assetIdentificationModelRef?: RefArgument
 }

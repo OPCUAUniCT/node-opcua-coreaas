@@ -4,8 +4,8 @@ import { BaseUAObject } from "node-opcua-factory";
 import { UAObject } from "node-opcua-address-space/dist/src/ua_object";
 import assert = require("assert");
 import { isKey, EDSObject, DataSpecificationIEC61360 } from "../types";
-import { DataSpecificationIECOptions } from "./DataSpecificationIEC61360Builder";
 import { Builder } from "./builder";
+import { DataSpecificationIECOptions, EmbeddedDataSpecificationOptions } from "../options_types";
 
 export class EmbeddedDataSpecificationBuilder extends Builder {
 
@@ -55,13 +55,4 @@ export class EmbeddedDataSpecificationBuilder extends Builder {
 
         return eds;
     }
-}
-
-export type EmbeddedDataSpecificationOptions = {
-    browseName: string;
-    hasDataSpecification: BaseUAObject[],
-    dataSpecificationContent?: UAObject;
-    embeddedDataSpecificationOf?: UAObject;
-    description?: string;
-    nodeId?: NodeIdLike;
 }

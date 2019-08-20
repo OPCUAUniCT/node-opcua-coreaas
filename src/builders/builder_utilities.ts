@@ -1,4 +1,4 @@
-import { Description, RefArgument, isKey, Identifier } from "../types";
+import { Description, RefArgument, isKey } from "../types";
 import { CoreAASExtension } from "../CoreAASExtension";
 import { LocalizedText, Variant, DataType, VariantArrayType, UAObject, UAVariable } from "node-opcua";
 import assert = require("assert");

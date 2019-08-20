@@ -1,8 +1,9 @@
-import { AddressSpace, Namespace, NodeIdLike, UAObject, Variant, DataType } from "node-opcua";
+import { UAObject, Variant, DataType } from "node-opcua";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { RefArgument, isKey, DataSpecificationIEC61360 } from "../types";
+import { isKey, DataSpecificationIEC61360 } from "../types";
 import assert = require("assert");
 import { Builder } from "./builder";
+import { DataSpecificationIECOptions } from "../options_types";
 
 export class DataSpecificationIEC61360Builder extends Builder {
 
@@ -71,23 +72,4 @@ export class DataSpecificationIEC61360Builder extends Builder {
             }
         });
     }
-}
-
-export type DataSpecificationIECOptions = {
-    identifier?: string;
-    preferredName?: string;
-    definition?: string;
-    dataType?: string;
-    unit?: string;
-    unitId?: RefArgument;
-    iecCategory?: string;
-    iecLanguageCode?: string;
-    note?: string;
-    shortName?: string;
-    valueFormat?: string;
-    version?: string;
-    revision?: string;
-    browseName?: string;
-    description?: string;
-    nodeId?: NodeIdLike;  
 }

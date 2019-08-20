@@ -2,7 +2,7 @@ import { LocalizedText, ObjectsFolder, Folder, UAObject, NodeIdLike } from "node
 import { IdentifierType, KeyElements } from "./CoreAAS_enums";
 import { BaseUAObject } from "node-opcua-factory";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
-import { DataSpecificationIECOptions } from "./builders/builder";
+import { DataSpecificationIECOptions } from "./options_types";
 
 export interface CoreAASObjectsFolder extends ObjectsFolder {
     assetAdministrationShells: Folder,

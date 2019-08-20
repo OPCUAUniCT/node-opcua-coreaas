@@ -1,12 +1,18 @@
 import { AddressSpace, ConstructorFunc, Namespace, UADataType, UAObject, UAObjectType, UAReferenceType, UAVariableType } from "node-opcua";
-import * as factory from "node-opcua-factory";
 import * as path from "path";
-import { AssetObject, AASObject, EDSObject, SubmodelPropertyObject, SubmodelObject, ConceptDescriptionObject, ConceptDictionaryObject, DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject } from "./types";
+import { AssetObject, AASObject, EDSObject, SubmodelPropertyObject, SubmodelObject, ConceptDescriptionObject, ConceptDictionaryObject, 
+        DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject } from "./types";
 import { AASBuilder, AdministrativeInformationBuilder, AASReferenceBuilder, AssetBuilder, DataSpecificationIEC61360Builder, 
-        EmbeddedDataSpecificationBuilder, DataSpecificationIECOptions, AssetOptions, AASReferenceOptions, AdministrativeInformationOptions, 
-        AASOptions, EmbeddedDataSpecificationOptions, SubmodelPropertyBuilder, SubmodelPropertyOptions, SubmodelBuilder, SubmodelOptions, ConceptDescriptionBuilder, ConceptDescriptionOptions, ConceptDictionaryBuilder, ConceptDictionaryOptions, SubmodelElementsBuilder, ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, ViewBuilder, ViewOptions } from "./builders/builder";
+        EmbeddedDataSpecificationBuilder, SubmodelPropertyBuilder, SubmodelBuilder, ConceptDescriptionBuilder, 
+        ConceptDictionaryBuilder, SubmodelElementsBuilder, ViewBuilder } from "./builders/builder";
+import { AASOptions, AASReferenceOptions, AdministrativeInformationOptions, AssetOptions, ConceptDescriptionOptions, ConceptDictionaryOptions, 
+        DataSpecificationIECOptions, EmbeddedDataSpecificationOptions, SubmodelOptions, ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, SubmodelPropertyOptions, ViewOptions } from "./options_types";
 
-
+/**
+ * This class represents the extension part of the OPC UA Server relevant to the CoreAAS Information Model.\
+ * An instance of **CoreAASExtension** provides all the methods to populate the AddressSpace with instances of the ObjectTypes coming from CoreAAS.\
+ * Furthermore it provides the Constructors for the Structured DataType defined in CoreAAS and lot of utilities methods to find Nodes in the Namespace of CoreAAS.
+ */
 export class CoreAASExtension {
 
     private _aasBuilder: AASBuilder;
@@ -22,12 +28,20 @@ export class CoreAASExtension {
     private _submodelElementsBuilder: SubmodelElementsBuilder;
     private _viewBuilder: ViewBuilder;
 
+    /** The complete URI of CoreAAS. */
     public readonly namespaceUri: string = "http://dieei.unict.it/coreAAS/";
+    /** The absolute path to the CoreAAS xml file. */
     public readonly coreaasXmlFile: string = path.join(__dirname, "../nodesets/coreaas.xml");
 
-    /* A Map containing all the Identifiables' id as key and the relevant NodeId of the Object */
+    /** 
+     * A Map containing all the Identifiables' ids as key and the relevant UAObject as value.
+     * This attribute can be useful to implement function to resolve AAS References into Objects
+     * in the AddressSpace. */
     public readonly identifiableMap: Map<string, UAObject> = new Map();
     
+    /** 
+     * @param addressSpace The Address Space instance of the current OPC UA Server.
+     */
     constructor(public addressSpace: AddressSpace) {
         this._aasBuilder = new AASBuilder(this);
         this._administrativeBuilder = new AdministrativeInformationBuilder(this);
@@ -44,31 +58,38 @@ export class CoreAASExtension {
     }
     
     /* Getters */
+    /** The Namespace instance of the CoreAAS Information Model. */
     get coreAASNamespace(): Namespace {
         return this.addressSpace.getNamespace(this.namespaceUri);
     }
 
+    /** The Namespace instance of the current Namespace. */
     get namespace(): Namespace {
         return this.addressSpace.getOwnNamespace();
     }
     
+    /** The namespace index of the CoreAAS Information Model */
     get namespaceIndex(): number {
         return this.addressSpace.getNamespaceIndex(this.namespaceUri);
     }
 
     /* CoreAAS OPCUA Types */
-
+    /** The Constructor of the Identifier Structured DataType. */
     get Identifier(): ConstructorFunc {
         const identifierDataType = this.coreAASNamespace.findDataType("Identifier")!;
         return (<any>this.addressSpace).getExtensionObjectConstructor(identifierDataType);
     }
 
+    /** The Constructor of the Key Structured DataType. */
     get Key(): ConstructorFunc {
         const keyDataType = this.coreAASNamespace.findDataType("Key")!;
         return (<any>this.addressSpace).getExtensionObjectConstructor(keyDataType);
     }
 
     /* AddressSpace Builder methods */
+    /**
+     * Create and returns an instance of AASType ObjectType in the AddressSpace.
+     */
     addAssetAdministrationShell(options: AASOptions): AASObject {
         return this._aasBuilder.addAssetAdministrationShell(options);
     }

@@ -1,9 +1,9 @@
-import { AddressSpace, Namespace, NodeIdLike, UAObject, Variant, DataType, LocalizedText } from "node-opcua";
+import { Variant, DataType } from "node-opcua";
 
 import { CoreAASExtension } from "../CoreAASExtension";
-import assert = require("assert");
 import { Builder } from "./builder";
 import { AdministrativeInformationObject } from "../types";
+import { AdministrativeInformationOptions } from "../options_types";
 
 export class AdministrativeInformationBuilder extends Builder {
 
@@ -58,13 +58,4 @@ export class AdministrativeInformationBuilder extends Builder {
 
         return admin;
     }
-}
-
-export interface AdministrativeInformationOptions {
-    componentOf?: UAObject;
-    description?: string | LocalizedText,
-    nodeId?: NodeIdLike,
-    browseName?: string,
-    version?: string,
-    revision?: string
 }

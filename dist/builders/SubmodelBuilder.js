@@ -14,7 +14,6 @@ class SubmodelBuilder extends builder_1.Builder {
         assert(options.idShort != null, "No options.idShort parameter inserted!");
         assert(types_1.isIdentifier(options.identification), "options.identification is not an Identifier.");
         const submodelType = this.coreaas.findCoreAASObjectType("SubmodelType");
-        const coreAASNamespaceIndex = this.coreaas.namespaceIndex;
         const submodelsFolder = this._addressSpace.rootFolder.objects.submodels;
         const submodel = this._namespace.addObject({
             typeDefinition: submodelType,
