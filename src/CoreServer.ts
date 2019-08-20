@@ -1,5 +1,6 @@
-import { OPCUAServer, OPCUAServerOptions, AddressSpace } from "node-opcua";
+import { OPCUAServer, OPCUAServerOptions, AddressSpace, Variant, DataType } from "node-opcua";
 import { CoreAASExtension } from "./CoreAASExtension";
+import { IdentifierType } from "./CoreAAS_enums";
 
 /** 
  * CoreServer extends OPCUAServer with all the features coming from the CoreAAS Information
@@ -44,6 +45,16 @@ export class CoreServer extends OPCUAServer {
         this.on("post_initialize", () => {
             this._addressSpace = this.engine.addressSpace!;
             this.coreaas = new CoreAASExtension(this._addressSpace);
+
+            //Add Identifier for IEC 61360 Data Specification
+            const Identifier = this.coreaas.Identifier;
+            (<any>this.coreaas.findCoreAASObjectType("DataSpecificationIEC61360Type")!).identification.setValueFromSource(new Variant({
+                dataType: DataType.ExtensionObject, 
+                value: new Identifier({
+                    id: "www.adminshell.io/DataSpecificationTemplates/DataSpecificationIEC61360",
+                    idType: IdentifierType.URI
+                })
+            }));
         })
     }
 }
