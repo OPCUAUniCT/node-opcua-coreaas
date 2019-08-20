@@ -1,12 +1,14 @@
 {
   "name": "node-opcua-coreaas",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "An extension for node-opcua implementing coreAAS Information Model",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "demo": "node demo/demo.js",
-    "demo2": "node demo/demo2.js"
+    "build": "npx tsc",
+    "start": "npx tsc & node dist/index.js",
+    "demo": "npx tsc & node dist/demo.js",
+    "demo2": "npx tsc & node dist/demo2.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "opcua",
@@ -22,12 +24,9 @@
     "url": "https://github.com/OPCUAUniCT/node-opcua-coreaas"
   },
   "devDependencies": {
-    "node-opcua-generator": "^2.0.0"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "node-opcua": "^2.0.0",
-    "lodash": "^4.17.0",
-    "path": "^0.12.7",
-    "semver": "^5.6.0"
+    "node-opcua": "^2.1.5"
   }
 }
