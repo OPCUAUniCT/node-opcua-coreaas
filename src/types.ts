@@ -4,6 +4,10 @@ import { BaseUAObject } from "node-opcua-factory";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
 import { DataSpecificationIECOptions } from "./options_types";
 
+/**
+ * An Interface for the Objects Folder under the Root Folder of an OPC UA
+ * Server supporting the CoreAAS Information Model.
+ */
 export interface CoreAASObjectsFolder extends ObjectsFolder {
     assetAdministrationShells: Folder,
     assets: Folder,
@@ -13,17 +17,25 @@ export interface CoreAASObjectsFolder extends ObjectsFolder {
 
 export type Description = string | LocalizedText | Array<LocalizedText>;
 
-export type RefArgument = UAObject | BaseUAObject[];
+export type RefArgument = AASReferenceObject | Key[];
 
-export type Identifier = BaseUAObject & {
+/** An interface for all the identifiers of Itentifiable entities. */
+export interface Identifier extends BaseUAObject  {
+    /** The identifier of an entity. */
     id: string,
+    /** The kind of identifier contained in [[id]]. */
     idType: IdentifierType
 }
 
-export type Key = BaseUAObject & {
+/**An interface for the keys composing the property [[AASReferenceType.keys]] of an AAS Reference. */
+export interface Key extends BaseUAObject {
+    /** The kind of Key. */
     idType: IdentifierType,
+    /** A flag specifying whether the entity referred by this Key is local to the current AAS or not. */
     local: boolean,
+    /** The kind of entity referred by this Key. */
     type: KeyElements,
+    /** The identifier of the entity referred by this key. */
     value: string
 }
 
@@ -53,7 +65,7 @@ export type AASReferenceObject = UAObject & ConvenientAASReference;
 export interface ConvenientAsset {
     referableChildrenMap: Map<string, UAObject>;
 
-    addAssetIdentificationModelRef(model: UAObject | BaseUAObject[]): UAObject
+    addAssetIdentificationModelRef(model: UAObject | Key[]): UAObject
 }
 export type AssetObject = UAObject & ConvenientAsset;
 
@@ -155,7 +167,7 @@ export interface ConvenientConceptDictionary {
     conceptDescriptions: Folder;
 
     hasConceptDescriptions(conceptDescriptions: ConceptDescriptionObject | ConceptDescriptionObject[]): ConceptDictionaryObject;
-    addParent(parent: UAObject): ConceptDictionaryObject;
+    addParent(parent: RefArgument): ConceptDictionaryObject;
     addConceptDescriptionRef(conceptDescriptionRef: RefArgument): ConceptDictionaryObject;
 }
 

@@ -1,13 +1,13 @@
-import { Description, RefArgument, isKey } from "../types";
+import { Description, RefArgument, isKey, Identifier } from "../types";
 import { CoreAASExtension } from "../CoreAASExtension";
 import { LocalizedText, Variant, DataType, VariantArrayType, UAObject, UAVariable } from "node-opcua";
 import assert = require("assert");
 import { Kind, PropertyCategory } from "../CoreAAS_enums";
 import { BaseUAObject } from "node-opcua-factory";
 
-export function get_identification_creator(coreaas: CoreAASExtension, identifiable: UAObject): (identification: BaseUAObject) => UAVariable {
+export function get_identification_creator(coreaas: CoreAASExtension, identifiable: UAObject): (identification: Identifier) => UAVariable {
     
-    return function(identification: BaseUAObject): UAVariable {
+    return function(identification: Identifier): UAVariable {
         return coreaas.namespace.addVariable({
             propertyOf: identifiable,
             browseName: "identification",

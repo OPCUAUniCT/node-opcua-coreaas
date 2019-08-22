@@ -21,6 +21,10 @@ class AssetBuilder extends builder_1.Builder {
         });
         asset.referableChildrenMap = new Map();
         this.coreaas.identifiableMap.set(options.identification.id, asset);
+        //Add identification
+        const identification = builder_utilities_1.get_identification_creator(this.coreaas, asset)(options.identification);
+        //Add idShort
+        const idShort = builder_utilities_1.get_idShort_creator(this.coreaas, asset)(options.idShort);
         //Add description
         if (options.description != null) {
             const addDescriptionToAsset = builder_utilities_1.get_description_creator(this.coreaas, asset);

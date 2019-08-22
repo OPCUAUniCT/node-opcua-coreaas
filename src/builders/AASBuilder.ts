@@ -28,7 +28,7 @@ export class AASBuilder extends Builder {
         }) as AASObject;
 
         aas.referableChildrenMap = new Map();
-        this.coreaas.identifiableMap.set((<Identifier>options.identification).id, aas);
+        this.coreaas.identifiableMap.set(options.identification.id, aas);
 
         const folderType = this._addressSpace.findObjectType("FolderType")!.nodeId;
 

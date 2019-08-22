@@ -3,6 +3,7 @@ import assert = require("assert");
 import { isKey, AASReferenceObject } from "../types";
 import { Builder } from "./builder";
 import { AASReferenceOptions } from "../options_types";
+import { Variant, DataType, VariantArrayType } from "node-opcua";
 
 export class AASReferenceBuilder extends Builder {
 
@@ -24,6 +25,21 @@ export class AASReferenceBuilder extends Builder {
             componentOf: options.componentOf
         }) as AASReferenceObject;
 
+        const key = this._namespace.addVariable({
+            propertyOf: aasReference,
+            browseName: "keys",
+            dataType: this.coreaas.findCoreAASDataType("Key")!,
+            value: {
+                get: function() {
+                    return new Variant({
+                        dataType: DataType.ExtensionObject,
+                        arrayType: VariantArrayType.Array, 
+                        value: options.keys
+                    });
+                }
+            },
+            valueRank: 1
+        });
 
         if (options.organizedBy != null) {
             const organizingParent = options.organizedBy;
