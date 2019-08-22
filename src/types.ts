@@ -55,26 +55,29 @@ export function isKey(key: BaseUAObject): boolean {
 */
 
 /* AASREFERENCE TYPE */
-export interface ConvenientAASReference {
+export interface AASReferenceObject extends UAObject {
     keys: UAVariable;
 }
 
-export type AASReferenceObject = UAObject & ConvenientAASReference;
-
 /* ASSET TYPE */
-export interface ConvenientAsset {
+export interface AssetObject extends UAObject {
     referableChildrenMap: Map<string, UAObject>;
+    identification: UAVariable;
+    idShort: UAVariable;
+    administration?: UAObject;
+    kind?: UAVariable;
 
     addAssetIdentificationModelRef(model: UAObject | Key[]): UAObject
 }
-export type AssetObject = UAObject & ConvenientAsset;
 
 /* AAS TYPE */
-export interface ConvenientAAS {
+export interface AASObject extends UAObject {
     submodels: Folder;
     conceptDictionaries: Folder;
     views: Folder;
     referableChildrenMap: Map<string, UAObject>;
+    identification: UAVariable;
+    administration?: UAObject;
 
     hasAsset(asset: AssetObject): AASObject;
     isDerivedFrom(der_aas: AASObject): AASObject;
@@ -86,14 +89,12 @@ export interface ConvenientAAS {
     addConceptDictionary(dict: ConceptDictionaryObject): AASObject;
     addViews(views: ViewObject[]): AASObject;
 }
-export type AASObject = UAObject & ConvenientAAS;
 
 /* ADMINISTRATIVE INFORMATION TYPE */
-export interface ConventientAdministrativeInformation {
+export interface AdministrativeInformationObject extends UAObject {
     version?: UAVariable;
     revision?: UAVariable;
 }
-export type AdministrativeInformationObject = UAObject & ConventientAdministrativeInformation;
 
 /* DS61360 TYPE */
 export type DataSpecificationIEC61360 = UAObject & {
@@ -116,15 +117,22 @@ export type DataSpecificationIEC61360 = UAObject & {
 }
 
 /* EMBEDDED DATA SPECIFICATION TYPE */
-export interface ConvenientEDS {
+export interface EDSObject extends UAObject {
+    hasDataSpecification: Key[];
+    dataSpecificationContent?: UAObject;
+
     addDataSpecificationIEC61360(options: DataSpecificationIEC61360 | DataSpecificationIECOptions): EDSObject;
 }
-export type EDSObject = UAObject & ConvenientEDS;
 
 /* SUBMODEL TYPE */
-export interface ConvenientSubmodel {
+export interface SubmodelObject extends UAObject {
     submodelElements: Folder;
     referableChildrenMap: Map<string, UAObject>;
+    identification: UAVariable;
+    administration?: UAObject;
+    idShort: UAVariable;
+    kind?: UAVariable;
+    semanticId?: AASReferenceObject;
 
     hasSubmodelSemantic(semanticElem: SubmodelObject): SubmodelObject;
     hasSemantic(semanticElem: UAObject): SubmodelObject;
@@ -133,36 +141,40 @@ export interface ConvenientSubmodel {
     addParent(parent: RefArgument): SubmodelObject;
     addElements(elemArray: SubmodelElementObject[]): SubmodelObject;
 }
-export type SubmodelObject = UAObject & ConvenientSubmodel;
 
 /* SUBMODEL PROPERTY TYPE */
-export interface ConvenientSubmodelElement {
+export interface SubmodelElementObject extends UAObject {
     idShort: UAVariable;
-
+    kind?: UAVariable;
+    semanticId?: AASReferenceObject;
 }
-export type SubmodelElementObject = UAObject & ConvenientSubmodelElement
 
 /* SUBMODEL PROPERTY TYPE */
-export interface ConvenientSubmodelProperty {
+export interface SubmodelPropertyObject extends SubmodelElementObject {
+    category?: UAVariable;
+    valueId?: AASReferenceObject;
+    value?: UAVariable;
+    valueType?: UAVariable;
+
     addSemanticId(semanticId: RefArgument): SubmodelPropertyObject;
     hasSemantic(semanticElem: ConceptDescriptionObject): SubmodelPropertyObject;
     addParent(parent: RefArgument): SubmodelPropertyObject; 
     addValueId(valueId: RefArgument): SubmodelPropertyObject;
 }
-export type SubmodelPropertyObject = UAObject & ConvenientSubmodelProperty & SubmodelElementObject;
 
 /* CONCEPT DESCRIPTION TYPE */
-export interface ConvenientConceptDescription {
+export interface ConceptDescriptionObject extends UAObject {
+    identification: UAVariable;
+    administration?: UAObject;
+
     semanticOf(elem: UAObject): ConceptDescriptionObject;
     isCaseOf(ref: RefArgument): ConceptDescriptionObject;
     hasEmbeddedDataSpecifications(eds: EDSObject | EDSObject[]): ConceptDescriptionObject;
     conceptDescriptionOf(dict: ConceptDictionaryObject): ConceptDescriptionObject;
 }
 
-export type ConceptDescriptionObject = UAObject & ConvenientConceptDescription;
-
 /* CONCEPT DICTIONARY TYPE */
-export interface ConvenientConceptDictionary {
+export interface ConceptDictionaryObject extends UAObject {
     idShort: UAVariable;
     conceptDescriptions: Folder;
 
@@ -171,26 +183,25 @@ export interface ConvenientConceptDictionary {
     addConceptDescriptionRef(conceptDescriptionRef: RefArgument): ConceptDictionaryObject;
 }
 
-export type ConceptDictionaryObject = UAObject & ConvenientConceptDictionary;
-
 /* REFERENCE ELEMENT TYPE */
-export interface ConvenientReferenceElement {
+export interface ReferenceElementObject extends SubmodelElementObject {
+    value?: AASReferenceObject;
+
     addSemanticId(semanticId: RefArgument): ReferenceElementObject;
     addParent(parent: RefArgument): ReferenceElementObject; 
 }
-
-export type ReferenceElementObject = UAObject & ConvenientReferenceElement;
 
 /* AAS FILE TYPE */
-export interface ConvenientFile {
-    addSemanticId(semanticId: RefArgument): ReferenceElementObject;
-    addParent(parent: RefArgument): ReferenceElementObject; 
+export interface AASFileObject extends SubmodelElementObject {
+    value?: UAVariable;
+    mimeType?: UAVariable;
+
+    addSemanticId(semanticId: RefArgument): AASFileObject;
+    addParent(parent: RefArgument): AASFileObject; 
 }
 
-export type AASFileObject = UAObject & ConvenientFile;
-
 /* SUBMODEL ELEMENT COLLECTION TYPE */
-export interface ConvenientSubmodelElementCollection {
+export interface SubmodelElementCollectionObject extends SubmodelElementObject {
     _indexCounter: number;
     referableChildrenMap: Map<string, UAObject>;
     ordered: UAVariable;
@@ -202,18 +213,15 @@ export interface ConvenientSubmodelElementCollection {
     addParent(parent: RefArgument): SubmodelElementCollectionObject; 
 }
 
-export type SubmodelElementCollectionObject = UAObject & ConvenientSubmodelElementCollection;
-
 /* VIEW TYPE */
-export interface ConvenientView {
+export interface ViewObject extends UAObject {
     referableChildrenMap: Map<string, UAObject>;
     containedElements: Folder;
     idShort: UAVariable;
+    semanticId?: AASReferenceObject;
 
     addContainedElementRef(elemRef: RefArgument): ViewObject;
     containsElements(elements: UAObject[] | UAObject): ViewObject;
     addSemanticId(semanticId: RefArgument): ViewObject;
     addParent(parent: RefArgument): ViewObject; 
 }
-
-export type ViewObject = UAObject & ConvenientView;
