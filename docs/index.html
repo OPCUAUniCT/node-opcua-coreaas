@@ -1,0 +1,422 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>node-opcua-coreaas</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">node-opcua-coreaas</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> node-opcua-coreaas</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#node-opcua-coreaas" id="node-opcua-coreaas" style="color: inherit; text-decoration: none;">
+					<h1>node-opcua-coreaas</h1>
+				</a>
+				<p><img src="https://img.shields.io/github/package-json/v/OPCUAUniCT/node-opcua-coreaas.svg" alt="GitHub package.json version">
+				<img src="https://img.shields.io/npm/v/node-opcua-coreaas.svg" alt="npm"></p>
+				<p>An extension for <a href="https://github.com/node-opcua/node-opcua">node-opcua</a> implementing <a href="https://github.com/OPCUAUniCT/coreAAS">CoreAAS</a> Information Model and providing new functions to easily implement your Asset Administration Shell using OPC UA and Node.js.</p>
+				<p>This new version has been completely rewritten in <strong>typescript</strong> to easily develop OPC UA Server supporting CoreAAS an take advantage of the type annotations and aother features that typescript introduce. It is worth noting that this new version is not compatible with the version 0.2.2. The API has been completely re-designed and now creating an OPC UA Server supporting CoreAAS Information Model is more linear and no strange workaround or fix are required.</p>
+				<p>Since Typescript is transpilled in Javascript, you are not forced to write your server in Typescript. Feel free to use node-opcua-coreaas in your Javascript code. </p>
+				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
+					<h2>Overview</h2>
+				</a>
+				<p><strong>CoreAAS</strong> information model is an OPC UA implementation of the Asset Administration Shell (AAS) metamodel <a href="https://www.plattform-i40.de/I40/Redaktion/EN/Downloads/Publikation/2018-details-of-the-asset-administration-shell.html">here</a> provided by Platform Industrie 4.0.</p>
+				<p><strong>node-opcua-coreaas</strong> is an extension for the Node.js stack <a href="https://github.com/node-opcua/node-opcua">node-opcua</a> including new functions in order to easily populate your OPC UA Server with Objects related to AAS, Assets, Submodel, etc. without taking care about putting the Nodes and references in the right place. </p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<a href="#installing-node-opcua-coreaas" id="installing-node-opcua-coreaas" style="color: inherit; text-decoration: none;">
+					<h3>Installing node-opcua-coreaas</h3>
+				</a>
+				<p>In order to start developing your own AAS using node-opcua-coreaas, just create a new folder and initialize an npm project:</p>
+				<pre><code><span class="hljs-meta">$</span><span class="bash"> mkdir my-project</span>
+<span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> my-project</span>
+<span class="hljs-meta">$</span><span class="bash"> npm init</span></code></pre><p>After that, you can install node-opcua-coreaas as dependency using the following command:</p>
+				<pre><code>$ npm install <span class="hljs-keyword">node</span><span class="hljs-title">-opcua-coreaas</span> --save</code></pre><p>You don&#39;t need to install <a href="https://github.com/node-opcua/node-opcua">node-opcua</a> as dependency for your project since node-opcua-coreaas already depends on it and re-export all its API. Be careful if you decide to use node-opcua as dependancy, because the version you install may be different from the one node-opcua-core aas depends on.</p>
+				<p>Creating an OPC UA Server suporting core AAS is very simple. The following example shows how to create a sample Server wxposing an Asset Administration Shell with a Submodel and the physical Asset the AAS is representing:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">"path"</span>;
+<span class="hljs-keyword">import</span> { coreaasXmlFile, nodesets, localizedText, CoreServer, IdentifierType, Kind, KeyType, KeyElements } <span class="hljs-keyword">from</span> <span class="hljs-string">"."</span>;
+
+<span class="hljs-keyword">let</span> xmlFiles = [nodesets.standard_nodeset_file, coreaasXmlFile]
+
+<span class="hljs-keyword">let</span> server = <span class="hljs-keyword">new</span> CoreServer({
+    nodeset_filename: xmlFiles,
+    port: <span class="hljs-number">4848</span>
+})
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post_initialize</span>(<span class="hljs-params"></span>) </span>{
+
+    <span class="hljs-keyword">const</span> Identifier = server.coreaas.Identifier;
+    <span class="hljs-keyword">const</span> Key = server.coreaas.Key;
+
+    <span class="hljs-keyword">let</span> admin = server.coreaas.addAdministrativeInformation({
+        version: <span class="hljs-string">"555"</span>,
+        revision: <span class="hljs-string">"1825"</span>
+    });
+
+    <span class="hljs-keyword">const</span> aas_1 = server.coreaas.addAssetAdministrationShell({
+        browseName: <span class="hljs-string">"SampleAAS"</span>,
+        description: [  <span class="hljs-keyword">new</span> LocalizedText({locale: <span class="hljs-string">"en"</span>, text: <span class="hljs-string">"Festo Controller"</span>}),
+                        <span class="hljs-keyword">new</span> LocalizedText({locale: <span class="hljs-string">"de"</span>, text: <span class="hljs-string">"Festo Controller"</span>}) ],
+        identification: <span class="hljs-keyword">new</span> Identifier({
+            id: <span class="hljs-string">"www.admin-shell.io/aas-sample/1.0"</span>,
+            idType: IdentifierType.URI
+        }),
+        assetRef: [<span class="hljs-keyword">new</span> Key({
+            idType: KeyType.URI,
+            local: <span class="hljs-literal">true</span>,
+            <span class="hljs-keyword">type</span>: KeyElements.Asset,
+            value: <span class="hljs-string">"http://pk.festo.com/3S7PLFDRS35"</span>
+        })],
+        derivedFromRef: [ <span class="hljs-keyword">new</span> Key({
+            idType: KeyType.IRDI,
+            local: <span class="hljs-literal">false</span>,
+            <span class="hljs-keyword">type</span>: KeyElements.AssetAdministrationShell,
+            value: <span class="hljs-string">"AAA#1234-454#123456789"</span>
+        }) ],
+        administration: admin
+    }).addSubmodelRef([<span class="hljs-keyword">new</span> Key({
+        idType: KeyType.URI,
+        local: <span class="hljs-literal">true</span>,
+        <span class="hljs-keyword">type</span>: KeyElements.Submodel,
+        value: <span class="hljs-string">"http://www.zvei.de/demo/submodel/12345679"</span>
+    })]);;
+
+    <span class="hljs-keyword">let</span> asset = server.coreaas.addAsset({
+        browseName: <span class="hljs-string">"3S7PLFDRS35"</span>,
+        idShort: <span class="hljs-string">"3S7PLFDRS35"</span>,
+        identification: <span class="hljs-keyword">new</span> Identifier({
+            id: <span class="hljs-string">"http://pk.festo.com/3S7PLFDRS35"</span>,
+            idType: IdentifierType.URI
+        }),
+        kind: Kind.Instance,
+        description: <span class="hljs-string">"Festo Controller Asset"</span>,
+        <span class="hljs-comment">//assetOf: aas_1,</span>
+        assetIdentificationModelRef: [ <span class="hljs-keyword">new</span> Key({
+            idType: KeyType.URI,
+            local: <span class="hljs-literal">false</span>,
+            <span class="hljs-keyword">type</span>: KeyElements.Submodel,
+            value: <span class="hljs-string">"//submodels/identification_3S7PLFDRS35"</span>
+        }) ]
+    });
+
+    aas_1.hasAsset(asset)
+    .addSubmodelRef([<span class="hljs-keyword">new</span> Key({
+        idType: KeyType.URI,
+        local: <span class="hljs-literal">true</span>,
+        <span class="hljs-keyword">type</span>: KeyElements.Submodel,
+        value: <span class="hljs-string">"http://www.zvei.de/demo/submodel/12345679"</span>
+    })]);
+
+    <span class="hljs-comment">/**
+     * Start The OPC UA Server
+     */</span>
+    server.start(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Server is now listening ... ( press CTRL+C to stop)"</span>);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"port "</span>, server.endpoints[<span class="hljs-number">0</span>].port);
+        <span class="hljs-keyword">var</span> endpointUrl = server.endpoints[<span class="hljs-number">0</span>].endpointDescriptions()[<span class="hljs-number">0</span>].endpointUrl;
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">" the primary server endpoint url is "</span>, endpointUrl );
+    });
+}
+
+server.initialize(post_initialize);</code></pre>
+				<p>Of course this is a very simple example. More entities, like SubmodelElements and ConceptDescriptions, can be added in the AddressSpace.</p>
+				<a href="#demos" id="demos" style="color: inherit; text-decoration: none;">
+					<h2>Demos</h2>
+				</a>
+				<p>You can found 2 demo files in the project. Just use it as a fully example about how to use node-opua-coreaas.</p>
+				<ul>
+					<li>&quot;demo.js&quot; is a single-file sample showing an AAS based on the example shown in <a href="https://www.plattform-i40.de/I40/Redaktion/EN/Downloads/Publikation/2018-details-of-the-asset-administration-shell.html">this</a> document.</li>
+					<li>&quot;demo2.js&quot; is the same as demo.js but with more elements and shows how to do the same things using convenience methods.</li>
+				</ul>
+				<hr>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<p>The main entity of node-opcua-coreaas are CoreServer and CoreAASExtension:</p>
+				<ul>
+					<li><strong>CoreServer</strong> is the main class you use to create an OPC UA Server supporting CoreAAS. It is a subclass of <strong>OPCUAServer</strong> of node-opcua.</li>
+					<li><strong>CoreAASExtension</strong> is the extension part of the CoreServer exposing all the methods necessary to create CoreAAS ObjectTypes instances inside the AddressSpace. Users should not use this class directly, but the property <strong>coreaas</strong> of CoreServer will provide a CoreAASExtension instance bounded to the AddressSpace that users should use to create CoreAAS entities.</li>
+				</ul>
+				<p>More details about the API can be found in the <a href="">documentation</a>.</p>
+				<a href="#references" id="references" style="color: inherit; text-decoration: none;">
+					<h2>References</h2>
+				</a>
+				<p>Coming soon...</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/identifiertype.html" class="tsd-kind-icon">Identifier<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/keyelements.html" class="tsd-kind-icon">Key<wbr>Elements</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/keytype.html" class="tsd-kind-icon">Key<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/kind.html" class="tsd-kind-icon">Kind</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/propertycategory.html" class="tsd-kind-icon">Property<wbr>Category</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/propertyvaluetype.html" class="tsd-kind-icon">Property<wbr>Value<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/coreaasextension.html" class="tsd-kind-icon">CoreAASExtension</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/coreserver.html" class="tsd-kind-icon">Core<wbr>Server</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/aasfileobject.html" class="tsd-kind-icon">AASFile<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/aasobject.html" class="tsd-kind-icon">AASObject</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/aasoptions.html" class="tsd-kind-icon">AASOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/aasreferenceobject.html" class="tsd-kind-icon">AASReference<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/aasreferenceoptions.html" class="tsd-kind-icon">AASReference<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/administrativeinformationobject.html" class="tsd-kind-icon">Administrative<wbr>Information<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/administrativeinformationoptions.html" class="tsd-kind-icon">Administrative<wbr>Information<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetobject.html" class="tsd-kind-icon">Asset<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetoptions.html" class="tsd-kind-icon">Asset<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/conceptdescriptionobject.html" class="tsd-kind-icon">Concept<wbr>Description<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/conceptdescriptionoptions.html" class="tsd-kind-icon">Concept<wbr>Description<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/conceptdictionaryobject.html" class="tsd-kind-icon">Concept<wbr>Dictionary<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/conceptdictionaryoptions.html" class="tsd-kind-icon">Concept<wbr>Dictionary<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/coreaasobjectsfolder.html" class="tsd-kind-icon">CoreAASObjects<wbr>Folder</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dataspecificationiecoptions.html" class="tsd-kind-icon">Data<wbr>SpecificationIECOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/edsobject.html" class="tsd-kind-icon">EDSObject</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/embeddeddataspecificationoptions.html" class="tsd-kind-icon">Embedded<wbr>Data<wbr>Specification<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileoptions.html" class="tsd-kind-icon">File<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identifier.html" class="tsd-kind-icon">Identifier</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/key.html" class="tsd-kind-icon">Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/referablenamespaceobject.html" class="tsd-kind-icon">Referable<wbr>Namespace<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/referenceelementobject.html" class="tsd-kind-icon">Reference<wbr>Element<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/referenceelementoptions.html" class="tsd-kind-icon">Reference<wbr>Element<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/spvalue.html" class="tsd-kind-icon">SPValue</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/submodelelementcollectionobject.html" class="tsd-kind-icon">Submodel<wbr>Element<wbr>Collection<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/submodelelementcollectionoptions.html" class="tsd-kind-icon">Submodel<wbr>Element<wbr>Collection<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/submodelelementobject.html" class="tsd-kind-icon">Submodel<wbr>Element<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/submodelobject.html" class="tsd-kind-icon">Submodel<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/submodeloptions.html" class="tsd-kind-icon">Submodel<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/submodelpropertyobject.html" class="tsd-kind-icon">Submodel<wbr>Property<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/submodelpropertyoptions.html" class="tsd-kind-icon">Submodel<wbr>Property<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/viewobject.html" class="tsd-kind-icon">View<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/viewoptions.html" class="tsd-kind-icon">View<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dataspecificationiec61360" class="tsd-kind-icon">Data<wbr>SpecificationIEC61360</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#description" class="tsd-kind-icon">Description</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#refargument" class="tsd-kind-icon">Ref<wbr>Argument</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#coreaasxmlfile" class="tsd-kind-icon">coreaas<wbr>Xml<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isidentifier" class="tsd-kind-icon">is<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iskey" class="tsd-kind-icon">is<wbr>Key</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
