@@ -5,8 +5,6 @@ node-opcua-coreaas
 
 An extension for [node-opcua](https://github.com/node-opcua/node-opcua) implementing [CoreAAS](https://github.com/OPCUAUniCT/coreAAS) Information Model and providing new functions to easily implement your Asset Administration Shell using OPC UA and Node.js.
 
-**NOT AVAILABLE ON NPM. COMING SOON.**
-
 This new version has been completely rewritten in **typescript** to easily develop OPC UA Server supporting CoreAAS an take advantage of the type annotations and aother features that typescript introduce. It is worth noting that this new version is not compatible with the version 0.2.2. The API has been completely re-designed and now creating an OPC UA Server supporting CoreAAS Information Model is more linear and no strange workaround or fix are required.
 
 Since Typescript is transpilled in Javascript, you are not forced to write your server in Typescript. Feel free to use node-opcua-coreaas in your Javascript code. 
