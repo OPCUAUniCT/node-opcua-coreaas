@@ -108,12 +108,27 @@ function post_initialize() {
             value: "www.admin-shell.io/aas-sample/1.0"
         })]);
     /**
+     * Add SubmodelElementCollection
+     */
+    let collection = server.coreaas.addSubmodelElementCollection({
+        idShort: "Measurement",
+        submodelElementOf: submodel_1,
+        ordered: true,
+        kind: _1.Kind.Instance
+    })
+        .addParent([new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        })]);
+    /**
      * Add SubmodelProperty
      */
     const rotationSpeed = server.coreaas.addSubmodelProperty({
         browseName: "rotationSpeed",
         idShort: "rotationSpeed",
-        submodelElementOf: submodel_1,
+        //submodelElementOf: submodel_1,
         category: _1.PropertyCategory.VARIABLE,
         valueType: _1.PropertyValueType.Double,
         value: {
@@ -152,7 +167,7 @@ function post_initialize() {
     const nmax = server.coreaas.addSubmodelProperty({
         browseName: "NMAX",
         idShort: "NMAX",
-        submodelElementOf: submodel_1,
+        //submodelElementOf: submodel_1,
         semanticId: [new Key({
                 idType: _1.KeyType.IRDI,
                 local: true,
@@ -170,6 +185,7 @@ function post_initialize() {
             }
         }
     });
+    collection.addElements([nmax, rotationSpeed]);
     /**
      * Add Concept Dictionary
      */
@@ -313,6 +329,39 @@ function post_initialize() {
         console.log("port ", server.endpoints[0].port);
         var endpointUrl = server.endpoints[0].endpointDescriptions()[0].endpointUrl;
         console.log(" the primary server endpoint url is ", endpointUrl);
+        //TODO: delete following
+        let ref = server.coreaas.addAASReference({
+            organizedBy: aas_1,
+            browseName: "ereoto",
+            keys: [
+                new Key({
+                    idType: _1.KeyType.URI,
+                    local: true,
+                    type: _1.KeyElements.Submodel,
+                    value: "http://www.zvei.de/demo/submodel/12345679"
+                }),
+                new Key({
+                    idType: _1.KeyType.idShort,
+                    local: true,
+                    type: _1.KeyElements.SubmodelElementCollection,
+                    value: "Measurement"
+                }),
+                new Key({
+                    idType: _1.KeyType.idShort,
+                    local: true,
+                    type: _1.KeyElements.Property,
+                    value: "rotationSpeed"
+                })
+            ]
+        });
+        server.coreaas.fetchAASReference(ref, function (err, obj) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(obj);
+        });
+        let result = server.coreaas.fetchAASReference(ref);
+        console.log(result);
     });
 }
 server.initialize(post_initialize);

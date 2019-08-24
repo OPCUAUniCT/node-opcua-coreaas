@@ -50,6 +50,10 @@ export function isKey(key: BaseUAObject): boolean {
             ("value" in key && typeof (<any>key).value === "string");
 }
 
+export interface ReferableNamespaceObject {
+    referableChildrenMap: Map<string, UAObject>;
+}
+
 /* 
     Types for CoreAAS ObjectTypes 
 */
@@ -60,8 +64,7 @@ export interface AASReferenceObject extends UAObject {
 }
 
 /* ASSET TYPE */
-export interface AssetObject extends UAObject {
-    referableChildrenMap: Map<string, UAObject>;
+export interface AssetObject extends UAObject, ReferableNamespaceObject {
     identification: UAVariable;
     idShort: UAVariable;
     administration?: UAObject;
@@ -71,11 +74,10 @@ export interface AssetObject extends UAObject {
 }
 
 /* AAS TYPE */
-export interface AASObject extends UAObject {
+export interface AASObject extends UAObject, ReferableNamespaceObject {
     submodels: Folder;
     conceptDictionaries: Folder;
     views: Folder;
-    referableChildrenMap: Map<string, UAObject>;
     identification: UAVariable;
     administration?: UAObject;
 
@@ -125,9 +127,8 @@ export interface EDSObject extends UAObject {
 }
 
 /* SUBMODEL TYPE */
-export interface SubmodelObject extends UAObject {
+export interface SubmodelObject extends UAObject, ReferableNamespaceObject {
     submodelElements: Folder;
-    referableChildrenMap: Map<string, UAObject>;
     identification: UAVariable;
     administration?: UAObject;
     idShort: UAVariable;
@@ -201,9 +202,8 @@ export interface AASFileObject extends SubmodelElementObject {
 }
 
 /* SUBMODEL ELEMENT COLLECTION TYPE */
-export interface SubmodelElementCollectionObject extends SubmodelElementObject {
+export interface SubmodelElementCollectionObject extends SubmodelElementObject, ReferableNamespaceObject {
     _indexCounter: number;
-    referableChildrenMap: Map<string, UAObject>;
     ordered: UAVariable;
     allowDuplicates: UAVariable;
     values: Folder;
@@ -214,8 +214,7 @@ export interface SubmodelElementCollectionObject extends SubmodelElementObject {
 }
 
 /* VIEW TYPE */
-export interface ViewObject extends UAObject {
-    referableChildrenMap: Map<string, UAObject>;
+export interface ViewObject extends UAObject, ReferableNamespaceObject {
     containedElements: Folder;
     idShort: UAVariable;
     semanticId?: AASReferenceObject;

@@ -23,6 +23,7 @@ function post_initialize() {
     });
     const aas_1 = server.coreaas.addAssetAdministrationShell({
         browseName: "SampleAAS",
+        administration: admin,
         description: [new _1.LocalizedText({ locale: "en", text: "Festo Controller" }),
             new _1.LocalizedText({ locale: "de", text: "Festo Controller" })],
         identification: new Identifier({

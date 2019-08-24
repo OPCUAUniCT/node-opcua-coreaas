@@ -1,12 +1,13 @@
 import { AddressSpace, ConstructorFunc, Namespace, UADataType, UAObject, UAObjectType, UAReferenceType, UAVariableType } from "node-opcua";
 import * as path from "path";
 import { AssetObject, AASObject, EDSObject, SubmodelPropertyObject, SubmodelObject, ConceptDescriptionObject, ConceptDictionaryObject, 
-        DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject, Identifier, Key } from "./types";
+        DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject, Identifier, Key, AASReferenceObject, ReferableNamespaceObject, AdministrativeInformationObject } from "./types";
 import { AASBuilder, AdministrativeInformationBuilder, AASReferenceBuilder, AssetBuilder, DataSpecificationIEC61360Builder, 
         EmbeddedDataSpecificationBuilder, SubmodelPropertyBuilder, SubmodelBuilder, ConceptDescriptionBuilder, 
         ConceptDictionaryBuilder, SubmodelElementsBuilder, ViewBuilder } from "./builders/builder";
 import { AASOptions, AASReferenceOptions, AdministrativeInformationOptions, AssetOptions, ConceptDescriptionOptions, ConceptDictionaryOptions, 
         DataSpecificationIECOptions, EmbeddedDataSpecificationOptions, SubmodelOptions, ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, SubmodelPropertyOptions, ViewOptions } from "./options_types";
+import assert = require("assert");
 
 /**
  * This class represents the extension part of the OPC UA Server relevant to the CoreAAS Information Model.\
@@ -95,12 +96,12 @@ export class CoreAASExtension {
     }
 
     /** Create an AdministrativeInformation Object in the AddressSpace. */
-    addAdministrativeInformation(options: AdministrativeInformationOptions): UAObject {
+    addAdministrativeInformation(options: AdministrativeInformationOptions): AdministrativeInformationObject {
         return this._administrativeBuilder.addAdministrativeInformation(options);
     }
 
     /** Create an instance of AASReferenceType ObjectType in the AddressSpace. */
-    addAASReference(options: AASReferenceOptions): UAObject {
+    addAASReference(options: AASReferenceOptions): AASReferenceObject{
         return this._aasReferenceBuilder.addAASReference(options);
     }
 
@@ -202,6 +203,76 @@ export class CoreAASExtension {
     /** Returns the AASReferenceType ObjectType. */
     getAASReferenceType(): UAObjectType {
         return this.findCoreAASObjectType("AASReferenceType")!;
+    }
+
+    /** 
+     * This function look in the AddressSpace for the entity Object pointed by **ref** and returns a n UAObject eventually.\
+     * Two version of this function exist: the version with a callback and the version with the return value. Using a callback avoid this
+     * function to return a value, and viceversa. 
+     * @param ref An AASReferenceType Instance representing the the AAS reference to fetch.
+     * @param callback A callback function that receive an Error as first parameter or the found Object as second parameter. 
+     * 
+     * example:
+     * ```typescript
+     * //The following AAS Reference is created as example. Let's supposte is already exists in the AddressSpace.
+     *  let ref = server.coreaas.addAASReference({
+     *      organizedBy: aas_1,
+     *      browseName: "ereoto",
+     *      keys: [ 
+     *          new Key({
+     *              idType: KeyType.URI,
+     *              local: true,
+     *              type: KeyElements.Submodel,
+     *              value: "http://www.zvei.de/demo/submodel/12345679"
+     *          }),
+     *          new Key({
+     *              idType: KeyType.idShort,
+     *              local: true,
+     *              type: KeyElements.SubmodelElementCollection,
+     *              value: "Measurement"
+     *          }),
+     *          new Key({
+     *              idType: KeyType.idShort,
+     *              local: true,
+     *              type: KeyElements.Property,
+     *              value: "rotationSpeed"
+     *          }) 
+     *      ]
+     *  });
+     *  //This version of the function use a callback.
+     *  server.coreaas.fetchAASReference(ref, function(err: Error , obj: UAObject) {
+     *      if (err) {
+     *          return console.log(err);
+     *      }
+     *      console.log(obj);
+     *  });
+     *  //This version of the function retruns the value or null otherwise.
+     *  let result = server.coreaas.fetchAASReference(ref);
+     *  console.log(result);
+     * ```
+     * */
+    fetchAASReference(ref: AASReferenceObject, callback?: Function): UAObject | void {
+        assert(ref.typeDefinitionObj.isSupertypeOf(this.findCoreAASObjectType("AASReferenceType")!), "ref is not an AASReferenceType instance.");
+        let keys = ref.keys._dataValue.value.value;
+        let currentNamespace;
+        for (let key of keys) {
+            if (this.identifiableMap.has(key.value)) {
+                currentNamespace = this.identifiableMap.get(key.value);
+            }
+            else if (currentNamespace && (<any>currentNamespace).referableChildrenMap.has(key.value)) {
+                currentNamespace = (<any>currentNamespace).referableChildrenMap.get(key.value);
+            }
+            else {
+                currentNamespace = undefined;
+                break;
+            };
+        }
+
+        if (currentNamespace == null) 
+            return (callback != null) ? callback(new Error("Referred entity not found"), null) :  null;
+
+        return (callback != null) ? callback(null, currentNamespace) : currentNamespace;
+
     }
 }
 

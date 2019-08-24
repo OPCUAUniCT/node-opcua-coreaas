@@ -9,6 +9,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
 const builder_1 = require("./builders/builder");
+const assert = require("assert");
 /**
  * This class represents the extension part of the OPC UA Server relevant to the CoreAAS Information Model.\
  * An instance of **CoreAASExtension** provides all the methods to populate the AddressSpace with instances of the ObjectTypes coming from CoreAAS.\
@@ -162,6 +163,27 @@ class CoreAASExtension {
     /** Returns the AASReferenceType ObjectType. */
     getAASReferenceType() {
         return this.findCoreAASObjectType("AASReferenceType");
+    }
+    fetchAASReference(ref, callback) {
+        assert(ref.typeDefinitionObj.isSupertypeOf(this.findCoreAASObjectType("AASReferenceType")), "ref is not an AASReferenceType instance.");
+        let keys = ref.keys._dataValue.value.value;
+        let currentNamespace;
+        for (let key of keys) {
+            if (this.identifiableMap.has(key.value)) {
+                currentNamespace = this.identifiableMap.get(key.value);
+            }
+            else if (currentNamespace && currentNamespace.referableChildrenMap.has(key.value)) {
+                currentNamespace = currentNamespace.referableChildrenMap.get(key.value);
+            }
+            else {
+                currentNamespace = undefined;
+                break;
+            }
+            ;
+        }
+        if (currentNamespace == null)
+            return (callback != null) ? callback(new Error("Referred entity not found"), null) : null;
+        return (callback != null) ? callback(null, currentNamespace) : currentNamespace;
     }
 }
 exports.CoreAASExtension = CoreAASExtension;
