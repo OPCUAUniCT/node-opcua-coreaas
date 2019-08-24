@@ -136,7 +136,7 @@ The main entity of node-opcua-coreaas are CoreServer and CoreAASExtension:
 - **CoreServer** is the main class you use to create an OPC UA Server supporting CoreAAS. It is a subclass of **OPCUAServer** of node-opcua.
 - **CoreAASExtension** is the extension part of the CoreServer exposing all the methods necessary to create CoreAAS ObjectTypes instances inside the AddressSpace. Users should not use this class directly, but the property **coreaas** of CoreServer will provide a CoreAASExtension instance bounded to the AddressSpace that users should use to create CoreAAS entities.
 
-More details about the API can be found in the [documentation]().
+More details about the API can be found in the [documentation](https://opcuaunict.github.io/node-opcua-coreaas/index.html).
 
 ## References
 
