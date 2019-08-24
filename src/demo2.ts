@@ -44,12 +44,7 @@ function post_initialize() {
             value: "AAA#1234-454#123456789"
         }) ],
         administration: admin
-    }).addSubmodelRef([new Key({
-        idType: KeyType.URI,
-        local: true,
-        type: KeyElements.Submodel,
-        value: "http://www.zvei.de/demo/submodel/12345679"
-    })]);;
+    });
 
     let asset = server.coreaas.addAsset({
         browseName: "3S7PLFDRS35",

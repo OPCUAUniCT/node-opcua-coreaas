@@ -23,36 +23,27 @@ function post_initialize() {
     });
     const aas_1 = server.coreaas.addAssetAdministrationShell({
         browseName: "SampleAAS",
-        administration: admin,
         description: [new _1.LocalizedText({ locale: "en", text: "Festo Controller" }),
             new _1.LocalizedText({ locale: "de", text: "Festo Controller" })],
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
             idType: _1.IdentifierType.URI
         }),
+        assetRef: [new Key({
+                idType: _1.KeyType.URI,
+                local: true,
+                type: _1.KeyElements.Asset,
+                value: "http://pk.festo.com/3S7PLFDRS35"
+            })],
         derivedFromRef: [new Key({
                 idType: _1.KeyType.IRDI,
                 local: false,
                 type: _1.KeyElements.AssetAdministrationShell,
                 value: "AAA#1234-454#123456789"
             })],
-        assetRef: [new Key({
-                idType: _1.KeyType.URI,
-                local: true,
-                type: _1.KeyElements.Asset,
-                value: "http://pk.festo.com/3S7PLFDRS35"
-            })]
-    })
-        .addSubmodelRef([new Key({
-            idType: _1.KeyType.URI,
-            local: true,
-            type: _1.KeyElements.Submodel,
-            value: "http://www.zvei.de/demo/submodel/12345679"
-        })]);
-    /**
-     * Add a Asset
-     */
-    server.coreaas.addAsset({
+        administration: admin
+    });
+    let asset = server.coreaas.addAsset({
         browseName: "3S7PLFDRS35",
         idShort: "3S7PLFDRS35",
         identification: new Identifier({
@@ -60,18 +51,34 @@ function post_initialize() {
             idType: _1.IdentifierType.URI
         }),
         kind: _1.Kind.Instance,
-        description: new _1.LocalizedText({ locale: "en", text: "Festo Controller" }),
-        assetOf: aas_1,
+        description: "Festo Controller Asset",
+        //assetOf: aas_1,
         assetIdentificationModelRef: [new Key({
                 idType: _1.KeyType.URI,
                 local: false,
-                type: _1.KeyElements.SubmodelElement,
+                type: _1.KeyElements.Submodel,
                 value: "//submodels/identification_3S7PLFDRS35"
             })]
     });
+    aas_1.hasAsset(asset)
+        .addSubmodelRef([new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        })]);
     /**
      * Add Submodel
      */
+    const submodel_type = server.coreaas.addSubmodel({
+        browseName: "AAAAA",
+        kind: _1.Kind.Type,
+        idShort: "AAAA",
+        identification: new Identifier({
+            id: "http://www.zvei.de/demo/submodel/AAAA",
+            idType: _1.IdentifierType.URI
+        })
+    });
     const submodel_1 = server.coreaas.addSubmodel({
         browseName: "12345679",
         kind: _1.Kind.Instance,
@@ -79,28 +86,43 @@ function post_initialize() {
         identification: new Identifier({
             id: "http://www.zvei.de/demo/submodel/12345679",
             idType: _1.IdentifierType.URI
-        }),
-        semanticId: [new Key({
-                idType: _1.KeyType.URI,
-                local: false,
-                type: _1.KeyElements.GlobalReference,
-                value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
-            })]
-    })
-        .submodelOf(aas_1);
+        })
+    }).submodelOf(aas_1)
+        /* .addSemanticId([new Key({
+            idType: KeyType.URI,
+            local: true,
+            type: KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/semantic_for_submodel"
+        })]) */
+        .hasSubmodelSemantic(submodel_type)
+        .addParent([new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.AssetAdministrationShell,
+            value: "www.admin-shell.io/aas-sample/1.0"
+        })]);
     /**
-     * Add Properties to the submodel
+     * Add SubmodelElementCollection
+     */
+    let collection = server.coreaas.addSubmodelElementCollection({
+        idShort: "Measurement",
+        submodelElementOf: submodel_1,
+        ordered: true,
+        kind: _1.Kind.Instance
+    })
+        .addParent([new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        })]);
+    /**
+     * Add SubmodelProperty
      */
     const rotationSpeed = server.coreaas.addSubmodelProperty({
         browseName: "rotationSpeed",
         idShort: "rotationSpeed",
-        submodelElementOf: submodel_1,
-        semanticId: [new Key({
-                idType: _1.KeyType.URI,
-                local: true,
-                type: _1.KeyElements.ConceptDescription,
-                value: "www.festo.com/dic/08111234"
-            })],
+        //submodelElementOf: submodel_1,
         category: _1.PropertyCategory.VARIABLE,
         valueType: _1.PropertyValueType.Double,
         value: {
@@ -111,11 +133,35 @@ function post_initialize() {
                 }
             }
         }
-    });
+    })
+        .addSemanticId([new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.ConceptDescription,
+            value: "www.festo.com/dic/08111234"
+        })])
+        .addParent([new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        }),
+        new Key({
+            idType: _1.KeyType.idShort,
+            local: true,
+            type: _1.KeyElements.SubmodelElementCollection,
+            value: "Measurement"
+        })])
+        .addValueId([new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.GlobalReference,
+            value: "//value/of/rotationSpeed"
+        })]);
     const nmax = server.coreaas.addSubmodelProperty({
         browseName: "NMAX",
         idShort: "NMAX",
-        submodelElementOf: submodel_1,
+        //submodelElementOf: submodel_1,
         semanticId: [new Key({
                 idType: _1.KeyType.IRDI,
                 local: true,
@@ -133,8 +179,9 @@ function post_initialize() {
             }
         }
     });
+    collection.addElements([nmax, rotationSpeed]);
     /**
-     * Add Dictionary to the AAS
+     * Add Concept Dictionary
      */
     const conceptDictionary = server.coreaas.addConceptDictionary({
         browseName: "ConceptDict_1",
@@ -160,9 +207,8 @@ function post_initialize() {
         })
     ]);
     /**
-     * Add ConceptDescriptions to the Dictionary
+     * Add ConceptDescription with EmbeddedDataSpecification
      */
-    //Add an EmbeddedDataSpecification to the AAS for Rotation Speed
     const embedded_1 = server.coreaas.addEmbeddedDataSpecification({
         browseName: "EmbeddedDS_1",
         hasDataSpecification: [new Key({
@@ -193,9 +239,9 @@ function post_initialize() {
             id: "www.festo.com/dic/08111234",
             idType: _1.IdentifierType.URI
         }),
-        hasEmbeddedDataSpecifications: embedded_1,
-        conceptDescriptionOf: conceptDictionary,
+        conceptDescriptionOf: conceptDictionary
     })
+        .hasEmbeddedDataSpecifications(embedded_1)
         .semanticOf(rotationSpeed);
     //Add an EmbeddedDataSpecification to the AAS for Max Rotation Speed
     const embedded_2 = server.coreaas.addEmbeddedDataSpecification({
@@ -206,8 +252,7 @@ function post_initialize() {
                 type: _1.KeyElements.GlobalReference,
                 value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
             })],
-    })
-        .addDataSpecificationIEC61360({
+    }).addDataSpecificationIEC61360(server.coreaas.addDataSpecificationIEC61360({
         preferredName: "Max Rotation Speed",
         shortName: "NMAX",
         valueFormat: "NR1..5",
@@ -217,7 +262,7 @@ function post_initialize() {
                 type: _1.KeyElements.GlobalReference,
                 value: "0173-1#05-AAA650#002"
             })]
-    });
+    }));
     server.coreaas.addConceptDescription({
         browseName: "NMax",
         identification: new Identifier({
@@ -228,6 +273,48 @@ function post_initialize() {
         conceptDescriptionOf: conceptDictionary
     })
         .semanticOf(nmax);
+    /** Add View */
+    let view_1 = server.coreaas.addAASView({
+        idShort: "Maintenence",
+        semanticId: [new Key({
+                idType: _1.KeyType.IRDI,
+                local: true,
+                type: _1.KeyElements.ConceptDescription,
+                value: "EREOTO"
+            })],
+        description: [new _1.LocalizedText({ locale: "en", text: "Festo Controller" }),
+            new _1.LocalizedText({ locale: "de", text: "Festo Controller" })],
+    })
+        .addContainedElementRef([
+        new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        }),
+        new Key({
+            idType: _1.KeyType.idShort,
+            local: true,
+            type: _1.KeyElements.Property,
+            value: "NMAX"
+        })
+    ])
+        .addContainedElementRef([
+        new Key({
+            idType: _1.KeyType.URI,
+            local: true,
+            type: _1.KeyElements.Submodel,
+            value: "http://www.zvei.de/demo/submodel/12345679"
+        }),
+        new Key({
+            idType: _1.KeyType.idShort,
+            local: true,
+            type: _1.KeyElements.Property,
+            value: "rotationSpeed"
+        })
+    ])
+        .containsElements([nmax, rotationSpeed]);
+    aas_1.addViews([view_1]);
     /**
      * Start The OPC UA Server
      */

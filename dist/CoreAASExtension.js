@@ -164,6 +164,52 @@ class CoreAASExtension {
     getAASReferenceType() {
         return this.findCoreAASObjectType("AASReferenceType");
     }
+    /**
+     * This function look in the AddressSpace for the entity Object pointed by **ref** and returns a n UAObject eventually.\
+     * Two version of this function exist: the version with a callback and the version with the return value. Using a callback avoid this
+     * function to return a value, and viceversa.
+     * @param ref An AASReferenceType Instance representing the the AAS reference to fetch.
+     * @param callback A callback function that receive an Error as first parameter or the found Object as second parameter.
+     *
+     * example:
+     * ```typescript
+     * //The following AAS Reference is created as example. Let's supposte is already exists in the AddressSpace.
+     *  let ref = server.coreaas.addAASReference({
+     *      organizedBy: aas_1,
+     *      browseName: "ereoto",
+     *      keys: [
+     *          new Key({
+     *              idType: KeyType.URI,
+     *              local: true,
+     *              type: KeyElements.Submodel,
+     *              value: "http://www.zvei.de/demo/submodel/12345679"
+     *          }),
+     *          new Key({
+     *              idType: KeyType.idShort,
+     *              local: true,
+     *              type: KeyElements.SubmodelElementCollection,
+     *              value: "Measurement"
+     *          }),
+     *          new Key({
+     *              idType: KeyType.idShort,
+     *              local: true,
+     *              type: KeyElements.Property,
+     *              value: "rotationSpeed"
+     *          })
+     *      ]
+     *  });
+     *  //This version of the function use a callback.
+     *  server.coreaas.fetchAASReference(ref, function(err: Error , obj: UAObject) {
+     *      if (err) {
+     *          return console.log(err);
+     *      }
+     *      console.log(obj);
+     *  });
+     *  //This version of the function retruns the value or null otherwise.
+     *  let result = server.coreaas.fetchAASReference(ref);
+     *  console.log(result);
+     * ```
+     * */
     fetchAASReference(ref, callback) {
         assert(ref.typeDefinitionObj.isSupertypeOf(this.findCoreAASObjectType("AASReferenceType")), "ref is not an AASReferenceType instance.");
         let keys = ref.keys._dataValue.value.value;
