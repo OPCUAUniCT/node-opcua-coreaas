@@ -1,6 +1,7 @@
 export * from "node-opcua";
 
 export * from "./CoreServer";
+export * from "./CoreAASExtension"
 export * from "./CoreAAS_enums";
 
 import path from "path";

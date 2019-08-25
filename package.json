@@ -1,6 +1,6 @@
 {
   "name": "node-opcua-coreaas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An extension for node-opcua implementing coreAAS Information Model",
   "main": "dist/index.js",
   "scripts": {
