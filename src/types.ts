@@ -3,6 +3,7 @@ import { IdentifierType, KeyElements } from "./CoreAAS_enums";
 import { BaseUAObject } from "node-opcua-factory";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
 import { DataSpecificationIECOptions } from "./options_types";
+import { UAMethod } from "node-opcua-address-space/dist/src/ua_method";
 
 /**
  * An Interface for the Objects Folder under the Root Folder of an OPC UA
@@ -211,6 +212,23 @@ export interface SubmodelElementCollectionObject extends SubmodelElementObject, 
     addElements(elemArray: UAObject[]): SubmodelElementCollectionObject;
     addSemanticId(semanticId: RefArgument): SubmodelElementCollectionObject;
     addParent(parent: RefArgument): SubmodelElementCollectionObject; 
+}
+
+/* SUBMODEL RELATIONSHIP ELEMENT TYPE */
+export interface SubmodelRelationshipElementObject extends SubmodelElementObject, ReferableNamespaceObject {
+    first: AASReferenceObject;
+    second: AASReferenceObject;
+
+    addSemanticId(semanticId: RefArgument): SubmodelRelationshipElementObject;
+    addParent(parent: RefArgument): SubmodelRelationshipElementObject; 
+}
+
+/* SUBMODEL OPERATION TYPE */
+export interface SubmodelOperationObject extends SubmodelElementObject, ReferableNamespaceObject {
+    act: UAMethod;
+
+    addSemanticId(semanticId: RefArgument): SubmodelOperationObject;
+    addParent(parent: RefArgument): SubmodelOperationObject; 
 }
 
 /* VIEW TYPE */

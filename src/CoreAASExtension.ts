@@ -1,12 +1,14 @@
 import { AddressSpace, ConstructorFunc, Namespace, UADataType, UAObject, UAObjectType, UAReferenceType, UAVariableType } from "node-opcua";
 import * as path from "path";
 import { AssetObject, AASObject, EDSObject, SubmodelPropertyObject, SubmodelObject, ConceptDescriptionObject, ConceptDictionaryObject, 
-        DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject, Identifier, Key, AASReferenceObject, ReferableNamespaceObject, AdministrativeInformationObject } from "./types";
+        DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject, Identifier, Key, 
+        AASReferenceObject, ReferableNamespaceObject, AdministrativeInformationObject, SubmodelRelationshipElementObject, SubmodelOperationObject } from "./types";
 import { AASBuilder, AdministrativeInformationBuilder, AASReferenceBuilder, AssetBuilder, DataSpecificationIEC61360Builder, 
         EmbeddedDataSpecificationBuilder, SubmodelPropertyBuilder, SubmodelBuilder, ConceptDescriptionBuilder, 
         ConceptDictionaryBuilder, SubmodelElementsBuilder, ViewBuilder } from "./builders/builder";
 import { AASOptions, AASReferenceOptions, AdministrativeInformationOptions, AssetOptions, ConceptDescriptionOptions, ConceptDictionaryOptions, 
-        DataSpecificationIECOptions, EmbeddedDataSpecificationOptions, SubmodelOptions, ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, SubmodelPropertyOptions, ViewOptions } from "./options_types";
+        DataSpecificationIECOptions, EmbeddedDataSpecificationOptions, SubmodelOptions, ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, 
+        SubmodelPropertyOptions, ViewOptions, SubmodelRelationshipElementOptions, SubmodelOperationOptions } from "./options_types";
 import assert = require("assert");
 
 /**
@@ -128,6 +130,16 @@ export class CoreAASExtension {
     /** Create an instance of SubmodelElementCollectionType ObjectType in the AddressSpace. */
     addSubmodelElementCollection(options: SubmodelElementCollectionOptions): SubmodelElementCollectionObject {
         return this._submodelElementsBuilder.addSubmodelElementCollection(options);
+    }
+
+    /** Create an instance of SubmodelRelationshipElementType ObjectType in the AddressSpace. */
+    addSubmodelRelationshipElement(options: SubmodelRelationshipElementOptions): SubmodelRelationshipElementObject {
+        return this._submodelElementsBuilder.addSubmodelRelationshipElement(options);
+    }
+
+    /** Create an instance of SubmodelOperationType ObjectType in the AddressSpace. */
+    addSubmodelOperation(options: SubmodelOperationOptions): SubmodelOperationObject {
+        return this._submodelElementsBuilder.addSubmodelOperation(options);
     }
 
     /** Create an instance of SubmodelType ObjectType in the AddressSpace. */
