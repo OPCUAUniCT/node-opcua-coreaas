@@ -138,4 +138,5 @@ More details about the API can be found in the [documentation](https://opcuaunic
 
 ## References
 
-Coming soon...
+- [OPC UA-based Asset Administration Shell](https://ieeexplore.ieee.org/document/8926859) (IECON 2019)
+- [Insights into Mapping Solutions Based on OPC UA Information Model Applied to the Industry 4.0 Asset Administration Shell](https://www.mdpi.com/2073-431X/9/2/28) (MDPI - Computers 2020)
