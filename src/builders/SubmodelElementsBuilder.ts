@@ -1,11 +1,11 @@
 import { Builder } from "./builder";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject } from "../types";
+import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject, SubmodelRelationshipElementObject, SubmodelOperationObject } from "../types";
 import { Variant, DataType, UAObject } from "node-opcua";
 import assert = require("assert");
 import { get_description_creator, get_kind_creator, get_semanticId_creator, get_parent_creator, get_idShort_creator } from "./builder_utilities";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
-import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions } from "../options_types";
+import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, SubmodelRelationshipElementOptions, SubmodelOperationOptions } from "../options_types";
 
 export class SubmodelElementsBuilder extends Builder {
 
@@ -272,5 +272,111 @@ export class SubmodelElementsBuilder extends Builder {
         collection.addParent = get_parent_creator(this.coreaas, collection);
 
         return collection;
+    }
+
+    addSubmodelRelationshipElement(options: SubmodelRelationshipElementOptions): SubmodelRelationshipElementObject {
+        assert(options.idShort, "options.idShort parameter is missing.");
+
+        const secType = this.coreaas.findCoreAASObjectType("RelationshipElementType")!;
+
+        const relationship = this._namespace.addObject({
+            typeDefinition: secType,
+            browseName:    options.browseName || options.idShort,
+            nodeId:        options.nodeId
+        }) as SubmodelRelationshipElementObject;
+
+        //Add first relationship
+        assert(options.first.typeDefinitionObj.isSupertypeOf(this.coreaas.getAASReferenceType()), "first is not an AASReferenceType instance.");
+        relationship.addReference({ referenceType: "HasComponent", nodeId: options.first});
+
+        //Add second relationship
+        assert(options.second.typeDefinitionObj.isSupertypeOf(this.coreaas.getAASReferenceType()), "second is not an AASReferenceType instance.");
+        relationship.addReference({ referenceType: "HasComponent", nodeId: options.second});
+
+        //Add idShort
+        const idShort = get_idShort_creator(this.coreaas, relationship)(options.idShort);
+
+        //Add this Submodel RelationshipElement to a Submodel
+        if (typeof options.submodelElementOf !== "undefined") {
+            
+            assert(options.submodelElementOf.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("SubmodelType")!), "options.submodelElementOf is not a SubmodelType.");
+            
+            const submodelElements = options.submodelElementOf.submodelElements;
+            submodelElements.addReference({ referenceType: "Organizes", nodeId: relationship });
+            options.submodelElementOf.referableChildrenMap.set(options.idShort, relationship);
+        }
+
+        //Add description
+        if (options.description != null) {
+            const addDescriptionToCollection = get_description_creator(this.coreaas, relationship);
+            addDescriptionToCollection(options.description);
+        }
+
+        //Add kind
+        if (options.kind != null) {
+            get_kind_creator(this.coreaas, relationship)(options.kind);
+        }
+
+        if (options.semanticId != null) {
+            get_semanticId_creator(this.coreaas, relationship)(options.semanticId);
+        }
+
+        if (options.parent != null) {
+            get_parent_creator(this.coreaas, relationship)(options.parent);
+        }
+
+        relationship.addSemanticId = get_semanticId_creator(this.coreaas, relationship);
+        //relationship.addParent = get_parent_creator(this.coreaas, relationship);
+
+        return relationship;
+    }
+
+    // TODO: add "act" UaMethod
+    addSubmodelOperation(options: SubmodelOperationOptions): SubmodelOperationObject {
+        assert(options.idShort, "options.idShort parameter is missing.");
+
+        const secType = this.coreaas.findCoreAASObjectType("SubmodelOperationType")!;
+
+        const operation = this._namespace.addObject({
+            typeDefinition: secType,
+            browseName:    options.browseName || options.idShort,
+            nodeId:        options.nodeId
+        }) as SubmodelOperationObject;
+
+        //Add idShort
+        const idShort = get_idShort_creator(this.coreaas, operation)(options.idShort);
+
+        //Add this Submodel Operation to a Submodel
+        if (typeof options.submodelElementOf !== "undefined") {
+            assert(options.submodelElementOf.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("SubmodelType")!), "options.submodelElementOf is not a SubmodelType.");
+        
+            const submodelElements = options.submodelElementOf.submodelElements;
+            submodelElements.addReference({ referenceType: "Organizes", nodeId: operation });
+            options.submodelElementOf.referableChildrenMap.set(options.idShort, operation);
+        }
+
+        //Add description
+        if (options.description != null) {
+            const addDescriptionToCollection = get_description_creator(this.coreaas, operation);
+            addDescriptionToCollection(options.description);
+        }
+
+        //Add kind
+        if (options.kind != null) {
+            get_kind_creator(this.coreaas, operation)(options.kind);
+        }
+
+        if (options.semanticId != null) {
+            get_semanticId_creator(this.coreaas, operation)(options.semanticId);
+        }
+
+        if (options.parent != null) {
+            get_parent_creator(this.coreaas, operation)(options.parent);
+        }
+
+        operation.addSemanticId = get_semanticId_creator(this.coreaas, operation);
+        //operation.addParent = get_parent_creator(this.coreaas, operation);
+
+        return operation;
     }
 }

@@ -102,6 +102,14 @@ class CoreAASExtension {
     addSubmodelElementCollection(options) {
         return this._submodelElementsBuilder.addSubmodelElementCollection(options);
     }
+    /** Create an instance of SubmodelRelationshipElementType ObjectType in the AddressSpace. */
+    addSubmodelRelationshipElement(options) {
+        return this._submodelElementsBuilder.addSubmodelRelationshipElement(options);
+    }
+    /** Create an instance of SubmodelOperationType ObjectType in the AddressSpace. */
+    addSubmodelOperation(options) {
+        return this._submodelElementsBuilder.addSubmodelOperation(options);
+    }
     /** Create an instance of SubmodelType ObjectType in the AddressSpace. */
     addSubmodel(options) {
         return this._submodelBuilder.addSubmodel(options);

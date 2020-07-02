@@ -1,5 +1,5 @@
 import { BaseUAObject } from "node-opcua-factory";
-import { Description, RefArgument, ConceptDictionaryObject, EDSObject, AdministrativeInformationObject, AASObject, SubmodelObject, Identifier, Key, ConceptDescriptionObject } from "./types";
+import { Description, RefArgument, ConceptDictionaryObject, EDSObject, AdministrativeInformationObject, AASObject, SubmodelObject, Identifier, Key, ConceptDescriptionObject, AASReferenceObject } from "./types";
 import { NodeIdLike, UAObject, LocalizedText, UADataType, BindVariableOptions } from "node-opcua";
 import { Kind, PropertyCategory, PropertyValueType } from "./CoreAAS_enums";
 
@@ -288,6 +288,51 @@ export interface SubmodelElementCollectionOptions {
     ordered?: boolean;
     /** A flag specifying whether the same element can be present in the SubmodelElementCollection multiple times or not. */
     allowDuplicates?: boolean;
+    /** The browsename for the created Object. */
+    browseName?: string;
+    /** The node id for the created Object. */
+    nodeId?: NodeIdLike;
+}
+
+
+/** An object containing all the parameters for the creation of an instance of the SubmodelRelationshipElement ObjectType.  */
+export interface SubmodelRelationshipElementOptions {
+    /** The short identifier of the SubmodelRelationshipElement. */
+    idShort: string;
+    /** An AAS Reference pointing to an entity defining the semantics for this SubmodelRelationshipElement. */
+    semanticId?: RefArgument;
+    /** An AAS reference to the parent entity of this Object. */
+    parent?: RefArgument;
+    /** Specifies whether the SubmodelRelationshipElement to be created should be a type or an instance. */
+    kind?: Kind;
+    /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
+    submodelElementOf?: SubmodelObject;
+    /** A description of the SubmodelRelationshipElement. */
+    description?: Description;
+    /** The browsename for the created Object. */
+    browseName?: string;
+    /** The node id for the created Object. */
+    nodeId?: NodeIdLike;
+    /** An AASReferenceObject pointing to the first element of the submodelRelationshipElement. */
+    first: AASReferenceObject;
+    /** An AASReferenceObject pointing to the second element of the submodelRelationshipElement. */
+    second: AASReferenceObject;
+}
+
+/** An object containing all the parameters for the creation of an instance of the SubmodelOperation ObjectType.  */
+export interface SubmodelOperationOptions {
+    /** The short identifier of the SubmodelOperation. */
+    idShort: string;
+    /** An AAS Reference pointing to an entity defining the semantics for this SubmodelOperation. */
+    semanticId?: RefArgument;
+    /** An AAS reference to the parent entity of this Object. */
+    parent?: RefArgument;
+    /** Specifies whether the SubmodelOperation to be created should be a type or an instance. */
+    kind?: Kind;
+    /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
+    submodelElementOf?: SubmodelObject;
+    /** A description of the SubmodelOperation. */
+    description?: Description;
     /** The browsename for the created Object. */
     browseName?: string;
     /** The node id for the created Object. */
