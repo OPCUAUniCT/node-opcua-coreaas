@@ -3,7 +3,7 @@ import { CoreAASExtension } from "../CoreAASExtension";
 import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject } from "../types";
 import { Variant, DataType, UAObject } from "node-opcua";
 import assert = require("assert");
-import { get_description_creator, get_kind_creator, get_semanticId_creator, get_parent_creator, get_idShort_creator } from "./builder_utilities";
+import { get_description_creator, get_modelingkind_creator, get_semanticId_creator, get_parent_creator, get_idShort_creator } from "./builder_utilities";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
 import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions } from "../options_types";
 
@@ -43,7 +43,7 @@ export class SubmodelElementsBuilder extends Builder {
 
         //Add kind
         if (options.kind != null) {
-            get_kind_creator(this.coreaas, referenceElement)(options.kind);
+            get_modelingkind_creator(this.coreaas, referenceElement)(options.kind);
         }
 
         if (options.value != null) {
@@ -109,7 +109,7 @@ export class SubmodelElementsBuilder extends Builder {
 
         //Add kind
         if (options.kind != null) {
-            get_kind_creator(this.coreaas, file)(options.kind);
+            get_modelingkind_creator(this.coreaas, file)(options.kind);
         }
 
         if (options.value != null) {
@@ -235,7 +235,7 @@ export class SubmodelElementsBuilder extends Builder {
 
         //Add kind
         if (options.kind != null) {
-            get_kind_creator(this.coreaas, collection)(options.kind);
+            get_modelingkind_creator(this.coreaas, collection)(options.kind);
         }
 
         if (options.semanticId != null) {

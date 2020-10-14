@@ -1,6 +1,7 @@
 import path from "path";
-import { coreaasXmlFile, OPCUACertificateManager, nodesets, LocalizedText, CoreServer, IdentifierType, Kind, KeyType, KeyElements, PropertyCategory, PropertyValueType, Variant, DataType } from ".";
+import { coreaasXmlFile, OPCUACertificateManager, nodesets, LocalizedText, CoreServer, IdentifierType, ModelingKind, KeyType, KeyElements, PropertyCategory, PropertyValueType, Variant, DataType } from ".";
 import { UAObject } from "node-opcua-address-space/dist/src/ua_object";
+import { AssetKind } from "./CoreAAS_enums";
 
 let xmlFiles = [nodesets.standard_nodeset_file, coreaasXmlFile]
 
@@ -53,7 +54,7 @@ function post_initialize() {
             id: "http://pk.festo.com/3S7PLFDRS35",
             idType: IdentifierType.URI
         }),
-        kind: Kind.Instance,
+        kind: AssetKind.Instance,
         description: "Festo Controller Asset",
         //assetOf: aas_1,
         assetIdentificationModelRef: [ new Key({
@@ -78,7 +79,7 @@ function post_initialize() {
 
     const submodel_type = server.coreaas.addSubmodel({
         browseName: "AAAAA",
-        kind: Kind.Type,
+        kind: ModelingKind.Template,
         idShort: "AAAA",
         identification: new Identifier({
             id: "http://www.zvei.de/demo/submodel/AAAA",
@@ -88,7 +89,7 @@ function post_initialize() {
 
     const submodel_1 = server.coreaas.addSubmodel({
         browseName: "12345679",
-        kind: Kind.Instance,
+        kind: ModelingKind.Instance,
         idShort: "12345679",
         identification: new Identifier({
             id: "http://www.zvei.de/demo/submodel/12345679",
@@ -116,7 +117,7 @@ function post_initialize() {
         idShort: "Measurement",
         submodelElementOf: submodel_1,
         ordered: true,
-        kind: Kind.Instance
+        kind: ModelingKind.Instance
     })
     .addParent([new Key({
         idType: KeyType.URI,

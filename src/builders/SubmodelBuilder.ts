@@ -2,9 +2,9 @@ import { CoreAASExtension } from "../CoreAASExtension";
 import { Builder } from "./builder";
 import { SubmodelObject, CoreAASObjectsFolder, Identifier, isIdentifier, AASObject, SubmodelElementObject } from "../types";
 import { UAObject } from "node-opcua";
-import { Kind } from "../CoreAAS_enums";
+import { ModelingKind } from "../CoreAAS_enums";
 import assert = require("assert");
-import { get_description_creator, get_kind_creator, get_semanticId_creator, get_parent_creator, get_identification_creator, get_idShort_creator } from "./builder_utilities";
+import { get_description_creator, get_modelingkind_creator, get_semanticId_creator, get_parent_creator, get_identification_creator, get_idShort_creator } from "./builder_utilities";
 import { SubmodelOptions } from "../options_types";
 
 export class SubmodelBuilder extends Builder {
@@ -60,7 +60,7 @@ export class SubmodelBuilder extends Builder {
 
         //Add kind
         if (options.kind != null) {
-            get_kind_creator(this.coreaas, submodel)(options.kind);
+            get_modelingkind_creator(this.coreaas, submodel)(options.kind);
         }
 
         if (options.semanticId != null) {
@@ -73,8 +73,8 @@ export class SubmodelBuilder extends Builder {
 
         /* Convenience methods */
         submodel.hasSubmodelSemantic = (semanticElem: SubmodelObject): SubmodelObject => {
-            assert(semanticElem.hasOwnProperty("kind"), "semanticElem is not a SubmodelType instance.")
-            assert((<any>semanticElem).kind.readValue().value.value === Kind.Type, "semanticElem is not a Submodel with kind = Type");
+            assert(semanticElem.hasOwnProperty("kind"), "semanticElem is not a SubmodelType instance.");
+            assert((<any>semanticElem).kind.readValue().value.value === ModelingKind.Template, "semanticElem is not a Submodel with kind = Template");
 
             const hasSubmodelSemanticRefType = this.coreaas.findCoreAASReferenceType("HasSubmodelSemantic")!;
             submodel.addReference({ referenceType: hasSubmodelSemanticRefType, nodeId: semanticElem });

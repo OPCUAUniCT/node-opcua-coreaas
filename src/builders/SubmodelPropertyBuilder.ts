@@ -3,7 +3,7 @@ import { CoreAASExtension } from "../CoreAASExtension";
 import { Builder } from "./builder";
 import { RefArgument, SubmodelPropertyObject, isKey, SubmodelObject } from "../types";
 import assert = require("assert");
-import { get_description_creator, get_kind_creator, get_category_creator, get_semanticId_creator, get_parent_creator } from "./builder_utilities";
+import { get_description_creator, get_modelingkind_creator, get_category_creator, get_semanticId_creator, get_parent_creator } from "./builder_utilities";
 import { SubmodelPropertyOptions } from "../options_types";
 
 export class SubmodelPropertyBuilder extends Builder  {
@@ -53,7 +53,7 @@ export class SubmodelPropertyBuilder extends Builder  {
 
         //Add kind
         if(options.kind != null) {
-            const addKindToProperty = get_kind_creator(this.coreaas, property);
+            const addKindToProperty = get_modelingkind_creator(this.coreaas, property);
             addKindToProperty(options.kind);
         }
 

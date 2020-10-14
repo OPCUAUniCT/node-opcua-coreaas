@@ -1,6 +1,6 @@
 import { UAObject } from "node-opcua";
 import { BaseUAObject } from "node-opcua-factory";
-import { get_description_creator, get_idShort_creator, get_identification_creator, get_kind_creator } from "./builder_utilities";
+import { get_description_creator, get_idShort_creator, get_identification_creator, get_assetkind_creator } from "./builder_utilities";
 import { CoreAASExtension } from "../CoreAASExtension";
 import { AssetObject, CoreAASObjectsFolder, isKey, Identifier, isIdentifier, Key } from "../types";
 import assert = require("assert");
@@ -67,7 +67,7 @@ export class AssetBuilder extends Builder {
 
         //Add kind
         if (options.kind != null) {            
-            get_kind_creator(this.coreaas, asset)(options.kind);
+            get_assetkind_creator(this.coreaas, asset)(options.kind);
         }
 
         asset.addAssetIdentificationModelRef = this._create_addAssetIdentificationModel(asset);

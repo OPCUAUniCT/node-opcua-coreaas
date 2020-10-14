@@ -1,7 +1,7 @@
 import { BaseUAObject } from "node-opcua-factory";
 import { Description, RefArgument, ConceptDictionaryObject, EDSObject, AdministrativeInformationObject, AASObject, SubmodelObject, Identifier, Key, ConceptDescriptionObject } from "./types";
 import { NodeIdLike, UAObject, LocalizedText, UADataType, BindVariableOptions } from "node-opcua";
-import { Kind, PropertyCategory, PropertyValueType } from "./CoreAAS_enums";
+import { AssetKind, ModelingKind, PropertyCategory, PropertyValueType } from "./CoreAAS_enums";
 
 /**
  * An object containing all the parameters for the creation of an instance of the AASType ObjectType.
@@ -121,7 +121,7 @@ export interface AssetOptions {
     /** An AdministrativeInformation Object containing information relevant to this Asset. */
     administration?: AdministrativeInformationObject,
     /** Specifies if the Asset to be created should be an asset type or an asset instance. */
-    kind?: Kind,
+    kind?: AssetKind,
     /** An AAS Reference to a Submodel entity relevant to the Asset Identification. */
     assetIdentificationModelRef?: RefArgument
 }
@@ -221,7 +221,7 @@ export interface SubmodelOptions {
     /** An AAS reference to the parent entity of this Object. */
     parent?: RefArgument;
     /** Specifies whether the Submodel to be created should be a submodel type or a submodel instance. */
-    kind?: Kind 
+    kind?: ModelingKind 
 }
 
 /** An object containing all the parameters for the creation of an instance of the ReferenceElementType ObjectType.  */
@@ -233,7 +233,7 @@ export interface ReferenceElementOptions {
     /** An AAS reference to the parent entity of this Object. */
     parent?: RefArgument;
     /** Specifies whether the ReferenceElement to be created should be a type or an instance. */
-    kind?: Kind;
+    kind?: ModelingKind;
     /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
     submodelElementOf?: SubmodelObject;
     /** An AASReference or an Array of [[Keys]]. */
@@ -255,7 +255,7 @@ export interface FileOptions {
     /** An AAS reference to the parent entity of this Object. */
     parent?: RefArgument;
     /** Specifies whether the File to be created should be a type or an instance. */
-    kind?: Kind;
+    kind?: ModelingKind;
     /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
     submodelElementOf?: SubmodelObject;
     /** A description of the File. */
@@ -279,7 +279,7 @@ export interface SubmodelElementCollectionOptions {
     /** An AAS reference to the parent entity of this Object. */
     parent?: RefArgument;
     /** Specifies whether the SubmodelElementCollection to be created should be a type or an instance. */
-    kind?: Kind;
+    kind?: ModelingKind;
     /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
     submodelElementOf?: SubmodelObject;
     /** A description of the SubmodelElementCollection. */
@@ -339,7 +339,7 @@ export interface SubmodelPropertyOptions {
     /** Describes which category this property belongs to. */
     category?: PropertyCategory;
     /** Specifies whether the SubmodelProperty to be created should be a type or an instance. */
-    kind?: Kind;
+    kind?: ModelingKind;
     /** An AAS Reference to the the value in case the value of this Submodelproperty is stored somewhere else. */
     valueId?: RefArgument;
     /** The value of this SubmodelProperty. */

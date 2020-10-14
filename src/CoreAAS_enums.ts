@@ -24,7 +24,9 @@ export enum KeyElements {
 
 export enum KeyType { idShort, IRDI, URI, Custom }
 
-export enum Kind { Type, Instance }
+export enum ModelingKind { Template, Instance }
+
+export enum AssetKind { Type, Instance }
 
 export enum PropertyCategory { CONSTANT, PARAMETER, VARIABLE }
 

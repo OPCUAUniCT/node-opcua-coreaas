@@ -2,7 +2,7 @@ import { Description, RefArgument, isKey, Identifier } from "../types";
 import { CoreAASExtension } from "../CoreAASExtension";
 import { LocalizedText, Variant, DataType, VariantArrayType, UAObject, UAVariable } from "node-opcua";
 import assert = require("assert");
-import { Kind, PropertyCategory } from "../CoreAAS_enums";
+import { AssetKind, ModelingKind, PropertyCategory } from "../CoreAAS_enums";
 import { BaseUAObject } from "node-opcua-factory";
 
 export function get_identification_creator(coreaas: CoreAASExtension, identifiable: UAObject): (identification: Identifier) => UAVariable {
@@ -78,13 +78,29 @@ export function get_description_creator(coreaas: CoreAASExtension, describedObj:
     }
 }
 
-export function get_kind_creator(coreaas: CoreAASExtension, hasKindObj: UAObject): (kind: Kind) => UAVariable {
+export function get_modelingkind_creator(coreaas: CoreAASExtension, hasKindObj: UAObject): (kind: ModelingKind) => UAVariable {
 
-    return function(kind: Kind): UAVariable {
+    return function(kind: ModelingKind): UAVariable {
         return coreaas.namespace.addVariable({
             propertyOf: hasKindObj,
             browseName: "kind",
             dataType: coreaas.findCoreAASDataType("Kind")!,
+            value: {
+                get: () => {
+                    return new Variant({ dataType: DataType.Int32, value: kind });
+                }
+            }
+        });
+    }
+}
+
+export function get_assetkind_creator(coreaas: CoreAASExtension, hasKindObj: UAObject): (kind: AssetKind) => UAVariable {
+
+    return function(kind: AssetKind): UAVariable {
+        return coreaas.namespace.addVariable({
+            propertyOf: hasKindObj,
+            browseName: "kind",
+            dataType: coreaas.findCoreAASDataType("AssetKind")!,
             value: {
                 get: () => {
                     return new Variant({ dataType: DataType.Int32, value: kind });
