@@ -52,9 +52,13 @@ export class AssetBuilder extends Builder {
         }
 
         //Add assetIdentificationModel
-        //Add assetIdentificationModel
         if (typeof options.assetIdentificationModelRef !== "undefined") {
             this._create_addAssetIdentificationModel(asset)(options.assetIdentificationModelRef); 
+        }
+
+        //Add billOfMaterial
+        if (typeof options.billOfMaterialRef !== "undefined") {
+            this._create_addBillOfMaterial(asset)(options.billOfMaterialRef); 
         }
 
         //Add this Asset to the AAS
@@ -71,6 +75,7 @@ export class AssetBuilder extends Builder {
         }
 
         asset.addAssetIdentificationModelRef = this._create_addAssetIdentificationModel(asset);
+        asset.addBillOfMaterialRef = this._create_addBillOfMaterial(asset);
 
         return asset;
     }
@@ -91,6 +96,30 @@ export class AssetBuilder extends Builder {
             } else  {
                 assert(model.typeDefinitionObj.isSupertypeOf(self.coreaas.getAASReferenceType()), "model is not an AASReferenceType Object");
                 assert(model.browseName.name === "assetIdentificationModel", "model BrowseName is not 'assetIdentificationModel'");
+
+                asset.addReference({ referenceType: "HasComponent", nodeId: model });
+            }
+
+            return asset;
+        }
+    }
+
+    private _create_addBillOfMaterial(asset: AssetObject): (model: UAObject | Key[]) => AssetObject {
+        const self = this;
+        
+        return function (model: UAObject | Key[]): AssetObject {
+            assert(!asset.hasOwnProperty("billOfMaterial"), "the AssetType Object already contains a UA Property with Browsename billOfMaterial");
+
+            if (model instanceof Array) {
+                model.forEach(el => assert(isKey(el), "model parameter contains an element that is not a Key."));
+                self.coreaas.addAASReference({
+                    componentOf: asset,
+                    browseName: "billOfMaterial",
+                    keys: model
+                });
+            } else  {
+                assert(model.typeDefinitionObj.isSupertypeOf(self.coreaas.getAASReferenceType()), "model is not an AASReferenceType Object");
+                assert(model.browseName.name === "billOfMaterial", "model BrowseName is not 'billOfMaterial'");
 
                 asset.addReference({ referenceType: "HasComponent", nodeId: model });
             }

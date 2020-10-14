@@ -70,7 +70,8 @@ export interface AssetObject extends UAObject, ReferableNamespaceObject {
     administration?: UAObject;
     kind?: UAVariable;
 
-    addAssetIdentificationModelRef(model: UAObject | Key[]): UAObject
+    addAssetIdentificationModelRef(model: UAObject | Key[]): UAObject;
+    addBillOfMaterialRef(model: UAObject | Key[]): UAObject;
 }
 
 /* AAS TYPE */

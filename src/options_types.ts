@@ -124,6 +124,8 @@ export interface AssetOptions {
     kind?: AssetKind,
     /** An AAS Reference to a Submodel entity relevant to the Asset Identification. */
     assetIdentificationModelRef?: RefArgument
+    /** An AAS Reference to a Submodel entity relevant to the Asset bill of material. */
+    billOfMaterialRef?: RefArgument
 }
 
 /** An object containing all the parameters for the creation of an instance of the ConceptDescriptionType ObjectType.  */
