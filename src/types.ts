@@ -193,6 +193,26 @@ export interface ReferenceElementObject extends SubmodelElementObject {
     addParent(parent: RefArgument): ReferenceElementObject; 
 }
 
+/* RELATIONSHIP ELEMENT TYPE */
+export interface RelationshipElementObject extends SubmodelElementObject {
+    first: AASReferenceObject;
+    second: AASReferenceObject;
+
+    addSemanticId(semanticId: RefArgument): ReferenceElementObject;
+    addParent(parent: RefArgument): ReferenceElementObject; 
+}
+
+/* ANNOTATED RELATIONSHIP ELEMENT TYPE */
+export interface AnnotatedRelationshipElementObject extends SubmodelElementObject, ReferableNamespaceObject {
+    annotations: Folder;
+    first: AASReferenceObject;
+    second: AASReferenceObject;
+
+    addSemanticId(semanticId: RefArgument): ReferenceElementObject;
+    addParent(parent: RefArgument): ReferenceElementObject;
+    addAnnotations(elemArray: SubmodelElementObject[]): ReferenceElementObject;
+}
+
 /* AAS FILE TYPE */
 export interface AASFileObject extends SubmodelElementObject {
     value?: UAVariable;

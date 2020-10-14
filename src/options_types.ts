@@ -248,6 +248,54 @@ export interface ReferenceElementOptions {
     nodeId?: NodeIdLike;
 }
 
+/** An object containing all the parameters for the creation of an instance of the RelationshipElementType ObjectType.  */
+export interface RelationshipElementOptions {
+    /** The short identifier of the RelationshipElement. */
+    idShort: string;
+    /** An AAS Reference pointing to an entity defining the semantics for this RelationshipElement. */
+    semanticId?: RefArgument;
+    /** An AAS reference to the parent entity of this Object. */
+    parent?: RefArgument;
+    /** Specifies whether the RelationshipElement to be created should be a type or an instance. */
+    kind?: ModelingKind;
+    /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
+    submodelElementOf?: SubmodelObject;
+    /** An AASReference or an Array of [[Keys]]. */
+    first: RefArgument;
+    /** An AASReference or an Array of [[Keys]]. */
+    second: RefArgument;
+    /** A description of the RelationshipElement. */
+    description?: Description;
+    /** The browsename for the created Object. */
+    browseName?: string;
+    /** The node id for the created Object. */
+    nodeId?: NodeIdLike;
+}
+
+/** An object containing all the parameters for the creation of an instance of the AnnotatedRelationshipElementType ObjectType.  */
+export interface AnnotatedRelationshipElementOptions {
+    /** The short identifier of the RelationshipElement. */
+    idShort: string;
+    /** An AAS Reference pointing to an entity defining the semantics for this AnnotatedRelationshipElement. */
+    semanticId?: RefArgument;
+    /** An AAS reference to the parent entity of this Object. */
+    parent?: RefArgument;
+    /** Specifies whether the AnnotatedRelationshipElement to be created should be a template or an instance. */
+    kind?: ModelingKind;
+    /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
+    submodelElementOf?: SubmodelObject;
+    /** An AASReference or an Array of [[Keys]]. */
+    first: RefArgument;
+    /** An AASReference or an Array of [[Keys]]. */
+    second: RefArgument;
+    /** A description of the AnnotatedRelationshipElement. */
+    description?: Description;
+    /** The browsename for the created Object. */
+    browseName?: string;
+    /** The node id for the created Object. */
+    nodeId?: NodeIdLike;
+}
+
 /** An object containing all the parameters for the creation of an instance of the FileType ObjectType.  */
 export interface FileOptions {
     /** The short identifier of the ReferenceElement. */

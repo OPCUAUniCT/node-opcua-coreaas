@@ -1,11 +1,11 @@
 import { Builder } from "./builder";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject, RangeObject } from "../types";
+import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject, RangeObject, RelationshipElementObject, AnnotatedRelationshipElementObject, SubmodelElementObject } from "../types";
 import { Variant, DataType, UAObject } from "node-opcua";
 import assert = require("assert");
 import { get_description_creator, get_modelingkind_creator, get_semanticId_creator, get_parent_creator, get_idShort_creator } from "./builder_utilities";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
-import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, RangeOptions } from "../options_types";
+import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, RangeOptions, RelationshipElementOptions, AnnotatedRelationshipElementOptions } from "../options_types";
 
 export class SubmodelElementsBuilder extends Builder {
 
@@ -79,6 +79,208 @@ export class SubmodelElementsBuilder extends Builder {
         referenceElement.addParent = get_parent_creator(this.coreaas, referenceElement);
 
         return referenceElement;
+    }
+
+    addRelationshipElement(options: RelationshipElementOptions): RelationshipElementObject {
+        assert(options.idShort != null, "options.idShort parameter is missing.");
+
+        const relationshipElementType = this.coreaas.findCoreAASObjectType("RelationshipElementType")!;
+
+        const relationshipElement = this._namespace.addObject({
+            typeDefinition: relationshipElementType,
+            browseName:    options.browseName || options.idShort,
+            nodeId:        options.nodeId
+        }) as RelationshipElementObject;
+
+        //Add idShort
+        const idShort = get_idShort_creator(this.coreaas, relationshipElement)(options.idShort);
+
+        //Add this Submodel Reference to a Submodel
+        if (options.submodelElementOf != null) {   
+            assert(options.submodelElementOf.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("SubmodelType")!), "options.submodelElementOf is not a SubmodelType.");           
+            const submodelElements = options.submodelElementOf.submodelElements;
+            submodelElements.addReference({ referenceType: "Organizes", nodeId: relationshipElement });
+            options.submodelElementOf.referableChildrenMap.set(options.idShort, relationshipElement);
+        }
+
+        //Add description
+        if (options.description != null) {
+            const addDescriptionToReferenceElement = get_description_creator(this.coreaas, relationshipElement);
+            addDescriptionToReferenceElement(options.description);
+        }
+
+        //Add kind
+        if (options.kind != null) {
+            get_modelingkind_creator(this.coreaas, relationshipElement)(options.kind);
+        }
+
+        if (options.first != null) {
+            
+            assert(!relationshipElement.hasOwnProperty("first"), "the relationshipElementType Object already contains a Component with BrowseName first");
+            
+            if (options.first instanceof Array) {
+
+                options.first.forEach(el => assert(isKey(el), "options.first Array contains an element that is not a Key."));
+
+                this.coreaas.addAASReference({
+                    componentOf: relationshipElement,
+                    browseName: "first",
+                    keys: options.first
+                });
+            } 
+            else {
+                assert(options.first.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("AASReferenceType")!), "first is not an AASReferenceType instance.");
+
+                relationshipElement.addReference({ referenceType: "HasComponent", nodeId: options.first});
+            }
+        }
+
+        if (options.second != null) {
+            
+            assert(!relationshipElement.hasOwnProperty("second"), "the relationshipElementType Object already contains a Component with BrowseName second");
+            
+            if (options.second instanceof Array) {
+
+                options.second.forEach(el => assert(isKey(el), "options.second Array contains an element that is not a Key."));
+
+                this.coreaas.addAASReference({
+                    componentOf: relationshipElement,
+                    browseName: "second",
+                    keys: options.second
+                });
+            } 
+            else {
+                assert(options.second.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("AASReferenceType")!), "second is not an AASReferenceType instance.");
+
+                relationshipElement.addReference({ referenceType: "HasComponent", nodeId: options.second});
+            }
+        }
+
+        if (options.semanticId != null) {
+            get_semanticId_creator(this.coreaas, relationshipElement)(options.semanticId);
+        }
+
+        if (options.parent != null) {
+            get_parent_creator(this.coreaas, relationshipElement)(options.parent);
+        }
+
+        relationshipElement.addSemanticId = get_semanticId_creator(this.coreaas, relationshipElement);
+        relationshipElement.addParent = get_parent_creator(this.coreaas, relationshipElement);
+
+        return relationshipElement;
+    }
+
+    addAnnotatedRelationshipElement(options: AnnotatedRelationshipElementOptions): AnnotatedRelationshipElementObject {
+        assert(options.idShort != null, "options.idShort parameter is missing.");
+
+        const relationshipElementType = this.coreaas.findCoreAASObjectType("RelationshipElementType")!;
+
+        const relationshipElement = this._namespace.addObject({
+            typeDefinition: relationshipElementType,
+            browseName:    options.browseName || options.idShort,
+            nodeId:        options.nodeId
+        }) as AnnotatedRelationshipElementObject;
+
+        relationshipElement.referableChildrenMap = new Map();
+
+        //Add idShort
+        const idShort = get_idShort_creator(this.coreaas, relationshipElement)(options.idShort);
+
+        //Add annotations
+        this._namespace.addObject({
+            typeDefinition: this._addressSpace.findNode("FolderType")!.nodeId,
+            browseName: "Annotations",
+            componentOf: relationshipElement
+        });
+
+        //Add this Submodel Reference to a Submodel
+        if (options.submodelElementOf != null) {   
+            assert(options.submodelElementOf.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("SubmodelType")!), "options.submodelElementOf is not a SubmodelType.");           
+            const submodelElements = options.submodelElementOf.submodelElements;
+            submodelElements.addReference({ referenceType: "Organizes", nodeId: relationshipElement });
+            options.submodelElementOf.referableChildrenMap.set(options.idShort, relationshipElement);
+        }
+
+        //Add description
+        if (options.description != null) {
+            const addDescriptionToReferenceElement = get_description_creator(this.coreaas, relationshipElement);
+            addDescriptionToReferenceElement(options.description);
+        }
+
+        //Add kind
+        if (options.kind != null) {
+            get_modelingkind_creator(this.coreaas, relationshipElement)(options.kind);
+        }
+
+        if (options.first != null) {
+            
+            assert(!relationshipElement.hasOwnProperty("first"), "the relationshipElementType Object already contains a Component with BrowseName first");
+            
+            if (options.first instanceof Array) {
+
+                options.first.forEach(el => assert(isKey(el), "options.first Array contains an element that is not a Key."));
+
+                this.coreaas.addAASReference({
+                    componentOf: relationshipElement,
+                    browseName: "first",
+                    keys: options.first
+                });
+            } 
+            else {
+                assert(options.first.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("AASReferenceType")!), "first is not an AASReferenceType instance.");
+
+                relationshipElement.addReference({ referenceType: "HasComponent", nodeId: options.first});
+            }
+        }
+
+        if (options.second != null) {
+            
+            assert(!relationshipElement.hasOwnProperty("second"), "the relationshipElementType Object already contains a Component with BrowseName second");
+            
+            if (options.second instanceof Array) {
+
+                options.second.forEach(el => assert(isKey(el), "options.second Array contains an element that is not a Key."));
+
+                this.coreaas.addAASReference({
+                    componentOf: relationshipElement,
+                    browseName: "second",
+                    keys: options.second
+                });
+            } 
+            else {
+                assert(options.second.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("AASReferenceType")!), "second is not an AASReferenceType instance.");
+
+                relationshipElement.addReference({ referenceType: "HasComponent", nodeId: options.second});
+            }
+        }
+
+        if (options.semanticId != null) {
+            get_semanticId_creator(this.coreaas, relationshipElement)(options.semanticId);
+        }
+
+        if (options.parent != null) {
+            get_parent_creator(this.coreaas, relationshipElement)(options.parent);
+        }
+
+        relationshipElement.addSemanticId = get_semanticId_creator(this.coreaas, relationshipElement);
+        relationshipElement.addParent = get_parent_creator(this.coreaas, relationshipElement);
+        relationshipElement.addAnnotations = (elemArray:SubmodelElementObject[]): AnnotatedRelationshipElementObject => {
+            assert(elemArray instanceof Array, "elemArray parameter is not an Array.");
+
+            elemArray.forEach(el => {
+                
+                const submodelElementType = this.coreaas.findCoreAASObjectType("SubmodelElementType")!;
+                assert(el.typeDefinitionObj.isSupertypeOf(submodelElementType), "elemArray contains an element that is not a subtype instance of SubmodelElementType."); //isSupertypeOf is confusional. It should be isSubtypeOf
+
+                const annotations = relationshipElement.annotations;
+                annotations.addReference({ referenceType: "Organizes", nodeId: el });
+                relationshipElement.referableChildrenMap.set(el.idShort._dataValue.value.value, el);
+            });
+
+            return relationshipElement;
+        }
+
+        return relationshipElement;
     }
 
     addAASFile(options: FileOptions): AASFileObject {
