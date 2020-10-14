@@ -254,7 +254,7 @@ export interface FileOptions {
     semanticId?: RefArgument;
     /** An AAS reference to the parent entity of this Object. */
     parent?: RefArgument;
-    /** Specifies whether the File to be created should be a type or an instance. */
+    /** Specifies whether the File to be created should be a template or an instance. */
     kind?: ModelingKind;
     /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
     submodelElementOf?: SubmodelObject;
@@ -270,6 +270,32 @@ export interface FileOptions {
     nodeId?: NodeIdLike;
 }
 
+/** An object containing all the parameters for the creation of an instance of the RangeType ObjectType.  */
+export interface RangeOptions {
+    /** The short identifier of the ReferenceElement. */
+    idShort: string;
+    /** An AAS Reference pointing to an entity defining the semantics for this Range. */
+    semanticId?: RefArgument;
+    /** An AAS reference to the parent entity of this Object. */
+    parent?: RefArgument;
+    /** Specifies whether the Range to be created should be a template or an instance. */
+    kind?: ModelingKind;
+    /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
+    submodelElementOf?: SubmodelObject;
+    /** A description of the File. */
+    description?: Description;
+    /** The type of the value of this Range. */
+    valueType: PropertyValueType;
+    /** The minimum value of the Range in terms of SPValue type. */
+    min?: SPValue;
+    /** The maximum value of the Range in terms of SPValue type. */
+    max?: SPValue;
+    /** The browsename for the created Object. */
+    browseName?: string;
+    /** The node id for the created Object. */
+    nodeId?: NodeIdLike;
+}
+
 /** An object containing all the parameters for the creation of an instance of the SubmodelElementCollectionType ObjectType.  */
 export interface SubmodelElementCollectionOptions {
     /** The short identifier of the SubmodelElementCollection. */
@@ -278,7 +304,7 @@ export interface SubmodelElementCollectionOptions {
     semanticId?: RefArgument;
     /** An AAS reference to the parent entity of this Object. */
     parent?: RefArgument;
-    /** Specifies whether the SubmodelElementCollection to be created should be a type or an instance. */
+    /** Specifies whether the SubmodelElementCollection to be created should be a template or an instance. */
     kind?: ModelingKind;
     /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
     submodelElementOf?: SubmodelObject;
@@ -338,7 +364,7 @@ export interface SubmodelPropertyOptions {
     description?: Description;
     /** Describes which category this property belongs to. */
     category?: PropertyCategory;
-    /** Specifies whether the SubmodelProperty to be created should be a type or an instance. */
+    /** Specifies whether the SubmodelProperty to be created should be a template or an instance. */
     kind?: ModelingKind;
     /** An AAS Reference to the the value in case the value of this Submodelproperty is stored somewhere else. */
     valueId?: RefArgument;

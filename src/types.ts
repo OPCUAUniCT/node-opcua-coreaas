@@ -201,6 +201,16 @@ export interface AASFileObject extends SubmodelElementObject {
     addParent(parent: RefArgument): AASFileObject; 
 }
 
+/* RANGE TYPE */
+export interface RangeObject extends SubmodelElementObject {
+    valueType: UAVariable;
+    min?: UAVariable;
+    max?: UAVariable;
+
+    addSemanticId(semanticId: RefArgument): RangeObject;
+    addParent(parent: RefArgument): RangeObject; 
+}
+
 /* SUBMODEL ELEMENT COLLECTION TYPE */
 export interface SubmodelElementCollectionObject extends SubmodelElementObject, ReferableNamespaceObject {
     _indexCounter: number;

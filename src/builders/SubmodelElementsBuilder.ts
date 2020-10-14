@@ -1,11 +1,11 @@
 import { Builder } from "./builder";
 import { CoreAASExtension } from "../CoreAASExtension";
-import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject } from "../types";
+import { ReferenceElementObject, isKey, AASFileObject, SubmodelElementCollectionObject, RangeObject } from "../types";
 import { Variant, DataType, UAObject } from "node-opcua";
 import assert = require("assert");
 import { get_description_creator, get_modelingkind_creator, get_semanticId_creator, get_parent_creator, get_idShort_creator } from "./builder_utilities";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
-import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions } from "../options_types";
+import { ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, RangeOptions } from "../options_types";
 
 export class SubmodelElementsBuilder extends Builder {
 
@@ -272,5 +272,85 @@ export class SubmodelElementsBuilder extends Builder {
         collection.addParent = get_parent_creator(this.coreaas, collection);
 
         return collection;
+    }
+
+    addRange(options: RangeOptions): RangeObject {
+        const fileType = this.coreaas.findCoreAASObjectType("RangeType")!;
+
+        const range = this._namespace.addObject({
+            typeDefinition: fileType,
+            browseName:    options.browseName || options.idShort,
+            nodeId:        options.nodeId
+        }) as RangeObject;
+
+        //Add idShort
+        const idShort = get_idShort_creator(this.coreaas, range)(options.idShort);
+
+        //Add this Submodel Reference to a Submodel
+        if (options.submodelElementOf != null) {   
+            assert(options.submodelElementOf.typeDefinitionObj.isSupertypeOf(this.coreaas.findCoreAASObjectType("SubmodelType")!), "options.submodelElementOf is not a SubmodelType.");           
+            const submodelElements = options.submodelElementOf.submodelElements;
+            submodelElements.addReference({ referenceType: "Organizes", nodeId: range });
+            options.submodelElementOf.referableChildrenMap.set(options.idShort, range);
+        }
+
+        //Add description
+        if (options.description != null) {
+            const addDescriptionToReferenceElement = get_description_creator(this.coreaas, range);
+            addDescriptionToReferenceElement(options.description);
+        }
+
+        //Add kind
+        if (options.kind != null) {
+            get_modelingkind_creator(this.coreaas, range)(options.kind);
+        }
+
+        if (options.valueType != null) {
+            let valueType = options.valueType;
+
+            this._namespace.addVariable({
+                propertyOf: range,
+                browseName: "valueType",
+                dataType: this.coreaas.findCoreAASDataType("PropertyValueType")!,
+                value: {
+                    get: () => {
+                        return new Variant({ dataType: DataType.Int32, value: valueType });
+                    }
+                }
+            });
+        }
+
+        //Add Min
+        if (options.min != null) {
+            this._namespace.addVariable({
+                propertyOf: range,
+                browseName: "min",
+                dataType: options.min.dataType,
+                value: options.min.value
+            });
+        }
+
+        //Add Max
+        if (options.max != null) {
+            this._namespace.addVariable({
+                propertyOf: range,
+                browseName: "max",
+                dataType: options.max.dataType,
+                value: options.max.value
+            });
+        }
+
+        if (options.semanticId != null) {
+            get_semanticId_creator(this.coreaas, range)(options.semanticId);
+        }
+
+        if (options.parent != null) {
+            get_parent_creator(this.coreaas, range)(options.parent);
+        }
+
+        range.addSemanticId = get_semanticId_creator(this.coreaas, range);
+        range.addParent = get_parent_creator(this.coreaas, range);
+
+        return range;
     }
 }
