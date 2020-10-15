@@ -1,7 +1,7 @@
 import { BaseUAObject } from "node-opcua-factory";
 import { Description, RefArgument, ConceptDictionaryObject, EDSObject, AdministrativeInformationObject, AASObject, SubmodelObject, Identifier, Key, ConceptDescriptionObject } from "./types";
 import { NodeIdLike, UAObject, LocalizedText, UADataType, BindVariableOptions } from "node-opcua";
-import { AssetKind, ModelingKind, PropertyCategory, PropertyValueType } from "./CoreAAS_enums";
+import { AssetKind, EntityTypeEnumType, ModelingKind, PropertyCategory, PropertyValueType } from "./CoreAAS_enums";
 
 /**
  * An object containing all the parameters for the creation of an instance of the AASType ObjectType.
@@ -384,6 +384,30 @@ export interface CapabilityOptions {
     submodelElementOf?: SubmodelObject;
     /** A description of the Capability. */
     description?: Description;
+    /** The browsename for the created Object. */
+    browseName?: string;
+    /** The node id for the created Object. */
+    nodeId?: NodeIdLike;
+}
+
+/** An object containing all the parameters for the creation of an instance of the EntityType ObjectType.  */
+export interface EntityOptions {
+    /** The short identifier of the Entity. */
+    idShort: string;
+    /** An AAS Reference pointing to an entity defining the semantics for this Entity. */
+    semanticId?: RefArgument;
+    /** An AAS reference to the parent entity of this Object. */
+    parent?: RefArgument;
+    /** Specifies whether the Entity to be created should be a template or an instance. */
+    kind?: ModelingKind;
+    /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
+    submodelElementOf?: SubmodelObject;
+    /** A description of the Entity. */
+    description?: Description;
+    /** Describes whether the entity is a co-managed entity or a self-managed entity. */
+    entityType: EntityTypeEnumType;
+    /** Reference to the asset the entity is representing. */
+    asset?: RefArgument;
     /** The browsename for the created Object. */
     browseName?: string;
     /** The node id for the created Object. */

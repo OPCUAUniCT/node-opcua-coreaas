@@ -107,3 +107,8 @@ export enum DataTypeIEC61360Type {
     TIME,
     TIMESTAMP
 }
+
+export enum EntityTypeEnumType {
+    CoManagedEntity,
+    SelfManagedEntity
+}

@@ -24,7 +24,7 @@ export class DataSpecificationIEC61360Builder extends Builder {
         if (options.identifier != null) this._addUAProperty_for_string(dataSpec, "identifier", options.identifier);
         if (options.preferredName != null) this._addUAProperty_for_string(dataSpec, "preferredName", options.preferredName);
         if (options.definition != null) this._addUAProperty_for_string(dataSpec, "definition", options.definition);
-        if (options.dataType != null) this._addUAProperty_for_string(dataSpec, "dataType", options.dataType);
+        /*TODO: Fix this*/if (options.dataType != null) this._addUAProperty_for_string(dataSpec, "dataType", options.dataType);
         if (options.unit != null) this._addUAProperty_for_string(dataSpec, "unit", options.unit);
         if (options.unitId != null) {
             assert(!dataSpec.hasOwnProperty("unitId"), "the DataSpecificationIEC61360Type Object already contains a UA Property with Browsename unitId");

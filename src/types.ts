@@ -144,7 +144,7 @@ export interface SubmodelObject extends UAObject, ReferableNamespaceObject {
     addElements(elemArray: SubmodelElementObject[]): SubmodelObject;
 }
 
-/* SUBMODEL PROPERTY TYPE */
+/* SUBMODEL ELEMENT TYPE */
 export interface SubmodelElementObject extends UAObject {
     idShort: UAVariable;
     kind?: UAVariable;
@@ -245,9 +245,20 @@ export interface SubmodelElementCollectionObject extends SubmodelElementObject, 
     allowDuplicates: UAVariable;
     values: Folder;
 
-    addElements(elemArray: UAObject[]): SubmodelElementCollectionObject;
+    addElements(elemArray: SubmodelElementObject[]): SubmodelElementCollectionObject;
     addSemanticId(semanticId: RefArgument): SubmodelElementCollectionObject;
     addParent(parent: RefArgument): SubmodelElementCollectionObject; 
+}
+
+/* ENTITY TYPE */
+export interface EntityObject extends SubmodelElementObject, ReferableNamespaceObject {
+    asset: AASReferenceObject;
+    entityType: UAVariable;
+    statements: Folder;
+
+    addSemanticId(semanticId: RefArgument): EntityObject;
+    addParent(parent: RefArgument): EntityObject;
+    addStatements(statements: SubmodelElementObject[]): EntityObject;
 }
 
 /* VIEW TYPE */
