@@ -1,12 +1,12 @@
 import { AddressSpace, ConstructorFunc, Namespace, UADataType, UAObject, UAObjectType, UAReferenceType, UAVariableType } from "node-opcua";
 import * as path from "path";
 import { AssetObject, AASObject, EDSObject, SubmodelPropertyObject, SubmodelObject, ConceptDescriptionObject, ConceptDictionaryObject, 
-        DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject, Identifier, Key, AASReferenceObject, ReferableNamespaceObject, AdministrativeInformationObject } from "./types";
+        DataSpecificationIEC61360, ReferenceElementObject, AASFileObject, SubmodelElementCollectionObject, ViewObject, Identifier, Key, AASReferenceObject, ReferableNamespaceObject, AdministrativeInformationObject, RangeObject, RelationshipElementObject, AnnotatedRelationshipElementObject, CapabilityObject, EntityObject } from "./types";
 import { AASBuilder, AdministrativeInformationBuilder, AASReferenceBuilder, AssetBuilder, DataSpecificationIEC61360Builder, 
         EmbeddedDataSpecificationBuilder, SubmodelPropertyBuilder, SubmodelBuilder, ConceptDescriptionBuilder, 
         ConceptDictionaryBuilder, SubmodelElementsBuilder, ViewBuilder } from "./builders/builder";
 import { AASOptions, AASReferenceOptions, AdministrativeInformationOptions, AssetOptions, ConceptDescriptionOptions, ConceptDictionaryOptions, 
-        DataSpecificationIECOptions, EmbeddedDataSpecificationOptions, SubmodelOptions, ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, SubmodelPropertyOptions, ViewOptions } from "./options_types";
+        DataSpecificationIECOptions, EmbeddedDataSpecificationOptions, SubmodelOptions, ReferenceElementOptions, FileOptions, SubmodelElementCollectionOptions, SubmodelPropertyOptions, ViewOptions, RangeOptions, RelationshipElementOptions, AnnotatedRelationshipElementOptions, CapabilityOptions, EntityOptions } from "./options_types";
 import assert = require("assert");
 
 /**
@@ -128,6 +128,31 @@ export class CoreAASExtension {
     /** Create an instance of SubmodelElementCollectionType ObjectType in the AddressSpace. */
     addSubmodelElementCollection(options: SubmodelElementCollectionOptions): SubmodelElementCollectionObject {
         return this._submodelElementsBuilder.addSubmodelElementCollection(options);
+    }
+
+    /** Create an instance of RangeType ObjectType in the AddressSpace. */
+    addRange(options: RangeOptions): RangeObject {
+        return this._submodelElementsBuilder.addRange(options);
+    }
+
+    /** Create an instance of RelationshipElementType ObjectType in the AddressSpace. */
+    addRelationshipElement(options: RelationshipElementOptions): RelationshipElementObject {
+        return this._submodelElementsBuilder.addRelationshipElement(options);
+    }
+
+    /** Create an instance of AnnotatedRelationshipElementType ObjectType in the AddressSpace. */
+    addAnnotatedRelationshipElement(options: AnnotatedRelationshipElementOptions): AnnotatedRelationshipElementObject {
+        return this._submodelElementsBuilder.addAnnotatedRelationshipElement(options);
+    }
+
+    /** Create an instance of CapabilityType ObjectType in the AddressSpace. */
+    addCapability(options: CapabilityOptions): CapabilityObject {
+        return this._submodelElementsBuilder.addCapability(options);
+    }
+
+    /** Create an instance of EntityType ObjectType in the AddressSpace. */
+    addEntity(options: EntityOptions): EntityObject {
+        return this._submodelElementsBuilder.addEntity(options);
     }
 
     /** Create an instance of SubmodelType ObjectType in the AddressSpace. */
