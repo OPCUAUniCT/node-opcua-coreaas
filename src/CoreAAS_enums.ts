@@ -2,15 +2,21 @@ export enum IdentifierType { IRDI, URI, Custom };
 
 export enum KeyElements {
     GlobalReference,
+    FragmentReference,
     AccessPermissionRule,
+    AnnotatedRelationshipElement,
     Blob,
+    Capability,
     ConceptDictionary,
     DataElement,
-    File,
+    Entity,
     Event,
+    File,
+    MultiLanguageProperty,
     Operation,
     OperationVariable,
     Property,
+    Range,
     ReferenceElement,
     RelationshipElement,
     SubmodelElement,
@@ -22,7 +28,7 @@ export enum KeyElements {
     Submodel
 }
 
-export enum KeyType { idShort, IRDI, URI, Custom }
+export enum KeyType { idShort, IRDI, URI, Custom, FragmentId }
 
 export enum ModelingKind { Template, Instance }
 
@@ -82,4 +88,22 @@ export enum PropertyValueType {
     ENTITIES,
     IDREFS,
     NMTOKENS
+}
+
+export enum DataTypeIEC61360Type {
+    DATE,
+    STRING,
+    STRING_TRANSLATABLE,
+    INTEGER_MEASURE,
+    INTEGER_COUNT,
+    INTEGER_CURRENCY,
+    REAL_MEASURE,
+    REAL_COUNT,
+    REAL_CURRENCY,
+    BOOLEAN,
+    URL,
+    RATIONAL,
+    RATIONAL_MEASURE,
+    TIME,
+    TIMESTAMP
 }

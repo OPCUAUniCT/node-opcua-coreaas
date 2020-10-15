@@ -1,5 +1,5 @@
 import { LocalizedText, ObjectsFolder, Folder, UAObject, NodeIdLike } from "node-opcua";
-import { IdentifierType, KeyElements } from "./CoreAAS_enums";
+import { DataTypeIEC61360Type, IdentifierType, KeyElements } from "./CoreAAS_enums";
 import { BaseUAObject } from "node-opcua-factory";
 import { UAVariable } from "node-opcua-address-space/dist/src/ua_variable";
 import { DataSpecificationIECOptions } from "./options_types";
@@ -104,7 +104,7 @@ export type DataSpecificationIEC61360 = UAObject & {
     identifier?: string;
     preferredName?: string;
     definition?: string;
-    dataType?: string;
+    dataType?: DataTypeIEC61360Type;
     unit?: string;
     unitId?: RefArgument;
     iecCategory?: string;
