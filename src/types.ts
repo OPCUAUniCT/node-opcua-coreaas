@@ -232,6 +232,12 @@ export interface RangeObject extends SubmodelElementObject {
     addParent(parent: RefArgument): RangeObject; 
 }
 
+/* CAPABILITY TYPE */
+export interface CapabilityObject extends SubmodelElementObject {
+    addSemanticId(semanticId: RefArgument): SubmodelElementObject;
+    addParent(parent: RefArgument): SubmodelElementObject; 
+}
+
 /* SUBMODEL ELEMENT COLLECTION TYPE */
 export interface SubmodelElementCollectionObject extends SubmodelElementObject, ReferableNamespaceObject {
     _indexCounter: number;

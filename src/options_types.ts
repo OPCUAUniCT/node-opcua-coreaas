@@ -370,6 +370,26 @@ export interface SubmodelElementCollectionOptions {
     nodeId?: NodeIdLike;
 }
 
+/** An object containing all the parameters for the creation of an instance of the CapabilityType ObjectType.  */
+export interface CapabilityOptions {
+    /** The short identifier of the Capability. */
+    idShort: string;
+    /** An AAS Reference pointing to an entity defining the semantics for this Capability. */
+    semanticId?: RefArgument;
+    /** An AAS reference to the parent entity of this Object. */
+    parent?: RefArgument;
+    /** Specifies whether the Capability to be created should be a template or an instance. */
+    kind?: ModelingKind;
+    /** The Submodel containing this Object inside its [[SubmodelObject.submodelElements]] by means of Organizes Reference. */
+    submodelElementOf?: SubmodelObject;
+    /** A description of the Capability. */
+    description?: Description;
+    /** The browsename for the created Object. */
+    browseName?: string;
+    /** The node id for the created Object. */
+    nodeId?: NodeIdLike;
+}
+
 /** 
  * An object containing all the parameters for the creation of an instance of the SubmodelPropertyType ObjectType.  
  * example:
