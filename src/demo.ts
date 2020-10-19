@@ -1,6 +1,6 @@
 import path from "path";
 import { coreaasXmlFile, OPCUACertificateManager, nodesets, LocalizedText, CoreServer, IdentifierType, ModelingKind, KeyType, KeyElements, PropertyCategory, PropertyValueType, Variant, DataType } from ".";
-import { AssetKind } from "./CoreAAS_enums";
+import { AssetKind, DataTypeIEC61360Type } from "./CoreAAS_enums";
 
 let xmlFiles = [nodesets.standard_nodeset_file, coreaasXmlFile]
 
@@ -30,7 +30,7 @@ function post_initialize() {
                         new LocalizedText({locale: "de", text: "Festo Controller"}) ],
         identification: new Identifier({
             id: "www.admin-shell.io/aas-sample/1.0",
-            idType: IdentifierType.URI
+            idType: IdentifierType.IRI
         }),
         derivedFromRef: [ new Key({
             idType: KeyType.IRDI,
@@ -39,14 +39,14 @@ function post_initialize() {
             value: "AAA#1234-454#123456789"
         }) ],
         assetRef: [new Key({
-            idType: KeyType.URI,
+            idType: KeyType.IRI,
             local: true,
             type: KeyElements.Asset,
             value: "http://pk.festo.com/3S7PLFDRS35"
         })]
     })
     .addSubmodelRef([new Key({
-        idType: KeyType.URI,
+        idType: KeyType.IRI,
         local: true,
         type: KeyElements.Submodel,
         value: "http://www.zvei.de/demo/submodel/12345679"
@@ -60,13 +60,13 @@ function post_initialize() {
         idShort: "3S7PLFDRS35",
         identification: new Identifier({
             id: "http://pk.festo.com/3S7PLFDRS35",
-            idType: IdentifierType.URI
+            idType: IdentifierType.IRI
         }),
         kind: AssetKind.Instance,
         description:  new LocalizedText({locale: "en", text: "Festo Controller"}),
         assetOf: aas_1,
         assetIdentificationModelRef: [ new Key({
-            idType: KeyType.URI,
+            idType: KeyType.IRI,
             local: false,
             type: KeyElements.SubmodelElement,
             value: "//submodels/identification_3S7PLFDRS35"
@@ -82,10 +82,10 @@ function post_initialize() {
         idShort: "12345679",
         identification: new Identifier({
             id: "http://www.zvei.de/demo/submodel/12345679",
-            idType: IdentifierType.URI
+            idType: IdentifierType.IRI
         }),
         semanticId: [ new Key({
-            idType: KeyType.URI,
+            idType: KeyType.IRI,
             local: false,
             type: KeyElements.GlobalReference,
             value: "http://www.zvei.de/demo/submodelDefinitions/87654346"
@@ -101,7 +101,7 @@ function post_initialize() {
         idShort: "rotationSpeed",
         submodelElementOf: submodel_1,
         semanticId: [ new Key({
-            idType: KeyType.URI,
+            idType: KeyType.IRI,
             local: true,
             type: KeyElements.ConceptDescription,
             value: "www.festo.com/dic/08111234"
@@ -152,7 +152,7 @@ function post_initialize() {
     })
     .addConceptDescriptionRef([
         new Key({
-            idType: KeyType.URI,
+            idType: KeyType.IRI,
             local: true,
             type: KeyElements.ConceptDescription,
             value: "www.festo.com/dic/08111234"
@@ -175,7 +175,7 @@ function post_initialize() {
     const embedded_1 = server.coreaas.addEmbeddedDataSpecification({
         browseName: "EmbeddedDS_1",
         hasDataSpecification: [ new Key({
-            idType: KeyType.URI,
+            idType: KeyType.IRI,
             local: false,
             type: KeyElements.GlobalReference,
             value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"
@@ -185,7 +185,7 @@ function post_initialize() {
         identifier: "rtzspd#123",
         preferredName: "Rotation Speed",
         definition: "The Rotation Speed of something",
-        dataType: "double",
+        dataType: DataTypeIEC61360Type.REAL_MEASURE,
         unit: "1/m",
         unitId: [ new Key({
             idType: KeyType.IRDI,
@@ -201,7 +201,7 @@ function post_initialize() {
         browseName: "N",
         identification: new Identifier({
             id: "www.festo.com/dic/08111234",
-            idType: IdentifierType.URI
+            idType: IdentifierType.IRI
         }),
         hasEmbeddedDataSpecifications: embedded_1,
         conceptDescriptionOf: conceptDictionary,
@@ -212,7 +212,7 @@ function post_initialize() {
     const embedded_2 = server.coreaas.addEmbeddedDataSpecification({
         browseName: "EmbeddedDS_1",
         hasDataSpecification: [ new Key({
-            idType: KeyType.URI,
+            idType: KeyType.IRI,
             local: false,
             type: KeyElements.GlobalReference,
             value: "www.admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360"

@@ -84,7 +84,7 @@ export function get_modelingkind_creator(coreaas: CoreAASExtension, hasKindObj: 
         return coreaas.namespace.addVariable({
             propertyOf: hasKindObj,
             browseName: "kind",
-            dataType: coreaas.findCoreAASDataType("Kind")!,
+            dataType: coreaas.findCoreAASDataType("ModelingKind")!,
             value: {
                 get: () => {
                     return new Variant({ dataType: DataType.Int32, value: kind });

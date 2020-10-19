@@ -45,7 +45,7 @@ class SubmodelBuilder extends builder_1.Builder {
         }
         //Add kind
         if (options.kind != null) {
-            builder_utilities_1.get_kind_creator(this.coreaas, submodel)(options.kind);
+            builder_utilities_1.get_modelingkind_creator(this.coreaas, submodel)(options.kind);
         }
         if (options.semanticId != null) {
             builder_utilities_1.get_semanticId_creator(this.coreaas, submodel)(options.semanticId);
@@ -56,7 +56,7 @@ class SubmodelBuilder extends builder_1.Builder {
         /* Convenience methods */
         submodel.hasSubmodelSemantic = (semanticElem) => {
             assert(semanticElem.hasOwnProperty("kind"), "semanticElem is not a SubmodelType instance.");
-            assert(semanticElem.kind.readValue().value.value === CoreAAS_enums_1.Kind.Type, "semanticElem is not a Submodel with kind = Type");
+            assert(semanticElem.kind.readValue().value.value === CoreAAS_enums_1.ModelingKind.Template, "semanticElem is not a Submodel with kind = Template");
             const hasSubmodelSemanticRefType = this.coreaas.findCoreAASReferenceType("HasSubmodelSemantic");
             submodel.addReference({ referenceType: hasSubmodelSemanticRefType, nodeId: semanticElem });
             return submodel;

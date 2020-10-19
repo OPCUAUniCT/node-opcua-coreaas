@@ -71,12 +71,12 @@ function get_description_creator(coreaas, describedObj) {
     };
 }
 exports.get_description_creator = get_description_creator;
-function get_kind_creator(coreaas, hasKindObj) {
+function get_modelingkind_creator(coreaas, hasKindObj) {
     return function (kind) {
         return coreaas.namespace.addVariable({
             propertyOf: hasKindObj,
             browseName: "kind",
-            dataType: coreaas.findCoreAASDataType("Kind"),
+            dataType: coreaas.findCoreAASDataType("ModelingKind"),
             value: {
                 get: () => {
                     return new node_opcua_1.Variant({ dataType: node_opcua_1.DataType.Int32, value: kind });
@@ -85,7 +85,22 @@ function get_kind_creator(coreaas, hasKindObj) {
         });
     };
 }
-exports.get_kind_creator = get_kind_creator;
+exports.get_modelingkind_creator = get_modelingkind_creator;
+function get_assetkind_creator(coreaas, hasKindObj) {
+    return function (kind) {
+        return coreaas.namespace.addVariable({
+            propertyOf: hasKindObj,
+            browseName: "kind",
+            dataType: coreaas.findCoreAASDataType("AssetKind"),
+            value: {
+                get: () => {
+                    return new node_opcua_1.Variant({ dataType: node_opcua_1.DataType.Int32, value: kind });
+                }
+            }
+        });
+    };
+}
+exports.get_assetkind_creator = get_assetkind_creator;
 function get_category_creator(coreaas, referableObj) {
     return function (category) {
         return coreaas.namespace.addVariable({

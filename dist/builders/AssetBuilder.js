@@ -36,9 +36,12 @@ class AssetBuilder extends builder_1.Builder {
             asset.addReference({ referenceType: "HasComponent", nodeId: options.administration });
         }
         //Add assetIdentificationModel
-        //Add assetIdentificationModel
         if (typeof options.assetIdentificationModelRef !== "undefined") {
             this._create_addAssetIdentificationModel(asset)(options.assetIdentificationModelRef);
+        }
+        //Add billOfMaterial
+        if (typeof options.billOfMaterialRef !== "undefined") {
+            this._create_addBillOfMaterial(asset)(options.billOfMaterialRef);
         }
         //Add this Asset to the AAS
         if (options.assetOf != null) {
@@ -48,9 +51,10 @@ class AssetBuilder extends builder_1.Builder {
         }
         //Add kind
         if (options.kind != null) {
-            builder_utilities_1.get_kind_creator(this.coreaas, asset)(options.kind);
+            builder_utilities_1.get_assetkind_creator(this.coreaas, asset)(options.kind);
         }
         asset.addAssetIdentificationModelRef = this._create_addAssetIdentificationModel(asset);
+        asset.addBillOfMaterialRef = this._create_addBillOfMaterial(asset);
         return asset;
     }
     _create_addAssetIdentificationModel(asset) {
@@ -68,6 +72,26 @@ class AssetBuilder extends builder_1.Builder {
             else {
                 assert(model.typeDefinitionObj.isSupertypeOf(self.coreaas.getAASReferenceType()), "model is not an AASReferenceType Object");
                 assert(model.browseName.name === "assetIdentificationModel", "model BrowseName is not 'assetIdentificationModel'");
+                asset.addReference({ referenceType: "HasComponent", nodeId: model });
+            }
+            return asset;
+        };
+    }
+    _create_addBillOfMaterial(asset) {
+        const self = this;
+        return function (model) {
+            assert(!asset.hasOwnProperty("billOfMaterial"), "the AssetType Object already contains a UA Property with Browsename billOfMaterial");
+            if (model instanceof Array) {
+                model.forEach(el => assert(types_1.isKey(el), "model parameter contains an element that is not a Key."));
+                self.coreaas.addAASReference({
+                    componentOf: asset,
+                    browseName: "billOfMaterial",
+                    keys: model
+                });
+            }
+            else {
+                assert(model.typeDefinitionObj.isSupertypeOf(self.coreaas.getAASReferenceType()), "model is not an AASReferenceType Object");
+                assert(model.browseName.name === "billOfMaterial", "model BrowseName is not 'billOfMaterial'");
                 asset.addReference({ referenceType: "HasComponent", nodeId: model });
             }
             return asset;

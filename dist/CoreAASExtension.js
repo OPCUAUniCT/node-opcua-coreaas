@@ -102,6 +102,26 @@ class CoreAASExtension {
     addSubmodelElementCollection(options) {
         return this._submodelElementsBuilder.addSubmodelElementCollection(options);
     }
+    /** Create an instance of RangeType ObjectType in the AddressSpace. */
+    addRange(options) {
+        return this._submodelElementsBuilder.addRange(options);
+    }
+    /** Create an instance of RelationshipElementType ObjectType in the AddressSpace. */
+    addRelationshipElement(options) {
+        return this._submodelElementsBuilder.addRelationshipElement(options);
+    }
+    /** Create an instance of AnnotatedRelationshipElementType ObjectType in the AddressSpace. */
+    addAnnotatedRelationshipElement(options) {
+        return this._submodelElementsBuilder.addAnnotatedRelationshipElement(options);
+    }
+    /** Create an instance of CapabilityType ObjectType in the AddressSpace. */
+    addCapability(options) {
+        return this._submodelElementsBuilder.addCapability(options);
+    }
+    /** Create an instance of EntityType ObjectType in the AddressSpace. */
+    addEntity(options) {
+        return this._submodelElementsBuilder.addEntity(options);
+    }
     /** Create an instance of SubmodelType ObjectType in the AddressSpace. */
     addSubmodel(options) {
         return this._submodelBuilder.addSubmodel(options);

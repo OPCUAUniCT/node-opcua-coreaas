@@ -1,4 +1,4 @@
-export enum IdentifierType { IRDI, URI, Custom };
+export enum IdentifierType { IRDI, IRI, Custom };
 
 export enum KeyElements {
     GlobalReference,
@@ -28,7 +28,7 @@ export enum KeyElements {
     Submodel
 }
 
-export enum KeyType { idShort, IRDI, URI, Custom, FragmentId }
+export enum KeyType { idShort, IRDI, IRI, Custom, FragmentId }
 
 export enum ModelingKind { Template, Instance }
 

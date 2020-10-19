@@ -44,7 +44,7 @@ class SubmodelPropertyBuilder extends builder_1.Builder {
         }
         //Add kind
         if (options.kind != null) {
-            const addKindToProperty = builder_utilities_1.get_kind_creator(this.coreaas, property);
+            const addKindToProperty = builder_utilities_1.get_modelingkind_creator(this.coreaas, property);
             addKindToProperty(options.kind);
         }
         //Add Category

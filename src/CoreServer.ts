@@ -52,7 +52,7 @@ export class CoreServer extends OPCUAServer {
                 dataType: DataType.ExtensionObject, 
                 value: new Identifier({
                     id: "www.adminshell.io/DataSpecificationTemplates/DataSpecificationIEC61360",
-                    idType: IdentifierType.URI
+                    idType: IdentifierType.IRI
                 })
             }));
         })

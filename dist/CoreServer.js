@@ -40,7 +40,7 @@ class CoreServer extends node_opcua_1.OPCUAServer {
                 dataType: node_opcua_1.DataType.ExtensionObject,
                 value: new Identifier({
                     id: "www.adminshell.io/DataSpecificationTemplates/DataSpecificationIEC61360",
-                    idType: CoreAAS_enums_1.IdentifierType.URI
+                    idType: CoreAAS_enums_1.IdentifierType.IRI
                 })
             }));
         });

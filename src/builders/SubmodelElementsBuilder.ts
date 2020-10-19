@@ -441,7 +441,7 @@ export class SubmodelElementsBuilder extends Builder {
         this._namespace.addVariable({
             propertyOf: entity,
             browseName: "entityType",
-            dataType: this.coreaas.findCoreAASDataType("EntityType")!,
+            dataType: this.coreaas.findCoreAASDataType("EntityTypeEnumType")!,
             value: {
                 get: function() {
                     return new Variant({
@@ -517,10 +517,7 @@ export class SubmodelElementsBuilder extends Builder {
         collection._indexCounter = 0;
         collection.referableChildrenMap = new Map();
 
-        const folderType = this._addressSpace.findNode("FolderType")!.nodeId;
-
         const values = this._namespace.addObject({
-            typeDefinition: folderType,
             browseName: "values",
             componentOf: collection
         });

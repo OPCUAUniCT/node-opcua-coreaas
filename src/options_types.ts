@@ -1,7 +1,7 @@
 import { BaseUAObject } from "node-opcua-factory";
 import { Description, RefArgument, ConceptDictionaryObject, EDSObject, AdministrativeInformationObject, AASObject, SubmodelObject, Identifier, Key, ConceptDescriptionObject } from "./types";
 import { NodeIdLike, UAObject, LocalizedText, UADataType, BindVariableOptions } from "node-opcua";
-import { AssetKind, EntityTypeEnumType, ModelingKind, PropertyCategory, PropertyValueType } from "./CoreAAS_enums";
+import { AssetKind, DataTypeIEC61360Type, EntityTypeEnumType, ModelingKind, PropertyCategory, PropertyValueType } from "./CoreAAS_enums";
 
 /**
  * An object containing all the parameters for the creation of an instance of the AASType ObjectType.
@@ -171,7 +171,7 @@ export interface DataSpecificationIECOptions {
     identifier?: string;
     preferredName?: string;
     definition?: string;
-    dataType?: string;
+    dataType?: DataTypeIEC61360Type;
     unit?: string;
     unitId?: RefArgument;
     iecCategory?: string;

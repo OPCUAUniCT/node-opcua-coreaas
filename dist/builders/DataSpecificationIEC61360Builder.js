@@ -22,8 +22,22 @@ class DataSpecificationIEC61360Builder extends builder_1.Builder {
             this._addUAProperty_for_string(dataSpec, "preferredName", options.preferredName);
         if (options.definition != null)
             this._addUAProperty_for_string(dataSpec, "definition", options.definition);
-        if (options.dataType != null)
-            this._addUAProperty_for_string(dataSpec, "dataType", options.dataType);
+        if (options.dataType != null) {
+            assert(!dataSpec.hasOwnProperty("dataType"), "dataSpec already contains a UA Proeprty with the browseName dataType");
+            this._namespace.addVariable({
+                browseName: "dataType",
+                propertyOf: dataSpec,
+                dataType: this.coreaas.findCoreAASDataType("DataTypeIEC61360Type"),
+                value: {
+                    get: () => {
+                        return new node_opcua_1.Variant({
+                            dataType: node_opcua_1.DataType.Int32,
+                            value: options.dataType
+                        });
+                    }
+                }
+            });
+        }
         if (options.unit != null)
             this._addUAProperty_for_string(dataSpec, "unit", options.unit);
         if (options.unitId != null) {
