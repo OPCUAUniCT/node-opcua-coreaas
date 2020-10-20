@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SubmodelPropertyBuilder = void 0;
 const node_opcua_1 = require("node-opcua");
 const builder_1 = require("./builder");
 const types_1 = require("../types");

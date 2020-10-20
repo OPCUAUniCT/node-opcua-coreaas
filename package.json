@@ -1,6 +1,6 @@
 {
   "name": "node-opcua-coreaas",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "An extension for node-opcua implementing coreAAS Information Model",
   "main": "dist/index.js",
   "scripts": {
@@ -25,10 +25,10 @@
     "url": "https://github.com/OPCUAUniCT/node-opcua-coreaas"
   },
   "devDependencies": {
-    "typedoc": "^0.15.0",
-    "typescript": "^3.5.3"
+    "typedoc": "^0.15.8",
+    "typescript": "^3.9.7"
   },
   "dependencies": {
-    "node-opcua": "^2.1.5"
+    "node-opcua": "^2.21.0"
   }
 }

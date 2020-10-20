@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DataSpecificationIEC61360Builder = void 0;
 const node_opcua_1 = require("node-opcua");
 const types_1 = require("../types");
 const assert = require("assert");

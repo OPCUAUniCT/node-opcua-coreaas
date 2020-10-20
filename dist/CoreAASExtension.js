@@ -1,12 +1,25 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CoreAASExtension = void 0;
 const path = __importStar(require("path"));
 const builder_1 = require("./builders/builder");
 const assert = require("assert");
@@ -185,7 +198,7 @@ class CoreAASExtension {
         return this.findCoreAASObjectType("AASReferenceType");
     }
     /**
-     * This function look in the AddressSpace for the entity Object pointed by **ref** and returns a n UAObject eventually.\
+     * This function look in the AddressSpace for the entity Object pointed by **ref** and returns an UAObject eventually.\
      * Two version of this function exist: the version with a callback and the version with the return value. Using a callback avoid this
      * function to return a value, and viceversa.
      * @param ref An AASReferenceType Instance representing the the AAS reference to fetch.

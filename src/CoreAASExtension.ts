@@ -231,7 +231,7 @@ export class CoreAASExtension {
     }
 
     /** 
-     * This function look in the AddressSpace for the entity Object pointed by **ref** and returns a n UAObject eventually.\
+     * This function look in the AddressSpace for the entity Object pointed by **ref** and returns an UAObject eventually.\
      * Two version of this function exist: the version with a callback and the version with the return value. Using a callback avoid this
      * function to return a value, and viceversa. 
      * @param ref An AASReferenceType Instance representing the the AAS reference to fetch.

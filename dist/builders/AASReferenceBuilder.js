@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AASReferenceBuilder = void 0;
 const assert = require("assert");
 const types_1 = require("../types");
 const builder_1 = require("./builder");

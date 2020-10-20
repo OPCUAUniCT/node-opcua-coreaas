@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ViewBuilder = void 0;
 const types_1 = require("../types");
 const builder_1 = require("./builder");
 const assert = require("assert");

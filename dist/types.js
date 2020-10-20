@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isKey = exports.isIdentifier = void 0;
 function isIdentifier(id) {
     return ("idType" in id && typeof id.idType === "number") && ("id" in id && typeof id.id === "string");
 }

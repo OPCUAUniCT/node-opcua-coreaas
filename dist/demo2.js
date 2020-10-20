@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const _1 = require(".");
 const CoreAAS_enums_1 = require("./CoreAAS_enums");
-let xmlFiles = [_1.nodesets.standard_nodeset_file, _1.coreaasXmlFile];
+let xmlFiles = [_1.nodesets.standard, _1.coreaasXmlFile];
 let server = new _1.CoreServer({
     nodeset_filename: xmlFiles,
     port: 4848,
@@ -155,7 +155,7 @@ function post_initialize() {
             value: "http://www.zvei.de/demo/submodel/12345679"
         })]);
     /**
-     * Add SubmodelProperty
+     * Add SubmodelProperties and other Submodel Elements
      */
     const rotationSpeed = server.coreaas.addSubmodelProperty({
         browseName: "rotationSpeed",

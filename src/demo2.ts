@@ -3,7 +3,7 @@ import { coreaasXmlFile, OPCUACertificateManager, nodesets, LocalizedText, CoreS
 import { UAObject } from "node-opcua-address-space/dist/src/ua_object";
 import { AssetKind, DataTypeIEC61360Type, EntityTypeEnumType } from "./CoreAAS_enums";
 
-let xmlFiles = [nodesets.standard_nodeset_file, coreaasXmlFile]
+let xmlFiles = [nodesets.standard, coreaasXmlFile]
 
 let server = new CoreServer({
     nodeset_filename: xmlFiles,

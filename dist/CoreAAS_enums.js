@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EntityTypeEnumType = exports.DataTypeIEC61360Type = exports.PropertyValueType = exports.PropertyCategory = exports.AssetKind = exports.ModelingKind = exports.KeyType = exports.KeyElements = exports.IdentifierType = void 0;
 var IdentifierType;
 (function (IdentifierType) {
     IdentifierType[IdentifierType["IRDI"] = 0] = "IRDI";

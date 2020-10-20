@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EmbeddedDataSpecificationBuilder = void 0;
 const ua_object_1 = require("node-opcua-address-space/dist/src/ua_object");
 const assert = require("assert");
 const types_1 = require("../types");

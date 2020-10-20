@@ -2,7 +2,7 @@ import path from "path";
 import { coreaasXmlFile, OPCUACertificateManager, nodesets, LocalizedText, CoreServer, IdentifierType, ModelingKind, KeyType, KeyElements, PropertyCategory, PropertyValueType, Variant, DataType } from ".";
 import { AssetKind, DataTypeIEC61360Type } from "./CoreAAS_enums";
 
-let xmlFiles = [nodesets.standard_nodeset_file, coreaasXmlFile]
+let xmlFiles = [nodesets.standard, coreaasXmlFile]
 
 let server = new CoreServer({
     nodeset_filename: xmlFiles,

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CoreServer = void 0;
 const node_opcua_1 = require("node-opcua");
 const CoreAASExtension_1 = require("./CoreAASExtension");
 const CoreAAS_enums_1 = require("./CoreAAS_enums");

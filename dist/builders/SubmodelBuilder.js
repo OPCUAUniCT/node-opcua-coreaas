@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SubmodelBuilder = void 0;
 const builder_1 = require("./builder");
 const types_1 = require("../types");
 const CoreAAS_enums_1 = require("../CoreAAS_enums");

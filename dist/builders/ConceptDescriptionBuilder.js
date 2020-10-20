@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConceptDescriptionBuilder = void 0;
 const builder_1 = require("./builder");
 const node_opcua_1 = require("node-opcua");
 const ua_object_1 = require("node-opcua-address-space/dist/src/ua_object");
