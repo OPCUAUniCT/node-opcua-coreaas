@@ -4,7 +4,7 @@
         <Uri>http://dieei.unict.it/coreAAS/</Uri>
     </NamespaceUris>
     <Models>
-        <Model ModelUri="http://dieei.unict.it/coreAAS/" PublicationDate="2019-12-09T11:54:41Z" Version="1.7.0">
+        <Model ModelUri="http://dieei.unict.it/coreAAS/" PublicationDate="2020-10-21T07:37:46Z" Version="2.1.0">
             <RequiredModel ModelUri="http://opcfoundation.org/UA/" PublicationDate="2020-04-14T00:00:00Z" Version="1.04.6"/>
         </Model>
     </Models>
@@ -45,7 +45,7 @@
     </Aliases>
     <Extensions>
         <Extension>
-            <ua:ModelInfo Tool="UaModeler" Hash="yUpW0qSEkl2LOmZZHD8Lfg==" Version="1.6.4"/>
+            <ua:ModelInfo Tool="UaModeler" Hash="kxo+L7q9nTG6HhHY4ROuyg==" Version="1.6.4"/>
         </Extension>
     </Extensions>
     <UADataType NodeId="ns=1;i=3003" BrowseName="1:AssetKind">
@@ -3722,7 +3722,7 @@ AAS or a reference to an external object or entity.</Description>
             <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
         </References>
         <Value>
-            <uax:DateTime>2019-12-09T11:54:41Z</uax:DateTime>
+            <uax:DateTime>2020-10-21T07:37:46Z</uax:DateTime>
         </Value>
     </UAVariable>
     <UAVariable DataType="String" ParentNodeId="ns=1;i=5076" NodeId="ns=1;i=6098" BrowseName="NamespaceUri">
@@ -3742,7 +3742,7 @@ AAS or a reference to an external object or entity.</Description>
             <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
         </References>
         <Value>
-            <uax:String>1.7.0</uax:String>
+            <uax:String>2.1.0</uax:String>
         </Value>
     </UAVariable>
     <UAVariable DataType="IdType" ParentNodeId="ns=1;i=5076" ValueRank="1" NodeId="ns=1;i=6100" ArrayDimensions="0" BrowseName="StaticNodeIdTypes">
