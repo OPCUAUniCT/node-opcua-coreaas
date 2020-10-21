@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SPValue | node-opcua-coreaas</title>
+	<title>AssetKind | node-opcua-coreaas</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,96 +52,51 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="spvalue.html">SPValue</a>
+					<a href="assetkind.html">AssetKind</a>
 				</li>
 			</ul>
-			<h1>Interface SPValue</h1>
+			<h1>Enumeration AssetKind</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>This type is used to wrap all possible values that a SubmodelProperty may contain.
-							Its structures is useful to serialize and deserialize a value, passing from XML Data Type to OPC UA DataType, and
-						viceversa.</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">SPValue</span>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="spvalue.html#datatype" class="tsd-kind-icon">data<wbr>Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="spvalue.html#value" class="tsd-kind-icon">value</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="spvalue.html#valuetype" class="tsd-kind-icon">value<wbr>Type</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="assetkind.html#instance" class="tsd-kind-icon">Instance</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="assetkind.html#type" class="tsd-kind-icon">Type</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="datatype" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> data<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">data<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NodeIdLike</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UADataType</span></div>
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="instance" class="tsd-anchor"></a>
+					<h3>Instance</h3>
+					<div class="tsd-signature tsd-kind-icon">Instance<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L478">src/options_types.ts:478</a></li>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/CoreAAS_enums.ts#L35">src/CoreAAS_enums.ts:35</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The DataType of the data contained in <a href="spvalue.html#value">value</a>.</p>
-						</div>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="value" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> value</h3>
-					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">BindVariableOptions</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="type" class="tsd-anchor"></a>
+					<h3>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Type<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L482">src/options_types.ts:482</a></li>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/CoreAAS_enums.ts#L35">src/CoreAAS_enums.ts:35</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An object structured in a specifc way to obtain a value encoded in OPC UA. More details about
-							the type of this property can be found in the documentation of node-opcua.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="valuetype" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> value<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">value<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/propertyvaluetype.html" class="tsd-signature-type">PropertyValueType</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L487">src/options_types.ts:487</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The XML Data Type corresponding to the data contained in <a href="spvalue.html#value">value</a>. This property is useful,
-							eventually, for the serialization of the AASs in the AddressSpace in XML/JSON.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -157,17 +112,14 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="spvalue.html" class="tsd-kind-icon">SPValue</a>
+					<li class="current tsd-kind-enum">
+						<a href="assetkind.html" class="tsd-kind-icon">Asset<wbr>Kind</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="spvalue.html#datatype" class="tsd-kind-icon">data<wbr>Type</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="assetkind.html#instance" class="tsd-kind-icon">Instance</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="spvalue.html#value" class="tsd-kind-icon">value</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="spvalue.html#valuetype" class="tsd-kind-icon">value<wbr>Type</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="assetkind.html#type" class="tsd-kind-icon">Type</a>
 							</li>
 						</ul>
 					</li>

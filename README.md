@@ -33,7 +33,7 @@ Creating an OPC UA Server suporting CoreAAS is very simple. The following exampl
 import path from "path";
 import { coreaasXmlFile, nodesets, localizedText, CoreServer, IdentifierType, Kind, KeyType, KeyElements } from ".";
 
-let xmlFiles = [nodesets.standard_nodeset_file, coreaasXmlFile]
+let xmlFiles = [nodesets.standard, coreaasXmlFile]
 
 let server = new CoreServer({
     nodeset_filename: xmlFiles,

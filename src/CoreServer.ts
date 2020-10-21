@@ -9,7 +9,7 @@ import { IdentifierType } from "./CoreAAS_enums";
  * example:
  * ```typescript
  * import { coreaasXmlFile, OPCUACertificateManager, nodesets, CoreServer } from "node-opcua-coreaas";
- * let xmlFiles = [nodesets.standard_nodeset_file, coreaasXmlFile]
+ * let xmlFiles = [nodesets.standard, coreaasXmlFile]
  *  let server = new CoreServer({
  *      nodeset_filename: xmlFiles,
  *      port: 4848,

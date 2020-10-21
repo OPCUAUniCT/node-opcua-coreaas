@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>EmbeddedDataSpecificationOptions | node-opcua-coreaas</title>
+	<title>RelationshipElementOptions | node-opcua-coreaas</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="embeddeddataspecificationoptions.html">EmbeddedDataSpecificationOptions</a>
+					<a href="relationshipelementoptions.html">RelationshipElementOptions</a>
 				</li>
 			</ul>
-			<h1>Interface EmbeddedDataSpecificationOptions</h1>
+			<h1>Interface RelationshipElementOptions</h1>
 		</div>
 	</div>
 </header>
@@ -65,7 +65,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>An object containing all the parameters for the creation of an instance of the EmbeddedDataSpecification ObjectType.</p>
+						<p>An object containing all the parameters for the creation of an instance of the RelationshipElementType ObjectType.</p>
 					</div>
 				</div>
 			</section>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">EmbeddedDataSpecificationOptions</span>
+						<span class="target">RelationshipElementOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -84,12 +84,16 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="embeddeddataspecificationoptions.html#browsename" class="tsd-kind-icon">browse<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="embeddeddataspecificationoptions.html#dataspecificationcontent" class="tsd-kind-icon">data<wbr>Specification<wbr>Content</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="embeddeddataspecificationoptions.html#description" class="tsd-kind-icon">description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="embeddeddataspecificationoptions.html#embeddeddataspecificationof" class="tsd-kind-icon">embedded<wbr>Data<wbr>Specification<wbr>Of</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="embeddeddataspecificationoptions.html#hasdataspecification" class="tsd-kind-icon">has<wbr>Data<wbr>Specification</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="embeddeddataspecificationoptions.html#nodeid" class="tsd-kind-icon">node<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#browsename" class="tsd-kind-icon">browse<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#first" class="tsd-kind-icon">first</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#idshort" class="tsd-kind-icon">id<wbr>Short</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#kind" class="tsd-kind-icon">kind</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#nodeid" class="tsd-kind-icon">node<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#parent" class="tsd-kind-icon">parent</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#second" class="tsd-kind-icon">second</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#semanticid" class="tsd-kind-icon">semantic<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="relationshipelementoptions.html#submodelelementof" class="tsd-kind-icon">submodel<wbr>Element<wbr>Of</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,11 +103,11 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="browsename" class="tsd-anchor"></a>
-					<h3>browse<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">browse<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> browse<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">browse<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L192">src/options_types.ts:192</a></li>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L270">src/options_types.ts:270</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -113,63 +117,62 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="dataspecificationcontent" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> data<wbr>Specification<wbr>Content</h3>
-					<div class="tsd-signature tsd-kind-icon">data<wbr>Specification<wbr>Content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">UAObject</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L198">src/options_types.ts:198</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An Object whose ObjectType is mandated by the DataSpecification pointed by <a href="embeddeddataspecificationoptions.html#hasdataspecification">hasDataSpecification</a>.
-							Such Object features all additional Properties coming from the selected DataSpecification with respective actual values.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="description" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> description</h3>
-					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <a href="../globals.html#description" class="tsd-signature-type">Description</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L202">src/options_types.ts:202</a></li>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L268">src/options_types.ts:268</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A description of the Concept Dictionary.</p>
+							<p>A description of the RelationshipElement.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="embeddeddataspecificationof" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> embedded<wbr>Data<wbr>Specification<wbr>Of</h3>
-					<div class="tsd-signature tsd-kind-icon">embedded<wbr>Data<wbr>Specification<wbr>Of<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">UAObject</span></div>
+					<a name="first" class="tsd-anchor"></a>
+					<h3>first</h3>
+					<div class="tsd-signature tsd-kind-icon">first<span class="tsd-signature-symbol">:</span> <a href="../globals.html#refargument" class="tsd-signature-type">RefArgument</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L200">src/options_types.ts:200</a></li>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L264">src/options_types.ts:264</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The Object containing this EmbeddedDataSpecification by means of &quot;HasEmbeddedDataSpecification&quot; Refernce.</p>
+							<p>An AASReference or an Array of [[Keys]].</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="hasdataspecification" class="tsd-anchor"></a>
-					<h3>has<wbr>Data<wbr>Specification</h3>
-					<div class="tsd-signature tsd-kind-icon">has<wbr>Data<wbr>Specification<span class="tsd-signature-symbol">:</span> <a href="key.html" class="tsd-signature-type">Key</a><span class="tsd-signature-symbol">[]</span></div>
+					<a name="idshort" class="tsd-anchor"></a>
+					<h3>id<wbr>Short</h3>
+					<div class="tsd-signature tsd-kind-icon">id<wbr>Short<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L194">src/options_types.ts:194</a></li>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L254">src/options_types.ts:254</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An Array of <a href="key.html">Key</a> composing a path to the DataSpecification embedded in the EmbeddedDataSpecification.</p>
+							<p>The short identifier of the RelationshipElement.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="kind" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> kind</h3>
+					<div class="tsd-signature tsd-kind-icon">kind<span class="tsd-signature-symbol">:</span> <a href="../enums/modelingkind.html" class="tsd-signature-type">ModelingKind</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L260">src/options_types.ts:260</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Specifies whether the RelationshipElement to be created should be a type or an instance.</p>
 						</div>
 					</div>
 				</section>
@@ -179,12 +182,72 @@
 					<div class="tsd-signature tsd-kind-icon">node<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeIdLike</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L204">src/options_types.ts:204</a></li>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L272">src/options_types.ts:272</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The node id for the created Object.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="parent" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> parent</h3>
+					<div class="tsd-signature tsd-kind-icon">parent<span class="tsd-signature-symbol">:</span> <a href="../globals.html#refargument" class="tsd-signature-type">RefArgument</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L258">src/options_types.ts:258</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An AAS reference to the parent entity of this Object.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="second" class="tsd-anchor"></a>
+					<h3>second</h3>
+					<div class="tsd-signature tsd-kind-icon">second<span class="tsd-signature-symbol">:</span> <a href="../globals.html#refargument" class="tsd-signature-type">RefArgument</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L266">src/options_types.ts:266</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An AASReference or an Array of [[Keys]].</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="semanticid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> semantic<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">semantic<wbr>Id<span class="tsd-signature-symbol">:</span> <a href="../globals.html#refargument" class="tsd-signature-type">RefArgument</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L256">src/options_types.ts:256</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An AAS Reference pointing to an entity defining the semantics for this RelationshipElement.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="submodelelementof" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> submodel<wbr>Element<wbr>Of</h3>
+					<div class="tsd-signature tsd-kind-icon">submodel<wbr>Element<wbr>Of<span class="tsd-signature-symbol">:</span> <a href="submodelobject.html" class="tsd-signature-type">SubmodelObject</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/OPCUAUniCT/node-opcua-coreaas/blob/9087c5e/src/options_types.ts#L262">src/options_types.ts:262</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The Submodel containing this Object inside its <a href="submodelobject.html#submodelelements">SubmodelObject.submodelElements</a> by means of Organizes Reference.</p>
 						</div>
 					</div>
 				</section>
@@ -203,25 +266,37 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="embeddeddataspecificationoptions.html" class="tsd-kind-icon">Embedded<wbr>Data<wbr>Specification<wbr>Options</a>
+						<a href="relationshipelementoptions.html" class="tsd-kind-icon">Relationship<wbr>Element<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="embeddeddataspecificationoptions.html#browsename" class="tsd-kind-icon">browse<wbr>Name</a>
+								<a href="relationshipelementoptions.html#browsename" class="tsd-kind-icon">browse<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="embeddeddataspecificationoptions.html#dataspecificationcontent" class="tsd-kind-icon">data<wbr>Specification<wbr>Content</a>
+								<a href="relationshipelementoptions.html#description" class="tsd-kind-icon">description</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="embeddeddataspecificationoptions.html#description" class="tsd-kind-icon">description</a>
+								<a href="relationshipelementoptions.html#first" class="tsd-kind-icon">first</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="embeddeddataspecificationoptions.html#embeddeddataspecificationof" class="tsd-kind-icon">embedded<wbr>Data<wbr>Specification<wbr>Of</a>
+								<a href="relationshipelementoptions.html#idshort" class="tsd-kind-icon">id<wbr>Short</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="embeddeddataspecificationoptions.html#hasdataspecification" class="tsd-kind-icon">has<wbr>Data<wbr>Specification</a>
+								<a href="relationshipelementoptions.html#kind" class="tsd-kind-icon">kind</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="embeddeddataspecificationoptions.html#nodeid" class="tsd-kind-icon">node<wbr>Id</a>
+								<a href="relationshipelementoptions.html#nodeid" class="tsd-kind-icon">node<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="relationshipelementoptions.html#parent" class="tsd-kind-icon">parent</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="relationshipelementoptions.html#second" class="tsd-kind-icon">second</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="relationshipelementoptions.html#semanticid" class="tsd-kind-icon">semantic<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="relationshipelementoptions.html#submodelelementof" class="tsd-kind-icon">submodel<wbr>Element<wbr>Of</a>
 							</li>
 						</ul>
 					</li>
